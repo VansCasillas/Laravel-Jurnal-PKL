@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Dudi extends Model
+{
+    //
+    protected $table = ([
+        'nama_dudi',
+        'jenis_usaha',
+        'alamat',
+        'pimpinan',
+        'pembimbing',
+        'kontak',
+    ]);
+
+    public function siswa() {
+        return $this->hasMany(Siswa::class, 'id_users');
+    } 
+}

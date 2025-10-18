@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -12,7 +13,13 @@ class DashboardController extends Controller
 
     public function admin()
     {
-        return view('admin.dashboard');
+        // Total Siswa
+        $totalSiswa = User::where('role', 'siswa')->count();
+
+        // Total Pembimbing
+        $totalPembimbing = User::where('role', 'pembimbing')->count();
+
+        return view('admin.dashboard',compact('totalSiswa','totalPembimbing'));
     }
 
     /**

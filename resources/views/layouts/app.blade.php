@@ -23,6 +23,7 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
+    <!-- SIDEBAR -->
     <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2" id="sidenav-main">
         <div class="sidenav-header">
             <i class="fas fa-times p-3 cursor-pointer text-dark opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
@@ -34,15 +35,65 @@
         <hr class="horizontal dark mt-0 mb-2">
         <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
             <ul class="navbar-nav">
+                <!-- Dashboard -->
                 <li class="nav-item">
-                    <a class="nav-link active bg-gradient-dark text-white" href="../pages/dashboard.html">
+                    @if(auth()->user()->role === 'admin')
+                    <a class="nav-link text-dark {{ request()->routeIs('admin.dashboard') ? 'active bg-gradient-dark text-white' : '' }}"
+                        href="{{ route('admin.dashboard') }}">
                         <i class="material-symbols-rounded opacity-5">dashboard</i>
                         <span class="nav-link-text ms-1">Dashboard</span>
                     </a>
+                    @elseif(auth()->user()->role === 'pembimbing')
+                    <a class="nav-link text-dark {{ request()->routeIs('pembimbing.dashboard') ? 'active bg-gradient-dark text-white' : '' }}"
+                        href="{{ route('kasir.dashboard') }}">
+                        <i class="material-symbols-rounded opacity-5">dashboard</i>
+                        <span class="nav-link-text ms-1">Dashboard</span>
+                    </a>
+                    @elseif(auth()->user()->role === 'siswa')
+                    <a class="nav-link text-dark {{ request()->routeIs('siswa.dashboard') ? 'active bg-gradient-dark text-white' : '' }}"
+                        href="{{ route('kasir.dashboard') }}">
+                        <i class="material-symbols-rounded opacity-5">dashboard</i>
+                        <span class="nav-link-text ms-1">Dashboard</span>
+                    </a>
+                    @endif
                 </li>
+
+                @if (Auth::user() && Auth::user()->role === 'admin')
+                <li class="nav-item mt-1">
+                    <!-- Accordion Header -->
+                    <a class="nav-link text-dark d-flex justify-content-between align-items-center"
+                        href="javascript:;" onclick="document.getElementById('kelolaUserMenu').classList.toggle('d-none')">
+                        <div class="d-flex align-items-center">
+                            <i class="material-symbols-rounded opacity-5">group</i>
+                            <span class="nav-link-text ms-1">Kelola User</span>
+                        </div>
+                        <i class="material-symbols-rounded opacity-5">expand_more</i>
+                    </a>
+
+                    <!-- Accordion Content -->
+                    <ul class="nav flex-column ms-3 mt-1 {{ request()->routeIs('admin.siswas.*') || request()->routeIs('admin.pembimbings.*') ? '' : 'd-none' }}" id="kelolaUserMenu">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.siswas.index') }}"
+                                class="nav-link text-dark {{ request()->routeIs('admin.siswas.*') ? 'active bg-gradient-dark text-white' : '' }}">
+                                <i class="material-symbols-rounded opacity-5">person</i>
+                                <span class="nav-link-text ms-1">Kelola Siswa</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href=""
+                                class="nav-link text-dark {{ request()->routeIs('admin.pembimbings.*') ? 'active bg-gradient-dark text-white' : '' }}">
+                                <i class="material-symbols-rounded opacity-5">person</i>
+                                <span class="nav-link-text ms-1">Kelola Pembimbing</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endif
             </ul>
         </div>
     </aside>
+    <!-- END SIDEBAR -->
+
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <!-- Navbar -->
         <nav class="navbar navbar-main navbar-expand-lg px-0 mx-3 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
@@ -149,7 +200,7 @@
             </div>
         </nav>
         <!-- End Navbar -->
-        
+        @yield('content')
     </main>
     <div class="fixed-plugin">
         <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">

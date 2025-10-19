@@ -8,20 +8,20 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class SiswaController extends Controller
+class PembimbingController extends Controller
 {
     //list user
     public function index()
     {
-        $users = User::where('role', 'siswa')->get();
+        $users = User::where('role', 'pembimbing')->get();
 
-        return view('admin.siswas.index', compact('users'));
+        return view('admin.pembimbings.index', compact('users'));
     }
 
     //Form tambah user
     public function create()
     {
-        return view('admin.siswas.create');
+        return view('admin.pembimbings.create');
     }
 
     //Simpan user baru
@@ -31,24 +31,17 @@ class SiswaController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users,email',
             'password' => 'required|string|min:6',
-            'nisn' => 'required|string|max:20',
         ]);
 
         // Simpan ke tabel users dulu
-        $user = User::create([
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'siswa',
+            'role' => 'pembimbing',
         ]);
 
-        // Simpan ke tabel siswas
-        Siswa::create([
-            'id_user' => $user->id,
-            'nisn' => $request->nisn,
-        ]);
-
-        return redirect()->route('admin.siswas.index')->with('status', 'Data Siswa berhasil ditambahkan.');
+        return redirect()->route('admin.pembimbings.index')->with('status', 'Data Pembimbing berhasil ditambahkan.');
     }
 
     public function delete($id)
@@ -56,8 +49,8 @@ class SiswaController extends Controller
         $user = User::find($id);
         if ($user) {
             $user->delete();
-            return redirect()->route('admin.siswas.index')->with('success', 'Data siswa berhasil dihapus.');
+            return redirect()->route('admin.pembimbings.index')->with('success', 'Data Pembimbing berhasil dihapus.');
         }
-        return redirect()->route('admin.siswas.index')->with('error', 'Data siswa tidak ditemukan.');
+        return redirect()->route('admin.pembimbings.index')->with('error', 'Data Pembimbing tidak ditemukan.');
     }
 }

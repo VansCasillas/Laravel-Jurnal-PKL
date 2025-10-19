@@ -22,6 +22,11 @@ class DashboardController extends Controller
         return view('admin.dashboard',compact('totalSiswa','totalPembimbing'));
     }
 
+    public function siswa()
+    {
+        return view('siswa.dashboard');
+    }
+
     /**
      * Remove the specified resource from storage.
      */

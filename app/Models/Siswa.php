@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Siswa extends Model
 {
-    //
-    protected $table = ([
-        'id_users',
+    protected $table = 'siswas'; // nama tabel aja, bukan array
+
+    protected $fillable = [
+        'id_user',
+        'nisn',
         'id_kelas',
         'id_jurusan',
         'kelamin',
@@ -19,22 +21,23 @@ class Siswa extends Model
         'no_telpon',
         'id_pembimbing',
         'id_dudi',
-    ]);
+    ];
 
+    // Relasi ke user
     public function user() {
-        return $this->belongsTo(Siswa::class, 'id_users');
+        return $this->belongsTo(User::class, 'id_user');
     } 
 
     public function pembimbing() {
-        return $this->belongsTo(Siswa::class, 'id_pembimbing');
+        return $this->belongsTo(User::class, 'id_pembimbing');
     } 
 
     public function kelas() {
-        return $this->belongsTo(kelas::class, 'id_kelas');
+        return $this->belongsTo(Kelas::class, 'id_kelas');
     }
 
     public function jurusan() {
-        return $this->belongsTo(jurusan::class, 'id_jurusan');
+        return $this->belongsTo(Jurusan::class, 'id_jurusan');
     } 
 
     public function dudi() {

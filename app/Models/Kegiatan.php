@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Kegiatan extends Model
 {
     //
-    protected $table = ([
+    protected $table = "kegiatans";
+
+    protected $fillable = ([
         'id_siswa',
         'tanggal',
         'jam_mulai',

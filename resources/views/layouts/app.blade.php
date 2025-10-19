@@ -35,7 +35,7 @@
         <hr class="horizontal dark mt-0 mb-2">
         <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
             <ul class="navbar-nav">
-                <!-- Dashboard -->
+                <!-- Dashboard Admin(only)-->
                 <li class="nav-item">
                     @if(auth()->user()->role === 'admin')
                     <a class="nav-link text-dark {{ request()->routeIs('admin.dashboard') ? 'active bg-gradient-dark text-white' : '' }}"
@@ -45,13 +45,13 @@
                     </a>
                     @elseif(auth()->user()->role === 'pembimbing')
                     <a class="nav-link text-dark {{ request()->routeIs('pembimbing.dashboard') ? 'active bg-gradient-dark text-white' : '' }}"
-                        href="{{ route('kasir.dashboard') }}">
+                        href="{{ route('pembimbing.dashboard') }}">
                         <i class="material-symbols-rounded opacity-5">dashboard</i>
                         <span class="nav-link-text ms-1">Dashboard</span>
                     </a>
                     @elseif(auth()->user()->role === 'siswa')
                     <a class="nav-link text-dark {{ request()->routeIs('siswa.dashboard') ? 'active bg-gradient-dark text-white' : '' }}"
-                        href="{{ route('kasir.dashboard') }}">
+                        href="{{ route('siswa.dashboard') }}">
                         <i class="material-symbols-rounded opacity-5">dashboard</i>
                         <span class="nav-link-text ms-1">Dashboard</span>
                     </a>
@@ -80,7 +80,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href=""
+                            <a href="{{ route('admin.pembimbings.index') }}"
                                 class="nav-link text-dark {{ request()->routeIs('admin.pembimbings.*') ? 'active bg-gradient-dark text-white' : '' }}">
                                 <i class="material-symbols-rounded opacity-5">person</i>
                                 <span class="nav-link-text ms-1">Kelola Pembimbing</span>
@@ -89,7 +89,50 @@
                     </ul>
                 </li>
                 @endif
+
+                <li class="nav-item">
+                    @if(auth()->user()->role === 'admin')
+                    <a href="{{ route('admin.kelas.index') }}"
+                        class="nav-link text-dark {{ request()->routeIs('admin.kelas.*') ? 'active bg-gradient-dark text-white' : '' }}">
+                        <i class="material-symbols-rounded opacity-5">label</i>
+                        <span class="nav-link-text ms-1">Kelola Kelas</span>
+                    </a>
+                    @endif
+                </li>
+
+                <li class="nav-item">
+                    @if(auth()->user()->role === 'admin')
+                    <a href="{{ route('admin.jurusans.index') }}"
+                        class="nav-link text-dark {{ request()->routeIs('admin.jurusans.*') ? 'active bg-gradient-dark text-white' : '' }}">
+                        <i class="material-symbols-rounded opacity-5">category</i>
+                        <span class="nav-link-text ms-1">Kelola Jurusan</span>
+                    </a>
+                    @endif
+                </li>
+
+                <!-- Dashboard Siswa(only) -->
+                <li class="nav-item">
+                    @if(auth()->user()->role === 'siswa')
+                    <a href="{{ route('siswas.index') }}"
+                        class="nav-link text-dark {{ request()->routeIs('siswas.*') ? 'active bg-gradient-dark text-white' : '' }}">
+                        <i class="material-symbols-rounded opacity-5">account_circle</i>
+                        <span class="nav-link-text ms-1">Profil Siswa</span>
+                    </a>
+                    @endif
+                </li>
             </ul>
+        </div>
+        <!-- Logout -->
+        <div class="sidenav-footer position-absolute w-100 bottom-0">
+            <div class="mx-3">
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn bg-gradient-danger w-100 mt-4 text-white">
+                        <i class="material-symbols-rounded me-1">logout</i>
+                        <span class="nav-link-text ms-1">Logout</span>
+                    </button>
+                </form>
+            </div>
         </div>
     </aside>
     <!-- END SIDEBAR -->

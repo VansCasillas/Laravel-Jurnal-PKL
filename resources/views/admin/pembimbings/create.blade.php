@@ -2,9 +2,9 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2 class="mb-4">Tambah Siswa</h2>
+    <h2 class="mb-4">Tambah pembimbing</h2>
 
-    <form action="{{ route('admin.siswas.store') }}" method="POST" class="bg-white p-4 rounded shadow-sm">
+    <form action="{{ route('admin.pembimbings.store') }}" method="POST" class="bg-white p-4 rounded shadow-sm">
         @csrf
 
         <div class="mb-3">
@@ -20,12 +20,6 @@
         </div>
 
         <div class="mb-3">
-            <label for="nisn" class="form-label fw-semibold text-dark">NISN</label>
-            <input type="text" id="nisn" name="nisn" class="form-control styled-input" required>
-            @error('nisn') <small class="text-danger">{{ $message }}</small> @enderror
-        </div>
-
-        <div class="mb-3">
             <label for="password" class="form-label fw-semibold text-dark">Password</label>
             <input type="password" id="password" name="password" class="form-control styled-input" required>
             @error('password') <small class="text-danger">{{ $message }}</small> @enderror
@@ -33,7 +27,7 @@
 
         <div class="mt-4">
             <button type="submit" class="btn btn-dark px-4">Simpan</button>
-            <a href="{{ route('admin.siswas.index') }}" class="btn btn-outline-secondary px-4 ms-2">Kembali</a>
+            <a href="{{ route('admin.pembimbings.index') }}" class="btn btn-outline-secondary px-4 ms-2">Kembali</a>
         </div>
     </form>
 </div>

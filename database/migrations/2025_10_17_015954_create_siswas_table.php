@@ -13,18 +13,18 @@ return new class extends Migration
     {
         Schema::create('siswas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_users')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('id_user')->constrained('users')->cascadeOnDelete();
             $table->string('nisn')->unique();
-            $table->foreignId('id_kelas')->constrained('kelas');
-            $table->foreignId('id_jurusan')->constrained('jurusans');
-            $table->enum('kelamin',['laki-laki','perempuan']);
+            $table->foreignId('id_kelas')->nullable()->constrained('kelas');
+            $table->foreignId('id_jurusan')->nullable()->constrained('jurusans');
+            $table->enum('kelamin', ['laki-laki', 'perempuan'])->nullable();
             $table->string('tempat')->nullable();
-            $table->string('tanggal_lahir');
-            $table->string('gol_dar');
-            $table->text('alamat');
-            $table->string('no_telpon');
-            $table->foreignId('id_pembimbing')->constrained('users');
-            $table->foreignId('id_dudi')->constrained('dudis');
+            $table->string('tanggal_lahir')->nullable();
+            $table->string('gol_dar')->nullable();
+            $table->text('alamat')->nullable();
+            $table->string('no_telpon')->nullable();
+            $table->foreignId('id_pembimbing')->nullable()->constrained('users');
+            $table->foreignId('id_dudi')->nullable()->constrained('dudis');
             $table->timestamps();
         });
     }

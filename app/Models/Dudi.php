@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Dudi extends Model
 {
     //
-    protected $table = ([
+    protected $table = "dudis";
+
+    protected $fillable = ([
         'nama_dudi',
         'jenis_usaha',
         'alamat',

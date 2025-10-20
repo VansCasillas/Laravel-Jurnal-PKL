@@ -20,11 +20,27 @@
                 <table class="table align-items-center mb-0">
                     <thead>
                         <tr>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kelas</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created-at</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        @foreach ($kelas as $item)
+                        <tr>
+                            <td class="text-center align-middle text-sm">{{ $item->kelas }}</td>
+                            <td class="text-center align-middle text-center text-sm">{{ $item->created_at->format('d-m-Y H:i') }}</td>
+                            <td class="text-center align-middle">
+                                <form action="{{ route('admin.pembimbings.delete', $item->id) }}" method="post">
+                                    @csrf @method('DELETE')
+                                    <button style="position: relative; top: 7px;" type="submit" class="text-black font-weight-bold text-xs btn btn-primary" onclick="return confirm('Yakin ingin menghapus user ini?')" data-toggle="tooltip" data-original-title="Delete user">
+                                        Hapus
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         </div>

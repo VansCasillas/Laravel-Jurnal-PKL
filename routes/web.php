@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PembimbingController;
 use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Models\Jurusan;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -40,6 +41,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::post('/admin/siswas', [SiswaController::class, 'store'])->name('admin.siswas.store');
     Route::post('/admin/pembimbings', [PembimbingController::class, 'store'])->name('admin.pembimbings.store');
+    Route::post('/admin/kelas', [KelasController::class, 'store'])->name('admin.kelas.store');
+    Route::post('/admin/jurusan', [JurusanController::class, 'store'])->name('admin.jurusans.store');
 });
 
 // Crud user (siswa only)

@@ -2,20 +2,20 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2 class="mb-4">Tambah Kelas</h2>
+    <h2 class="mb-4">Tambah Jurusan</h2>
 
-    <form action="{{ route('admin.kelas.store') }}" method="POST" class="bg-white p-4 rounded shadow-sm">
+    <form action="{{ route('admin.jurusans.store') }}" method="POST" class="bg-white p-4 rounded shadow-sm">
         @csrf
 
         <div class="mb-3">
-            <label for="kelas" class="form-label fw-semibold text-dark">Kelas</label>
-            <input type="text" id="kelas" name="kelas" class="form-control styled-input" required>
-            @error('kelas') <small class="text-danger">{{ $message }}</small> @enderror
+            <label for="jurusan" class="form-label fw-semibold text-dark">Jurusan</label>
+            <input type="text" id="jurusan" name="jurusan" class="form-control styled-input" required>
+            @error('jurusan') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         <div class="mt-4">
             <button type="submit" class="btn btn-dark px-4">Simpan</button>
-            <a href="{{ route('admin.kelas.index') }}" class="btn btn-outline-secondary px-4 ms-2">Kembali</a>
+            <a href="{{ route('admin.jurusans.index') }}" class="btn btn-outline-secondary px-4 ms-2">Kembali</a>
         </div>
     </form>
 </div>

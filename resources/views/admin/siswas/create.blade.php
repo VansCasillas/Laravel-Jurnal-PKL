@@ -26,6 +26,50 @@
         </div>
 
         <div class="mb-3">
+            <label for="kelas" class="form-label fw-semibold text-dark">Kelas</label>
+            <select type="text" id="kelas" name="id_kelas" class="form-control styled-input" required>
+                <option value="">-- Pilih Kelas --</option>
+                @foreach ($kelas as $kel)
+                <option value="{{ $kel->id }}">{{ $kel->kelas }}</option>
+                @endforeach
+            </select>
+            @error('kelas') <small class="text-danger">{{ $message }}</small> @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="jurusan" class="form-label fw-semibold text-dark">Jurusan</label>
+            <select type="text" id="jurusan" name="id_jurusan" class="form-control styled-input" required>
+                <option value="">-- Pilih Jurusan --</option>
+                @foreach ($jurusans as $jur)
+                <option value="{{ $jur->id }}">{{ $jur->jurusan }}</option>
+                @endforeach
+            </select>
+            @error('jurusan') <small class="text-danger">{{ $message }}</small> @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="nama_dudi" class="form-label fw-semibold text-dark">Tempat PKL</label>
+            <select type="text" id="nama_dudi" name="id_dudi" class="form-control styled-input" required>
+                <option value="">-- Pilih Tempat PKL --</option>
+                @foreach ($dudis as $dudi)
+                <option value="{{ $dudi->id }}">{{ $dudi->nama_dudi }}</option>
+                @endforeach
+            </select>
+            @error('nama_dudi') <small class="text-danger">{{ $message }}</small> @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="pembimbing" class="form-label fw-semibold text-dark">Pembimbing</label>
+            <select type="text" id="pembimbing" name="id_pembimbing" class="form-control styled-input" required>
+                <option value="">-- Pilih Pembimbing --</option>
+                @foreach ($pembimbings as $pemb)
+                <option value="{{ $pemb->id }}">{{ $pemb->name }}</option>
+                @endforeach
+            </select>
+            @error('pembimbing') <small class="text-danger">{{ $message }}</small> @enderror
+        </div>
+
+        <div class="mb-3">
             <label for="password" class="form-label fw-semibold text-dark">Password</label>
             <input type="password" id="password" name="password" class="form-control styled-input" required>
             @error('password') <small class="text-danger">{{ $message }}</small> @enderror

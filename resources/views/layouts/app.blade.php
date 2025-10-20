@@ -88,33 +88,36 @@
                         </li>
                     </ul>
                 </li>
-                @endif
-
                 <li class="nav-item">
-                    @if(auth()->user()->role === 'admin')
                     <a href="{{ route('admin.kelas.index') }}"
                         class="nav-link text-dark {{ request()->routeIs('admin.kelas.*') ? 'active bg-gradient-dark text-white' : '' }}">
                         <i class="material-symbols-rounded opacity-5">label</i>
                         <span class="nav-link-text ms-1">Kelola Kelas</span>
                     </a>
-                    @endif
                 </li>
 
                 <li class="nav-item">
-                    @if(auth()->user()->role === 'admin')
                     <a href="{{ route('admin.jurusan.index') }}"
                         class="nav-link text-dark {{ request()->routeIs('admin.jurusan.*') ? 'active bg-gradient-dark text-white' : '' }}">
                         <i class="material-symbols-rounded opacity-5">category</i>
                         <span class="nav-link-text ms-1">Kelola Jurusan</span>
                     </a>
-                    @endif
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.dudi.index') }}"
+                        class="nav-link text-dark {{ request()->routeIs('admin.dudi.*') ? 'active bg-gradient-dark text-white' : '' }}">
+                        <i class="material-symbols-rounded opacity-5">domain</i>
+                        <span class="nav-link-text ms-1">Kelola Dunia Industri</span>
+                    </a>
+                </li>
+                @endif
 
                 <!-- Dashboard Siswa(only) -->
                 <li class="nav-item">
                     @if(auth()->user()->role === 'siswa')
                     <a href="{{ route('siswa.profile.index') }}"
-                        class="nav-link text-dark {{ request()->routeIs('profile.*') ? 'active bg-gradient-dark text-white' : '' }}">
+                        class="nav-link text-dark {{ request()->routeIs('siswa.profile.*') ? 'active bg-gradient-dark text-white' : '' }}">
                         <i class="material-symbols-rounded opacity-5">account_circle</i>
                         <span class="nav-link-text ms-1">Profil Siswa</span>
                     </a>

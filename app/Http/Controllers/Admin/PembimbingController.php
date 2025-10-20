@@ -41,7 +41,7 @@ class PembimbingController extends Controller
             'role' => 'pembimbing',
         ]);
 
-        return redirect()->route('admin.pembimbings.index')->with('status', 'Data Pembimbing berhasil ditambahkan.');
+        return redirect()->route('admin.pembimbing.index')->with('status', 'Data Pembimbing berhasil ditambahkan.');
     }
 
     public function destroy($id)
@@ -49,8 +49,8 @@ class PembimbingController extends Controller
         $user = User::find($id);
         if ($user) {
             $user->delete();
-            return redirect()->route('admin.pembimbings.index')->with('success', 'Data Pembimbing berhasil dihapus.');
+            return redirect()->route('admin.pembimbing.index')->with('success', 'Data Pembimbing berhasil dihapus.');
         }
-        return redirect()->route('admin.pembimbings.index')->with('error', 'Data Pembimbing tidak ditemukan.');
+        return redirect()->route('admin.pembimbing.index')->with('error', 'Data Pembimbing tidak ditemukan.');
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DudiController;
 use App\Http\Controllers\Admin\JurusanController;
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\PembimbingController;
@@ -31,6 +32,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('pembimbing', PembimbingController::class);
         Route::resource('kelas', KelasController::class);
         Route::resource('jurusan', JurusanController::class);
+        Route::resource('dudi', DudiController::class);
     });
 });
 

@@ -33,7 +33,7 @@ class JurusanController extends Controller
             'jurusan' => $request->jurusan,
         ]);
 
-        return redirect()->route('admin.jurusans.index')->with('status', 'Data jurusan berhasil ditambahkan.');
+        return redirect()->route('admin.jurusan.index')->with('status', 'Data jurusan berhasil ditambahkan.');
     }
 
     public function destroy($id)

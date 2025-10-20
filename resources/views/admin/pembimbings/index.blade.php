@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="m-3 mb-2">
-            <a href="{{ route('admin.pembimbings.create') }}" class="btn btn-primary mb-3">Tambah Pembimbing</a>
+            <a href="{{ route('admin.pembimbing.create') }}" class="btn btn-primary mb-3">Tambah Pembimbing</a>
 
             @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
@@ -33,7 +33,7 @@
                             <td class="text-center align-middle text-left text-sm">{{ $pembimbings->email }}</td>
                             <td class="text-center align-middle text-center text-sm">{{ $pembimbings->created_at->format('d-m-Y H:i') }}</td>
                             <td class="text-center align-middle">
-                                <form action="{{ route('admin.pembimbings.delete', $pembimbings->id) }}" method="post">
+                                <form action="{{ route('admin.pembimbing.destroy', $pembimbings->id) }}" method="post">
                                     @csrf @method('DELETE')
                                     <button style="position: relative; top: 7px;" type="submit" class="text-black font-weight-bold text-xs btn btn-primary" onclick="return confirm('Yakin ingin menghapus user ini?')" data-toggle="tooltip" data-original-title="Delete user">
                                         Hapus

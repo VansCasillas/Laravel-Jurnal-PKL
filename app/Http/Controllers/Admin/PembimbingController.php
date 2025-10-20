@@ -44,7 +44,7 @@ class PembimbingController extends Controller
         return redirect()->route('admin.pembimbings.index')->with('status', 'Data Pembimbing berhasil ditambahkan.');
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $user = User::find($id);
         if ($user) {

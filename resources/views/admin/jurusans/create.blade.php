@@ -4,7 +4,7 @@
 <div class="container mt-4">
     <h2 class="mb-4">Tambah Jurusan</h2>
 
-    <form action="{{ route('admin.jurusans.store') }}" method="POST" class="bg-white p-4 rounded shadow-sm">
+    <form action="{{ route('admin.jurusan.store') }}" method="POST" class="bg-white p-4 rounded shadow-sm">
         @csrf
 
         <div class="mb-3">
@@ -15,7 +15,7 @@
 
         <div class="mt-4">
             <button type="submit" class="btn btn-dark px-4">Simpan</button>
-            <a href="{{ route('admin.jurusans.index') }}" class="btn btn-outline-secondary px-4 ms-2">Kembali</a>
+            <a href="{{ route('admin.jurusan.index') }}" class="btn btn-outline-secondary px-4 ms-2">Kembali</a>
         </div>
     </form>
 </div>

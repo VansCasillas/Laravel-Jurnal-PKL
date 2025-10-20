@@ -71,17 +71,17 @@
                     </a>
 
                     <!-- Accordion Content -->
-                    <ul class="nav flex-column ms-3 mt-1 {{ request()->routeIs('admin.siswas.*') || request()->routeIs('admin.pembimbings.*') ? '' : 'd-none' }}" id="kelolaUserMenu">
+                    <ul class="nav flex-column ms-3 mt-1 {{ request()->routeIs('admin.siswa.*') || request()->routeIs('admin.pembimbing.*') ? '' : 'd-none' }}" id="kelolaUserMenu">
                         <li class="nav-item">
-                            <a href="{{ route('admin.siswas.index') }}"
-                                class="nav-link text-dark {{ request()->routeIs('admin.siswas.*') ? 'active bg-gradient-dark text-white' : '' }}">
+                            <a href="{{ route('admin.siswa.index') }}"
+                                class="nav-link text-dark {{ request()->routeIs('admin.siswa.*') ? 'active bg-gradient-dark text-white' : '' }}">
                                 <i class="material-symbols-rounded opacity-5">person</i>
                                 <span class="nav-link-text ms-1">Kelola Siswa</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.pembimbings.index') }}"
-                                class="nav-link text-dark {{ request()->routeIs('admin.pembimbings.*') ? 'active bg-gradient-dark text-white' : '' }}">
+                            <a href="{{ route('admin.pembimbing.index') }}"
+                                class="nav-link text-dark {{ request()->routeIs('admin.pembimbing.*') ? 'active bg-gradient-dark text-white' : '' }}">
                                 <i class="material-symbols-rounded opacity-5">person</i>
                                 <span class="nav-link-text ms-1">Kelola Pembimbing</span>
                             </a>
@@ -102,8 +102,8 @@
 
                 <li class="nav-item">
                     @if(auth()->user()->role === 'admin')
-                    <a href="{{ route('admin.jurusans.index') }}"
-                        class="nav-link text-dark {{ request()->routeIs('admin.jurusans.*') ? 'active bg-gradient-dark text-white' : '' }}">
+                    <a href="{{ route('admin.jurusan.index') }}"
+                        class="nav-link text-dark {{ request()->routeIs('admin.jurusan.*') ? 'active bg-gradient-dark text-white' : '' }}">
                         <i class="material-symbols-rounded opacity-5">category</i>
                         <span class="nav-link-text ms-1">Kelola Jurusan</span>
                     </a>
@@ -113,8 +113,8 @@
                 <!-- Dashboard Siswa(only) -->
                 <li class="nav-item">
                     @if(auth()->user()->role === 'siswa')
-                    <a href="{{ route('siswas.index') }}"
-                        class="nav-link text-dark {{ request()->routeIs('siswas.*') ? 'active bg-gradient-dark text-white' : '' }}">
+                    <a href="{{ route('siswa.profile.index') }}"
+                        class="nav-link text-dark {{ request()->routeIs('profile.*') ? 'active bg-gradient-dark text-white' : '' }}">
                         <i class="material-symbols-rounded opacity-5">account_circle</i>
                         <span class="nav-link-text ms-1">Profil Siswa</span>
                     </a>

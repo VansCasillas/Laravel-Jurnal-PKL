@@ -69,15 +69,11 @@
                                 </div>
                             </div>
                             <div class="card-body">
+
                                 @if($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                                <div class="alert alert-danger">{{ $errors->first() }}</div>
                                 @endif
+
                                 <form method="POST" action="{{ url('/login') }}" role="form" class="text-start">
                                     @csrf
                                     <div class="input-group input-group-outline my-3">

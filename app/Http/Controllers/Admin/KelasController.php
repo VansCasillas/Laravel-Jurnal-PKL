@@ -35,7 +35,7 @@ class KelasController extends Controller
         return redirect()->route('admin.kelas.index')->with('status', 'Data kelas berhasil ditambahkan.');
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $kelas = Kelas::find($id);
         if ($kelas) {

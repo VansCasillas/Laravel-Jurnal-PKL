@@ -18,31 +18,29 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    // public function login(Request $request)
-    // {
-    //     $credentials = $request->only('email', 'password');
-
-    //     if (Auth::attempt($credentials)) {
-    //         $role = Auth::user()->role;
-    //         return $role === 'admin'
-    //             ? redirect()->route('admin.dashboard')
-    //             : redirect()->route('pembimbing.dashboard')
-    //             : redirect()->route('siswa.dashboard');
-    //     }
-
-    //     return back()->withErrors(['login' => 'Email atau password salah.']);
-    // }
-
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->validate([
+            'email'=> ['required','email',],
+            'password'=> ['required'],
+        ]);
+
 
         if (Auth::attempt($credentials)) {
-            $role = Auth::user()->role;
+            $request->session()->regenerate();
+            $user = Auth::user();
 
-            return $role === 'admin' ? redirect()->route('admin.dashboard')
-                : ($role === 'pembimbing' ? redirect()->route('pembimbing.dashboard')
-                : redirect()->route('siswa.dashboard'));
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            }elseif ($user->role === 'pembimbing') {
+                return redirect()->route('pembimbing.dashboard');
+            }elseif ($user->role === 'siswa') {
+                return redirect()->route('siswa.dashboard');
+            }else{
+                Auth::logout();
+                return redirect()->route('login')->with('error','Role pengunna tidak di temukan');
+            }
+            
         }
 
         return back()->withErrors(['login' => 'Email atau password salah.']);
@@ -51,7 +49,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-        return redirect('/login')->with('status', 'Anda telah berhasil logout.');
+        return redirect('/login')->with('status', 'Anda telah berhasil logout.')->onlyInput('email');
     }
 
     /**

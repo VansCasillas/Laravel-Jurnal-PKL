@@ -36,7 +36,7 @@ class JurusanController extends Controller
         return redirect()->route('admin.jurusans.index')->with('status', 'Data jurusan berhasil ditambahkan.');
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $jurusan = Jurusan::find($id);
         if ($jurusan) {

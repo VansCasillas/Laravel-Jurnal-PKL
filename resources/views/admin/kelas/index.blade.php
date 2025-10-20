@@ -31,7 +31,7 @@
                             <td class="text-center align-middle text-sm">{{ $item->kelas }}</td>
                             <td class="text-center align-middle text-center text-sm">{{ $item->created_at->format('d-m-Y H:i') }}</td>
                             <td class="text-center align-middle">
-                                <form action="{{ route('admin.pembimbings.delete', $item->id) }}" method="post">
+                                <form action="{{ route('admin.kelas.destroy', $item->id) }}" method="post">
                                     @csrf @method('DELETE')
                                     <button style="position: relative; top: 7px;" type="submit" class="text-black font-weight-bold text-xs btn btn-primary" onclick="return confirm('Yakin ingin menghapus user ini?')" data-toggle="tooltip" data-original-title="Delete user">
                                         Hapus

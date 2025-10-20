@@ -48,16 +48,41 @@ class SiswaController extends Controller
             'nisn' => $request->nisn,
         ]);
 
-        return redirect()->route('admin.siswas.index')->with('status', 'Data Siswa berhasil ditambahkan.');
+        return redirect()->route('admin.siswa.index')->with('status', 'Data Siswa berhasil ditambahkan.');
     }
 
-    public function delete($id)
+    public function edit(User $siswa)
+    {
+        // tampil form edit user
+        return view('admin.siswas.edit', compact('siswa'));
+    }
+
+    public function update(Request $request, User $user)
+    {
+        // Update data user
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+        ];
+
+        // Jika password diisi, update juga
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        $user->update($data);
+
+        return redirect()->route('admin.siswa.index')->with('success', 'Data siswa berhasil diperbarui.');
+    }
+
+
+    public function destroy($id)
     {
         $user = User::find($id);
         if ($user) {
             $user->delete();
-            return redirect()->route('admin.siswas.index')->with('success', 'Data siswa berhasil dihapus.');
+            return redirect()->route('admin.siswa.index')->with('success', 'Data siswa berhasil dihapus.');
         }
-        return redirect()->route('admin.siswas.index')->with('error', 'Data siswa tidak ditemukan.');
+        return redirect()->route('admin.siswa.index')->with('error', 'Data siswa tidak ditemukan.');
     }
 }

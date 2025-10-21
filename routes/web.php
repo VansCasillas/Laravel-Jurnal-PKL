@@ -27,7 +27,7 @@ Route::middleware(['auth', 'role:siswa'])->get('/siswa/dashboard', [DashboardCon
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['auth', 'role:admin'])->group(function () {
 
-        Route::get('/dashboard', [DashboardController::class, 'admin'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('siswa', SiswaController::class);
         Route::resource('pembimbing', PembimbingController::class);
         Route::resource('kelas', KelasController::class);
@@ -40,7 +40,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::prefix('siswa')->name('siswa.')->group(function () {
     Route::middleware(['auth', 'role:siswa'])->group(function () {
 
-        Route::get('/dashboard', [DashboardController::class, 'siswa'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('profile', ProfileController::class);
     });
 });

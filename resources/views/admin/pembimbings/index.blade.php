@@ -33,12 +33,16 @@
                             <td class="text-center align-middle text-left text-sm">{{ $pembimbings->email }}</td>
                             <td class="text-center align-middle text-center text-sm">{{ $pembimbings->created_at->format('d-m-Y H:i') }}</td>
                             <td class="text-center align-middle">
-                                <form action="{{ route('admin.pembimbing.destroy', $pembimbings->id) }}" method="post">
-                                    @csrf @method('DELETE')
-                                    <button style="position: relative; top: 7px;" type="submit" class="text-black font-weight-bold text-xs btn btn-primary" onclick="return confirm('Yakin ingin menghapus user ini?')" data-toggle="tooltip" data-original-title="Delete user">
-                                        Hapus
-                                    </button>
-                                </form>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a style="position: relative; top: 7px;" href="{{ route('admin.pembimbing.edit', $pembimbings->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="{{ route('admin.pembimbing.destroy', $pembimbings->id) }}" method="post">
+                                        @csrf 
+                                        @method('DELETE')
+                                        <button style="position: relative; top: 7px;" type="submit" class="text-black font-weight-bold text-xs btn btn-primary" onclick="return confirm('Yakin ingin menghapus user ini?')" data-toggle="tooltip" data-original-title="Delete user">
+                                            Hapus
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         @endforeach

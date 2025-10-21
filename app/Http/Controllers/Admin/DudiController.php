@@ -39,8 +39,7 @@ class DudiController extends Controller
             'kontak' => 'required|string|max:255',
         ]);
 
-        // Simpan ke tabel users dulu
-        $user = Dudi::create([
+        Dudi::create([
             'nama_dudi' => $request->nama_dudi,
             'jenis_usaha' => $request->jenis_usaha,
             'alamat' => $request->alamat,
@@ -71,9 +70,30 @@ class DudiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Dudi $dudi)
     {
         //
+        $request->validate([
+            'nama_dudi' => 'required|string|max:255',
+            'jenis_usaha' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'pimpinan' => 'required|string|max:255',
+            'pembimbing' => 'required|string|max:255',
+            'kontak' => 'required|string|max:255',
+        ]);
+
+        $data = [
+            'nama_dudi'=> $request->nama_dudi,
+            'jenis_usaha'=> $request->jenis_usaha,
+            'alamat'=> $request->alamat,
+            'pimpinan'=> $request->pimpinan,
+            'pembimbing'=> $request->pembimbing,
+            'kontak'=> $request->kontak,
+        ];
+
+        $dudi->update($data);
+
+        return redirect()->route('admin.dudi.index')->with('status', 'Data Dudi berhasil diperbarui.');
     }
 
     /**

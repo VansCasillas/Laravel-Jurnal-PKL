@@ -35,6 +35,25 @@ class KelasController extends Controller
         return redirect()->route('admin.kelas.index')->with('status', 'Data kelas berhasil ditambahkan.');
     }
 
+    public function edit($id)
+    {
+        $kelas = Kelas::find($id);
+        return view('admin.kelas.edit', compact('kelas'));
+    }
+    public function update(Request $request,$id)
+    {
+        $request->validate([
+            'kelas' => 'required|string|max:255',
+        ]);
+
+        $kelas = Kelas::find($id);
+
+        $kelas->update($request->all());
+
+        return redirect()->route('admin.kelas.index')->with('status', 'Data kelas berhasil diperbarui.');
+    }
+
+
     public function destroy($id)
     {
         $kelas = Kelas::find($id);

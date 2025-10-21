@@ -36,6 +36,26 @@ class JurusanController extends Controller
         return redirect()->route('admin.jurusan.index')->with('status', 'Data jurusan berhasil ditambahkan.');
     }
 
+    public function edit($id)
+    {
+        $jurusan = Jurusan::findOrFail($id);
+        return view('admin.jurusans.edit', compact('jurusan'));
+    }
+    public function update(Request $request, Jurusan $jurusan)
+    {
+        $request->validate([
+            'jurusan' => 'required|string|max:255',
+        ]);
+
+        $data = [
+            'jurusan' => $request->jurusan,
+        ];
+
+        $jurusan->update($data);
+
+        return redirect()->route('admin.jurusan.index')->with('status', 'Data Jurusan berhasil diperbarui.');
+    }
+
     public function destroy($id)
     {
         $jurusan = Jurusan::find($id);

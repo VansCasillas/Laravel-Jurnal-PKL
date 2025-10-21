@@ -78,7 +78,7 @@
                                     @csrf
                                     <div class="input-group input-group-outline my-3">
                                         <label class="form-label">Email</label>
-                                        <input type="email" name="email" class="form-control">
+                                        <input type="email" name="email" class="form-control" value="{{ old('email') }}">
                                     </div>
                                     <div class="input-group input-group-outline mb-3">
                                         <label class="form-label">Password</label>

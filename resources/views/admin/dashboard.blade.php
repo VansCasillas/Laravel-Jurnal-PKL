@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title')
+
 @section('content')
 
 <div class="container-fluid py-2">
@@ -25,7 +27,7 @@
         </div>
         <hr class="dark horizontal my-0">
         <div class="card-footer p-2 ps-3">
-          <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+55% </span>than last week</p>
+          <p class="mb-0 text-sm">Total <span class="text-success font-weight-bolder">siswa</span> PKL</p>
         </div>
       </div>
     </div>
@@ -45,7 +47,7 @@
         </div>
         <hr class="dark horizontal my-0">
         <div class="card-footer p-2 ps-3">
-          <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+3% </span>than last month</p>
+          <p class="mb-0 text-sm">Total <span class="text-success font-weight-bolder">pembimbing</span> siswa</p>
         </div>
       </div>
     </div>
@@ -55,17 +57,17 @@
         <div class="card-header p-2 ps-3">
           <div class="d-flex justify-content-between align-items-center">
             <div>
-              <p class="text-sm mb-0 text-capitalize">Ads Views</p>
-              <h4 class="mb-0">3,4</h4>
+              <p class="text-sm mb-0 text-capitalize">Jurusan</p>
+              <h4 class="mb-0">{{ $jurusan }}</h4>
             </div>
             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark text-center border-radius-lg">
-              <i class="material-symbols-rounded opacity-10">leaderboard</i>
+              <i class="material-symbols-rounded opacity-10">co_present</i>
             </div>
           </div>
         </div>
         <hr class="dark horizontal my-0">
         <div class="card-footer p-2 ps-3">
-          <p class="mb-0 text-sm"><span class="text-danger font-weight-bolder">-2% </span>than yesterday</p>
+          <p class="mb-0 text-sm">Total <span class="text-danger font-weight-bolder">jurusan</span> di sekolah</p>
         </div>
       </div>
     </div>
@@ -75,17 +77,17 @@
         <div class="card-header p-2 ps-3">
           <div class="d-flex justify-content-between align-items-center">
             <div>
-              <p class="text-sm mb-0 text-capitalize">Sales</p>
-              <h4 class="mb-0">$103,430</h4>
+              <p class="text-sm mb-0 text-capitalize">Tempat PKL</p>
+              <h4 class="mb-0">{{ $dudi }}</h4>
             </div>
             <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark text-center border-radius-lg">
-              <i class="material-symbols-rounded opacity-10">weekend</i>
+              <i class="material-symbols-rounded opacity-10">domain</i>
             </div>
           </div>
         </div>
         <hr class="dark horizontal my-0">
         <div class="card-footer p-2 ps-3">
-          <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+5% </span>than yesterday</p>
+          <p class="mb-0 text-sm">Total <span class="text-success font-weight-bolder">dunia industri</span></p>
         </div>
       </div>
     </div>

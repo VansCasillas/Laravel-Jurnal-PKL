@@ -71,28 +71,52 @@ class SiswaController extends Controller
     public function edit(User $siswa)
     {
         // tampil form edit user
-        return view('admin.siswas.edit', compact('siswa'));
+        $siswaData = $siswa->siswa;
+        $kelas = Kelas::all();
+        $jurusans = Jurusan::all();
+        $dudis = Dudi::all();
+        $pembimbings = User::where('role', 'pembimbing')->get();
+        return view('admin.siswas.edit', compact('siswa', 'siswaData', 'kelas', 'jurusans', 'dudis', 'pembimbings'));
     }
 
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $siswa)
     {
-        // Update data user
-        $data = [
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email',
+            'password' => 'nullable|string|min:6',
+            'nisn' => 'required|string|max:20',
+            'id_kelas' => 'nullable|exists:kelas,id',
+            'id_jurusan' => 'nullable|exists:jurusans,id',
+            'id_dudi' => 'nullable|exists:dudis,id',
+            'id_pembimbing' => 'nullable|exists:users,id',
+        ]);
+
+        // Update tabel users
+        $dataUser = [
             'name' => $request->name,
             'email' => $request->email,
         ];
 
-        // Jika password diisi, update juga
         if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->password);
+            $dataUser['password'] = Hash::make($request->password);
         }
 
-        $user->update($data);
+        $siswa->update($dataUser);
+
+        // Update tabel siswa
+        if ($siswa->siswa) {
+            $siswa->siswa->update([
+                'nisn' => $request->nisn,
+                'id_kelas' => $request->id_kelas,
+                'id_jurusan' => $request->id_jurusan,
+                'id_dudi' => $request->id_dudi,
+                'id_pembimbing' => $request->id_pembimbing,
+            ]);
+        }
 
         return redirect()->route('admin.siswa.index')->with('success', 'Data siswa berhasil diperbarui.');
     }
-
-
     public function destroy($id)
     {
         $user = User::find($id);

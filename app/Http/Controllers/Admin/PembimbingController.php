@@ -44,6 +44,33 @@ class PembimbingController extends Controller
         return redirect()->route('admin.pembimbing.index')->with('status', 'Data Pembimbing berhasil ditambahkan.');
     }
 
+    public function edit($id) {
+        $pembimbing = User::where('role', 'pembimbing')->findOrFail($id);
+        return view('admin.pembimbings.edit', compact('pembimbing'));
+    }
+
+    public function update(Request $request, User $pembimbing) {
+        // Update data user
+        $request->validate([
+            'name'=> 'required',
+            'email'=> 'required',
+        ]);
+        
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+        ];
+
+        // Jika password diisi, update juga
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        $pembimbing->update($data);
+
+        return redirect()->route('admin.pembimbing.index')->with('success', 'Data Pembimbing berhasil diperbarui.');
+    }
+
     public function destroy($id)
     {
         $user = User::find($id);

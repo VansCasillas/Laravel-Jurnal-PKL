@@ -74,6 +74,10 @@
                                 <div class="alert alert-danger">{{ $errors->first() }}</div>
                                 @endif
 
+                                @if (session(('status')))
+                                <div class="alert alert-success">{{ session('status') }}</div>
+                                @endif
+
                                 <form method="POST" action="{{ url('/login') }}" role="form" class="text-start">
                                     @csrf
                                     <div class="input-group input-group-outline my-3">

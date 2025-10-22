@@ -21,8 +21,8 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email'=> ['required','email',],
-            'password'=> ['required'],
+            'email' => ['required', 'email',],
+            'password' => ['required'],
         ]);
 
 
@@ -32,23 +32,24 @@ class AuthController extends Controller
 
             if ($user->role === 'admin') {
                 return redirect()->route('admin.dashboard');
-            }elseif ($user->role === 'pembimbing') {
+            } elseif ($user->role === 'pembimbing') {
                 return redirect()->route('pembimbing.dashboard');
-            }elseif ($user->role === 'siswa') {
+            } elseif ($user->role === 'siswa') {
                 return redirect()->route('siswa.dashboard');
-            }else{
+            } else {
                 Auth::logout();
-                return redirect()->route('login')->with('error','Role pengunna tidak di temukan');
+                return redirect()->route('login')->with('error', 'Role pengunna tidak di temukan');
             }
-            
+        } else {
+            return redirect()->back()->withErrors(['email' => 'email, atau password salah'])->onlyInput('email');
         }
-
-        return back()->withErrors(['login' => 'Email atau password salah.']);
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect('/login')->with('status', 'Anda telah berhasil logout.')->onlyInput('email');
     }
 

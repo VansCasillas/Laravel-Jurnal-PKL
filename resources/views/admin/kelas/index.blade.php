@@ -11,8 +11,11 @@
         <div class="m-3 mb-2">
             <a href="{{ route('admin.kelas.create') }}" class="btn btn-primary mb-3">Tambah Kelas</a>
 
+            @if(session('status'))
+            <div class="alert alert-success">{{ session('status') }}</div>
+            @endif
             @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
+            <div class="alert alert-danger">{{ session('success') }}</div>
             @endif
         </div>
         <div class="card-body px-0 pb-2">

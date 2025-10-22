@@ -48,7 +48,7 @@ class KelasController extends Controller
 
         $kelas = Kelas::find($id);
 
-        $kelas->update($request->all());
+        $kelas->update($request->kelas);
 
         return redirect()->route('admin.kelas.index')->with('status', 'Data kelas berhasil diperbarui.');
     }

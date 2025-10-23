@@ -9,32 +9,32 @@
 
         <div class="mb-3">
             <label for="nama_dudi" class="form-label fw-semibold text-dark">Nama dudi</label>
-            <input type="text" id="nama_dudi" name="nama_dudi" class="form-control styled-input" required>
+            <input type="text" id="nama_dudi" name="nama_dudi" class="form-control styled-input">
             @error('nama_dudi') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
         <div class="mb-3">
             <label for="jenis_usaha" class="form-label fw-semibold text-dark">Jenis usaha</label>
-            <input type="text" id="jenis_usaha" name="jenis_usaha" class="form-control styled-input" required>
+            <input type="text" id="jenis_usaha" name="jenis_usaha" class="form-control styled-input">
             @error('jenis_usaha') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
         <div class="mb-3">
             <label for="alamat" class="form-label fw-semibold text-dark">Alamat</label>
-            <input type="text" id="alamat" name="alamat" class="form-control styled-input" required>
+            <input type="text" id="alamat" name="alamat" class="form-control styled-input">
             @error('alamat') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
         <div class="mb-3">
             <label for="pimpinan" class="form-label fw-semibold text-dark">Pimpinan</label>
-            <input type="text" id="pimpinan" name="pimpinan" class="form-control styled-input" required>
+            <input type="text" id="pimpinan" name="pimpinan" class="form-control styled-input">
             @error('pimpinan') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
         <div class="mb-3">
             <label for="pembimbing" class="form-label fw-semibold text-dark">Pembimbing</label>
-            <input type="text" id="pembimbing" name="pembimbing" class="form-control styled-input" required>
+            <input type="text" id="pembimbing" name="pembimbing" class="form-control styled-input">
             @error('pembimbing') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
         <div class="mb-3">
             <label for="kontak" class="form-label fw-semibold text-dark">Kontak</label>
-            <input type="text" id="kontak" name="kontak" class="form-control styled-input" required>
+            <input type="text" id="kontak" name="kontak" class="form-control styled-input">
             @error('kontak') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 

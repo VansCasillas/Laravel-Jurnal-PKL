@@ -27,7 +27,7 @@
 
         <div class="mb-3">
             <label for="kelas" class="form-label fw-semibold text-dark">Kelas</label>
-            <select type="text" id="kelas" name="id_kelas" class="form-control styled-input" required>
+            <select type="text" id="kelas" name="id_kelas" class="form-control styled-input">
                 <option value="">-- Pilih Kelas --</option>
                 @foreach ($kelas as $kel)
                 <option value="{{ $kel->id }}">{{ $kel->kelas }}</option>

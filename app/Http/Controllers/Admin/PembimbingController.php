@@ -54,6 +54,7 @@ class PembimbingController extends Controller
         $request->validate([
             'name'=> 'required',
             'email'=> 'required',
+            'password' => 'nullable|string|min:6',
         ]);
         
         $data = [

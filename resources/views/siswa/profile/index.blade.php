@@ -45,6 +45,7 @@
                         <div class="card-body p-3">
                             <ul class="list-group">
                                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Nama Lengkap:</strong> &nbsp; {{ Auth::user()->name }}</li>
+                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; {{ Auth::user()->email}}</li>
                                 <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">NISN:</strong> &nbsp; {{ Auth::user()->siswa->nisn }}</li>
                                 <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Kelas:</strong> &nbsp; {{ Auth::user()->siswa->kelas->kelas ?? 'Belum ada kelas' }}</li>
                                 <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Jurusan:</strong> &nbsp; {{ Auth::user()->siswa->jurusan->jurusan}}</li>
@@ -69,7 +70,6 @@
                         </div>
                         <div class="card-body p-3">
                             <ul class="list-group">
-                                <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Email:</strong> &nbsp; {{ Auth::user()->email}}</li>
                                 <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">Kelamin:</strong> &nbsp; {{ Auth::user()->siswa->kelamin ?? 'Belum diisi' }}</li>
                                 <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Tempat, Tanggal Lahir:</strong> &nbsp; {{ Auth::user()->siswa->tempat ?? 'Belum' }},{{ Auth::user()->siswa->tanggal_lahir ?? 'diisi' }}</li>
                                 <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">Golongan Darah:</strong> &nbsp; {{ Auth::user()->siswa->gol_dar ?? 'Belum diisi' }}</li>
@@ -94,10 +94,6 @@
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true"> -->
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
             <div class="modal-body">
                 <form action="{{ route('siswa.profile.update', $profile->id) }}" method="POST">
                     @csrf
@@ -111,38 +107,38 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label">Nama Lengkap</label>
-                                <input type="text" name="name" value="{{ Auth::user()->name }}" class="form-control" required>
+                                <input type="text" name="name" value="{{ Auth::user()->name }}" class="form-control styled-input" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Kelamin</label>
-                                <select name="kelamin" class="form-control">
+                                <select name="kelamin" class="form-control styled-input">
                                     <option value="Laki-laki" {{ Auth::user()->siswa->kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
                                     <option value="Perempuan" {{ Auth::user()->siswa->kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Tempat Lahir</label>
-                                <input type="text" name="tempat" value="{{ Auth::user()->siswa->tempat }}" class="form-control">
+                                <input type="text" name="tempat" value="{{ Auth::user()->siswa->tempat }}" class="form-control styled-input">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Tanggal Lahir</label>
-                                <input type="date" name="tanggal_lahir" value="{{ Auth::user()->siswa->tanggal_lahir }}" class="form-control">
+                                <input type="date" name="tanggal_lahir" value="{{ Auth::user()->siswa->tanggal_lahir }}" class="form-control styled-input">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Golongan Darah</label>
-                                <input type="text" name="gol_dar" value="{{ Auth::user()->siswa->gol_dar }}" class="form-control">
+                                <input type="text" name="gol_dar" value="{{ Auth::user()->siswa->gol_dar }}" class="form-control styled-input">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">No Telepon</label>
-                                <input type="text" name="no_telpon" value="{{ Auth::user()->siswa->no_telpon }}" class="form-control">
+                                <input type="text" name="no_telpon" value="{{ Auth::user()->siswa->no_telpon }}" class="form-control styled-input">
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label">Alamat</label>
-                                <textarea name="alamat" class="form-control" rows="2">{{ Auth::user()->siswa->alamat }}</textarea>
+                                <textarea name="alamat" class="form-control styled-input" rows="2">{{ Auth::user()->siswa->alamat }}</textarea>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Kelas</label>
-                                <select name="id_kelas" class="form-control">
+                                <select name="id_kelas" class="form-control styled-input">
                                     @foreach ($kelas as $k)
                                     <option value="{{ $k->id }}" {{ Auth::user()->siswa->id_kelas == $k->id ? 'selected' : '' }}>{{ $k->kelas }}</option>
                                     @endforeach
@@ -150,7 +146,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Jurusan</label>
-                                <select name="id_jurusan" class="form-control">
+                                <select name="id_jurusan" class="form-control styled-input">
                                     @foreach ($jurusan as $j)
                                     <option value="{{ $j->id }}" {{ Auth::user()->siswa->id_jurusan == $j->id ? 'selected' : '' }}>{{ $j->jurusan }}</option>
                                     @endforeach
@@ -158,7 +154,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Pembimbing</label>
-                                <select name="id_pembimbing" class="form-control">
+                                <select name="id_pembimbing" class="form-control styled-input">
                                     @foreach ($pembimbing as $p)
                                     <option value="{{ $p->id }}" {{ Auth::user()->siswa->id_pembimbing == $p->id ? 'selected' : '' }}>{{ $p->name }}</option>
                                     @endforeach
@@ -166,7 +162,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">DUDI</label>
-                                <select name="id_dudi" class="form-control">
+                                <select name="id_dudi" class="form-control styled-input">
                                     @foreach ($dudi as $d)
                                     <option value="{{ $d->id }}" {{ Auth::user()->siswa->id_dudi == $d->id ? 'selected' : '' }}>{{ $d->nama_dudi }}</option>
                                     @endforeach
@@ -184,4 +180,23 @@
         </div>
     </div>
 </div>
+<style>
+    /* 🔹 Styling input biar kotaknya jelas */
+    .styled-input {
+        border: 1.5px solid #bbb;
+        border-radius: 8px;
+        padding: 10px 12px;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .styled-input:focus {
+        border-color: #000;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+        outline: none;
+    }
+
+    label {
+        margin-bottom: 6px;
+    }
+</style>
 @endsection

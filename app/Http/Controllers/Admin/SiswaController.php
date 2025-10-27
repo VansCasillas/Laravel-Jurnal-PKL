@@ -38,7 +38,8 @@ class SiswaController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users,email',
             'password' => 'required|string|min:6',
-            'nis' => 'required|string|max:20',
+            
+            'nis' => 'required|unique:siswas,nis',
             'id_kelas' => 'nullable|exists:kelas,id',
             'id_jurusan' => 'nullable|exists:jurusans,id',
             'id_dudi' => 'nullable|exists:dudis,id',
@@ -83,9 +84,10 @@ class SiswaController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email',
+            'email' => 'required|unique:users,email',
             'password' => 'nullable|string|min:6',
-            'nis' => 'required|string|max:20',
+
+            'nis' => 'required|unique:siswas,nis',
             'id_kelas' => 'nullable|exists:kelas,id',
             'id_jurusan' => 'nullable|exists:jurusans,id',
             'id_dudi' => 'nullable|exists:dudis,id',

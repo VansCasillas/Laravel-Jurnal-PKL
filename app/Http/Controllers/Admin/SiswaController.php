@@ -16,7 +16,7 @@ class SiswaController extends Controller
     //list user
     public function index()
     {
-        $users = User::where('role', 'siswa')->get();
+        $users = Siswa::with('user','pembimbing','kelas','jurusan','dudi')->get();
 
         return view('admin.siswas.index', compact('users'));
     }
@@ -38,7 +38,7 @@ class SiswaController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users,email',
             'password' => 'required|string|min:6',
-            'nisn' => 'required|string|max:20',
+            'nis' => 'required|string|max:20',
             'id_kelas' => 'nullable|exists:kelas,id',
             'id_jurusan' => 'nullable|exists:jurusans,id',
             'id_dudi' => 'nullable|exists:dudis,id',
@@ -56,7 +56,7 @@ class SiswaController extends Controller
         //Simpan ke tabel siswa
         Siswa::create([
             'id_user' => $user->id,
-            'nisn' => $request->nisn,
+            'nis' => $request->nis,
             'id_kelas' => $request->id_kelas,
             'id_jurusan' => $request->id_jurusan,
             'id_dudi' => $request->id_dudi,
@@ -85,7 +85,7 @@ class SiswaController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email',
             'password' => 'nullable|string|min:6',
-            'nisn' => 'required|string|max:20',
+            'nis' => 'required|string|max:20',
             'id_kelas' => 'nullable|exists:kelas,id',
             'id_jurusan' => 'nullable|exists:jurusans,id',
             'id_dudi' => 'nullable|exists:dudis,id',
@@ -107,7 +107,7 @@ class SiswaController extends Controller
         // Update tabel siswa
         if ($siswa->siswa) {
             $siswa->siswa->update([
-                'nisn' => $request->nisn,
+                'nis' => $request->nis,
                 'id_kelas' => $request->id_kelas,
                 'id_jurusan' => $request->id_jurusan,
                 'id_dudi' => $request->id_dudi,

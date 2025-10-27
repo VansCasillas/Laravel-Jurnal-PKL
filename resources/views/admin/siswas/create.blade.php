@@ -20,9 +20,9 @@
         </div>
 
         <div class="mb-3">
-            <label for="nisn" class="form-label fw-semibold text-dark">NISN</label>
-            <input type="text" id="nisn" name="nisn" class="form-control styled-input" required>
-            @error('nisn') <small class="text-danger">{{ $message }}</small> @enderror
+            <label for="nisn" class="form-label fw-semibold text-dark">NIS</label>
+            <input type="text" id="nis" name="nis" class="form-control styled-input" required>
+            @error('nis') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         <div class="mb-3">

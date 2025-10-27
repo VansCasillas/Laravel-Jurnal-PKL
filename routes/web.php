@@ -7,8 +7,11 @@ use App\Http\Controllers\Admin\PembimbingController;
 use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Siswa\AbsensiController;
+use App\Http\Controllers\Siswa\KegiatanController;
 use App\Http\Controllers\Siswa\ProfileController;
 use App\Models\Jurusan;
+use App\Models\Kegiatan;
 use Illuminate\Support\Facades\Route;
 
 // Auth routes (login / logout)
@@ -42,5 +45,7 @@ Route::prefix('siswa')->name('siswa.')->group(function () {
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('profile', ProfileController::class);
+        Route::resource('kegiatan', KegiatanController::class);
+        Route::resource('absensi', AbsensiController::class);
     });
 });

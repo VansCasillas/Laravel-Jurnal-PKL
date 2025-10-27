@@ -24,9 +24,9 @@
 
         {{-- NISN --}}
         <div class="mb-3">
-            <label for="nisn" class="form-label fw-semibold text-dark">NISN</label>
-            <input type="text" id="nisn" name="nisn" value="{{ $siswa->siswa->nisn ?? '' }}" class="form-control styled-input">
-            @error('nisn') <small class="text-danger">{{ $message }}</small> @enderror
+            <label for="nisn" class="form-label fw-semibold text-dark">NIS</label>
+            <input type="text" id="nis" name="nis" value="{{ $siswa->siswa->nis ?? '' }}" class="form-control styled-input">
+            @error('nis') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         {{-- Kelas --}}

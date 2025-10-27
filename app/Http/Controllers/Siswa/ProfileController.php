@@ -26,7 +26,7 @@ class ProfileController extends Controller
         $dudi = Dudi::all();
         $pembimbing = User::where('role', 'pembimbing')->get();
 
-        return view('siswa.profile.index', compact('profile', 'kelas', 'jurusan', 'dudi', 'pembimbing'));
+        return view('siswa.profiles.index', compact('profile', 'kelas', 'jurusan', 'dudi', 'pembimbing'));
     }
 
 
@@ -69,7 +69,7 @@ class ProfileController extends Controller
         $pembimbing = User::where('role', 'pembimbing')->get();
 
         // kirim ke view (pastikan view expecting $profile)
-        return view('siswa.profile.edit', compact('profile', 'kelas', 'jurusan', 'dudi', 'pembimbing'));
+        return view('siswa.profiles.edit', compact('profile', 'kelas', 'jurusan', 'dudi', 'pembimbing'));
     }
 
     /**

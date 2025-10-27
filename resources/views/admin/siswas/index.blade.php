@@ -27,15 +27,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($users as $siswas)
+                        @foreach ($users as $sw)
                         <tr>
-                            <td class="text-center align-middle text-sm">{{ $siswas->name }}</td>
-                            <td class="text-center align-middle text-left text-sm">{{ $siswas->email }}</td>
-                            <td class="text-center align-middle text-center text-sm">{{ $siswas->created_at->format('d-m-Y H:i') }}</td>
+                            <td class="text-center align-middle text-sm">{{ $sw->user->name }}</td>
+                            <td class="text-center align-middle text-left text-sm">{{ $sw->user->email }}</td>
+                            <td class="text-center align-middle text-center text-sm">{{ $sw->created_at->format('d-m-Y H:i') }}</td>
                             <td class="text-center align-middle">
                                 <div class="d-flex justify-content-center gap-2">
-                                    <a style="position: relative; top: 7px;" href="{{ route('admin.siswa.edit', $siswas->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                    <form action="{{ route('admin.siswa.destroy', $siswas->id) }}" method="post" onsubmit="return confirm('Yakin ingin menghapus user ini?')">
+                                    <a style="position: relative; top: 7px;" href="{{ route('admin.siswa.edit', $sw->user->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="{{ route('admin.siswa.destroy', $sw->user->id) }}" method="post" onsubmit="return confirm('Yakin ingin menghapus user ini?')">
                                         @csrf
                                         @method('DELETE')
                                         <button style="position: relative; top: 7px;" type="submit" class="btn btn-danger btn-sm">Hapus</button>

@@ -125,6 +125,24 @@
                     </a>
                     @endif
                 </li>
+                <li class="nav-item">
+                    @if(auth()->user()->role === 'siswa')
+                    <a href="{{ route('siswa.kegiatan.index') }}"
+                        class="nav-link text-dark {{ request()->routeIs('siswa.kegiatan.*') ? 'active bg-gradient-dark text-white' : '' }}">
+                        <i class="material-symbols-rounded opacity-5">browse_activity</i>
+                        <span class="nav-link-text ms-1">Kegiatan Siswa</span>
+                    </a>
+                    @endif
+                </li>
+                <li class="nav-item">
+                    @if(auth()->user()->role === 'siswa')
+                    <a href="{{ route('siswa.absensi.index') }}"
+                        class="nav-link text-dark {{ request()->routeIs('siswa.absensi.*') ? 'active bg-gradient-dark text-white' : '' }}">
+                        <i class="material-symbols-rounded opacity-5">calendar_check</i>
+                        <span class="nav-link-text ms-1">Absensi Siswa</span>
+                    </a>
+                    @endif
+                </li>
             </ul>
         </div>
         <!-- Logout -->

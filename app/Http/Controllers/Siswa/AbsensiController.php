@@ -20,19 +20,19 @@ class AbsensiController extends Controller
         $absensi = Absensi::where('id_siswa', $siswa->id)
             ->get()
             ->map(function ($item) {
+                // Tentukan warna badge sesuai status
                 $warna = match ($item->status) {
                     'hadir' => '#28a745',
-                    'izin' => '#ffc107',
+                    'izin' => '#007bff',
                     'sakit' => '#dc3545',
                     default => '#6c757d',
                 };
                 return [
-                    'tanggal_absen' => $item->tanggal_absen->format('Y-m-d'), // harus string murni
+                    'tanggal_absen' => $item->tanggal_absen->format('Y-m-d'), // pastikan format string
                     'status' => $item->status,
                     'warna' => $warna,
                 ];
             });
-
 
         return view("siswa.absensis.index", [
             'absensi' => $absensi

@@ -10,13 +10,13 @@
 
         <div class="mb-3">
             <label for="name" class="form-label fw-semibold text-dark">Nama</label>
-            <input type="text" id="name" name="name" value="{{ $pembimbing->name }}" class="form-control styled-input" required>
+            <input type="text" id="name" name="name" value="{{ old('$pembimbing->name') . $pembimbing->name }}" class="form-control styled-input">
             @error('name') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         <div class="mb-3">
             <label for="email" class="form-label fw-semibold text-dark">Email</label>
-            <input type="email" id="email" name="email" value="{{ $pembimbing->email }}" class="form-control styled-input" required>
+            <input type="email" id="email" name="email" value="{{ old('$pembimbing->email') . $pembimbing->email }}" class="form-control styled-input">
             @error('email') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 

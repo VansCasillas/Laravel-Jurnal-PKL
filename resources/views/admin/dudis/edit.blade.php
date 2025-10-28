@@ -10,32 +10,32 @@
 
         <div class="mb-3">
             <label for="nama_dudi" class="form-label fw-semibold text-dark">Nama dudi</label>
-            <input type="text" id="nama_dudi" name="nama_dudi" value="{{ $dudi->nama_dudi }}" class="form-control styled-input">
+            <input type="text" id="nama_dudi" name="nama_dudi" value="{{ old('$dudi->nama_dudi') . $dudi->nama_dudi }}" class="form-control styled-input">
             @error('nama_dudi') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
         <div class="mb-3">
             <label for="jenis_usaha" class="form-label fw-semibold text-dark">Jenis usaha</label>
-            <input type="text" id="jenis_usaha" name="jenis_usaha" value="{{ $dudi->jenis_usaha }}" class="form-control styled-input">
+            <input type="text" id="jenis_usaha" name="jenis_usaha" value="{{ old('$dudi->jenis_usaha') . $dudi->jenis_usaha }}" class="form-control styled-input">
             @error('jenis_usaha') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
         <div class="mb-3">
             <label for="alamat" class="form-label fw-semibold text-dark">Alamat</label>
-            <input type="text" id="alamat" name="alamat" value="{{ $dudi->alamat }}" class="form-control styled-input">
+            <input type="text" id="alamat" name="alamat" value="{{ old('$dudi->alamat') . $dudi->alamat }}" class="form-control styled-input">
             @error('alamat') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
         <div class="mb-3">
             <label for="pimpinan" class="form-label fw-semibold text-dark">Pimpinan</label>
-            <input type="text" id="pimpinan" name="pimpinan" value="{{ $dudi->pimpinan }}" class="form-control styled-input">
+            <input type="text" id="pimpinan" name="pimpinan" value="{{ old('$dudi->pimpinan') . $dudi->pimpinan }}" class="form-control styled-input">
             @error('pimpinan') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
         <div class="mb-3">
             <label for="pembimbing" class="form-label fw-semibold text-dark">Pembimbing</label>
-            <input type="text" id="pembimbing" name="pembimbing" value="{{ $dudi->pembimbing }}" class="form-control styled-input">
+            <input type="text" id="pembimbing" name="pembimbing" value="{{ old('$dudi->pembimbing') . $dudi->pembimbing }}" class="form-control styled-input">
             @error('pembimbing') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
         <div class="mb-3">
             <label for="kontak" class="form-label fw-semibold text-dark">Kontak</label>
-            <input type="text" id="kontak" name="kontak" value="{{ $dudi->kontak }}" class="form-control styled-input">
+            <input type="text" id="kontak" name="kontak" value="{{ old('$dudi->kontak') . $dudi->kontak }}" class="form-control styled-input">
             @error('kontak') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 

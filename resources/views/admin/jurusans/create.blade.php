@@ -9,7 +9,7 @@
 
         <div class="mb-3">
             <label for="jurusan" class="form-label fw-semibold text-dark">Jurusan</label>
-            <input type="text" id="jurusan" name="jurusan" class="form-control styled-input">
+            <input type="text" id="jurusan" name="jurusan" class="form-control styled-input" value="{{ old('jurusan') }}">
             @error('jurusan') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 

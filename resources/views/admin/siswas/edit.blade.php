@@ -11,21 +11,21 @@
         {{-- Nama --}}
         <div class="mb-3">
             <label for="name" class="form-label fw-semibold text-dark">Nama</label>
-            <input type="text" id="name" name="name" value="{{ $siswa->name }}" class="form-control styled-input" required>
+            <input type="text" id="name" name="name" value="{{ old('$siswa->name') . $siswa->name }}" class="form-control styled-input" required>
             @error('name') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         {{-- Email --}}
         <div class="mb-3">
             <label for="email" class="form-label fw-semibold text-dark">Email</label>
-            <input type="email" id="email" name="email" value="{{ $siswa->email }}" class="form-control styled-input" required>
+            <input type="email" id="email" name="email" value="{{ old('$siswa->email') . $siswa->email }}" class="form-control styled-input" required>
             @error('email') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         {{-- NISN --}}
         <div class="mb-3">
             <label for="nisn" class="form-label fw-semibold text-dark">NIS</label>
-            <input type="text" id="nis" name="nis" value="{{ $siswa->siswa->nis ?? '' }}" class="form-control styled-input">
+            <input type="text" id="nis" name="nis" value="{{ old('$siswa->siswa->nis') . $siswa->siswa->nis ?? '' }}" class="form-control styled-input">
             @error('nis') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 

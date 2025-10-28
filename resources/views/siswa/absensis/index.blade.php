@@ -5,7 +5,8 @@
 @section('content')
 <div class="container-fluid py-4">
     <div class="row">
-        <div class="col-8">
+        <!-- Kalender -->
+        <div class="col-lg-8 col-12 mb-3">
             <div class="card shadow-sm">
                 <div class="card-header bg-dark d-flex justify-content-between align-items-center">
                     <button class="btn btn-outline-light" id="prevMonth">
@@ -32,59 +33,63 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<!-- Modal Absen -->
-<div class="modal fade" id="absenModal" tabindex="-1" aria-labelledby="absenModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-dark">
-                <h5 class="modal-title text-white" id="absenModalLabel">Isi Absensi</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <!-- Form Absensi -->
+        <div class="col-lg-4 col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    Detail Absensi
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('siswa.absensi.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="tanggal_absen" id="selectedDate">
+                        <p>Tanggal: <span id="tanggalDisplay" class="fw-bold text-primary">-</span></p>
+
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="status" id="hadir" value="Hadir" required>
+                            <label class="form-check-label fw-bold" for="hadir">Hadir</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="status" id="izin" value="Izin">
+                            <label class="form-check-label fw-bold" for="izin">Izin</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="status" id="sakit" value="Sakit">
+                            <label class="form-check-label fw-bold" for="sakit">Sakit</label>
+                        </div>
+
+                        <div id="hadirBox" class="mt-3" style="display: none;">
+                            <label for="jam_mulai" class="form-label">Jam Mulai:</label>
+                            <input type="time" name="jam_mulai" id="jam_mulai" class="form-control mb-2 border px-2">
+                            <label for="jam_selesai" class="form-label">Jam Selesai:</label>
+                            <input type="time" name="jam_selesai" id="jam_selesai" class="form-control border px-2">
+                        </div>
+
+                        <div id="keteranganBox" class="mt-3" style="display: none;">
+                            <label for="keterangan" class="form-label">Keterangan:</label>
+                            <textarea name="keterangan" id="keterangan" class="form-control border px-2" rows="3" placeholder="Tulis alasan..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-dark mt-3 w-100">Simpan</button>
+                    </form>
+                </div>
             </div>
-            <form action="{{ route('siswa.absensi.store') }}" method="POST">
-                @csrf
-                <div class="modal-body">
-                    <input type="hidden" name="tanggal_absen" id="selectedDate">
-                    <p class="mb-3">Tanggal: <span id="tanggalDisplay" class="fw-bold text-primary"></span></p>
-
-                    <!-- Status -->
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="radio" name="status" id="hadir" value="Hadir" required>
-                        <label class="form-check-label fw-bold" for="hadir">Hadir</label>
-                    </div>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="radio" name="status" id="izin" value="Izin">
-                        <label class="form-check-label fw-bold" for="izin">Izin</label>
-                    </div>
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="radio" name="status" id="sakit" value="Sakit">
-                        <label class="form-check-label fw-bold" for="sakit">Sakit</label>
-                    </div>
-
-                    <div id="hadirBox" class="mt-3" style="display: none;">
-                        <label for="jam_mulai" class="form-label">Jam Mulai:</label>
-                        <input type="time" name="jam_mulai" id="jam_mulai" class="form-control mb-2 border px-2">
-                        <label for="jam_selesai" class="form-label">Jam Selesai:</label>
-                        <input type="time" name="jam_selesai" id="jam_selesai" class="form-control border px-2">
-                    </div>
-
-                    <div id="keteranganBox" class="mt-3" style="display: none;">
-                        <label for="keterangan" class="form-label">Keterangan:</label>
-                        <textarea name="keterangan" id="keterangan" class="form-control border px-2" rows="3" placeholder="Tulis alasan..."></textarea>
-                    </div>
+            <!-- Card Status Hari Ini -->
+            <div class="card mt-4 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">📅 Status Absensi Hari Ini</h5>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-dark">Simpan</button>
+                <div class="card-body" id="statusCard">
+                    <p class="text-muted mb-0">Belum ada data absensi untuk tanggal ini.</p>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
 
 <style>
+    /* Kalender */
     .calendar-container {
         border: 1px solid #e0e0e0;
         border-radius: 8px;
@@ -142,8 +147,8 @@
         position: absolute;
         top: 4px;
         right: 4px;
-        font-size: 0.65rem;
-        padding: 2px 4px;
+        font-size: 0.75rem;
+        padding: 4px 6px;
         border-radius: 4px;
         color: #fff;
     }
@@ -205,8 +210,26 @@
                 day.addEventListener('click', function() {
                     document.getElementById('selectedDate').value = dateStr;
                     document.getElementById('tanggalDisplay').textContent = dateStr;
-                    const modal = new bootstrap.Modal(document.getElementById('absenModal'));
-                    modal.show();
+
+                    const absen = absensiData.find(a => a.tanggal_absen === dateStr);
+
+                    if (absen) {
+                        document.getElementById('hadir').checked = absen.status === 'Hadir';
+                        document.getElementById('izin').checked = absen.status === 'Izin';
+                        document.getElementById('sakit').checked = absen.status === 'Sakit';
+                        hadirBox.style.display = absen.status === 'Hadir' ? 'block' : 'none';
+                        keteranganBox.style.display = (absen.status === 'Izin' || absen.status === 'Sakit' || absen.status === 'Hadir') ? 'block' : 'none';
+                        document.getElementById('jam_mulai').value = absen.jam_mulai || '';
+                        document.getElementById('jam_selesai').value = absen.jam_selesai || '';
+                        document.getElementById('keterangan').value = absen.keterangan || '';
+                    } else {
+                        radios.forEach(r => r.checked = false);
+                        hadirBox.style.display = 'none';
+                        keteranganBox.style.display = 'none';
+                        document.getElementById('jam_mulai').value = '';
+                        document.getElementById('jam_selesai').value = '';
+                        document.getElementById('keterangan').value = '';
+                    }
                 });
 
                 calendarDays.appendChild(day);
@@ -256,6 +279,106 @@
         });
 
         renderCalendar(currentMonth, currentYear);
+
+        // === Set default ke hari ini ===
+        // === Set default ke hari ini ===
+        const today = new Date();
+        const todayStr = today.toISOString().split('T')[0];
+        document.getElementById('selectedDate').value = todayStr;
+        document.getElementById('tanggalDisplay').textContent = todayStr;
+
+        const statusInfo = document.getElementById('statusInfo');
+        const todayAbsen = absensiData.find(a => a.tanggal_absen === todayStr);
+
+        if (todayAbsen) {
+            // Sudah isi absensi
+            statusInfo.innerHTML = `✅ Kamu sudah mengisi absensi hari ini (${todayAbsen.status})`;
+            statusInfo.classList.remove('text-danger');
+            statusInfo.classList.add('text-success');
+
+            document.getElementById('hadir').checked = todayAbsen.status === 'Hadir';
+            document.getElementById('izin').checked = todayAbsen.status === 'Izin';
+            document.getElementById('sakit').checked = todayAbsen.status === 'Sakit';
+
+            // Tampilkan box sesuai status
+            if (todayAbsen.status === 'Hadir') {
+                document.getElementById('hadirBox').style.display = 'block';
+                document.getElementById('keteranganBox').style.display = 'block';
+            } else if (todayAbsen.status === 'Izin' || todayAbsen.status === 'Sakit') {
+                document.getElementById('hadirBox').style.display = 'none';
+                document.getElementById('keteranganBox').style.display = 'block';
+            } else {
+                document.getElementById('hadirBox').style.display = 'none';
+                document.getElementById('keteranganBox').style.display = 'none';
+            }
+
+            document.getElementById('jam_mulai').value = todayAbsen.jam_mulai || '';
+            document.getElementById('jam_selesai').value = todayAbsen.jam_selesai || '';
+            document.getElementById('keterangan').value = todayAbsen.keterangan || '';
+
+        } else {
+            // Belum isi absensi
+            statusInfo.innerHTML = `❌ Kamu belum mengisi absensi hari ini`;
+            statusInfo.classList.remove('text-success');
+            statusInfo.classList.add('text-danger');
+        }
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        const absensiData = @json($absensi);
+        const statusCard = document.getElementById('statusCard');
+        const selectedDateInput = document.getElementById('selectedDate');
+        const tanggalDisplay = document.getElementById('tanggalDisplay');
+
+        // Fungsi untuk menampilkan status absensi pada card
+        function updateStatusCard(tanggal) {
+            const data = absensiData.find(a => a.tanggal_absen === tanggal);
+
+            if (data) {
+                let jamInfo = '';
+                if (data.status === 'Hadir') {
+                    jamInfo = `
+                    <p><strong>Jam:</strong> ${data.jam_mulai ?? '-'} - ${data.jam_selesai ?? '-'}</p>
+                `;
+                }
+
+                let keteranganInfo = '';
+                if (data.keterangan) {
+                    keteranganInfo = `<p><strong>Keterangan:</strong> ${data.keterangan}</p>`;
+                } else if (['Sakit', 'Izin'].includes(data.status)) {
+                    keteranganInfo = `<p class="text-danger"><strong>Keterangan:</strong> Tidak diisi (Wajib diisi)</p>`;
+                }
+
+                statusCard.innerHTML = `
+                <p><strong>Status:</strong> 
+                    <span class="badge" style="background-color: ${data.warna};">
+                        ${data.status}
+                    </span>
+                </p>
+                ${jamInfo}
+                ${keteranganInfo}
+            `;
+            } else {
+                statusCard.innerHTML = `
+                <p class="text-muted mb-0">❌ Belum ada absensi untuk tanggal ini.</p>
+            `;
+            }
+        }
+
+        // Saat halaman pertama kali dibuka → tampilkan status hari ini
+        const today = new Date().toISOString().split('T')[0];
+        selectedDateInput.value = today;
+        tanggalDisplay.textContent = today;
+        updateStatusCard(today);
+
+        // Saat klik tanggal lain di kalender (atau tombol lain)
+        document.querySelectorAll('.calendar-cell').forEach(cell => {
+            cell.addEventListener('click', function() {
+                const selectedDate = this.dataset.date;
+                selectedDateInput.value = selectedDate;
+                tanggalDisplay.textContent = selectedDate;
+                updateStatusCard(selectedDate);
+            });
+        });
     });
 </script>
 @endsection

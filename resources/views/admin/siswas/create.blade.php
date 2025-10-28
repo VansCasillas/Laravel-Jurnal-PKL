@@ -9,19 +9,19 @@
 
         <div class="mb-3">
             <label for="name" class="form-label fw-semibold text-dark">Nama</label>
-            <input type="text" id="name" name="name" class="form-control styled-input" required>
+            <input type="text" id="name" name="name" class="form-control styled-input" value="{{ old('name') }}">
             @error('name') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         <div class="mb-3">
             <label for="email" class="form-label fw-semibold text-dark">Email</label>
-            <input type="email" id="email" name="email" class="form-control styled-input" required>
+            <input type="email" id="email" name="email" class="form-control styled-input" value="{{ old('email') }}">
             @error('email') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         <div class="mb-3">
             <label for="nisn" class="form-label fw-semibold text-dark">NIS</label>
-            <input type="text" id="nis" name="nis" class="form-control styled-input" required>
+            <input type="text" id="nis" name="nis" class="form-control styled-input" value="{{ old('nis') }}">
             @error('nis') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
@@ -38,7 +38,7 @@
 
         <div class="mb-3">
             <label for="jurusan" class="form-label fw-semibold text-dark">Jurusan</label>
-            <select type="text" id="jurusan" name="id_jurusan" class="form-control styled-input" required>
+            <select type="text" id="jurusan" name="id_jurusan" class="form-control styled-input">
                 <option value="">-- Pilih Jurusan --</option>
                 @foreach ($jurusans as $jur)
                 <option value="{{ $jur->id }}">{{ $jur->jurusan }}</option>
@@ -49,7 +49,7 @@
 
         <div class="mb-3">
             <label for="nama_dudi" class="form-label fw-semibold text-dark">Tempat PKL</label>
-            <select type="text" id="nama_dudi" name="id_dudi" class="form-control styled-input" required>
+            <select type="text" id="nama_dudi" name="id_dudi" class="form-control styled-input">
                 <option value="">-- Pilih Tempat PKL --</option>
                 @foreach ($dudis as $dudi)
                 <option value="{{ $dudi->id }}">{{ $dudi->nama_dudi }}</option>
@@ -60,7 +60,7 @@
 
         <div class="mb-3">
             <label for="pembimbing" class="form-label fw-semibold text-dark">Pembimbing</label>
-            <select type="text" id="pembimbing" name="id_pembimbing" class="form-control styled-input" required>
+            <select type="text" id="pembimbing" name="id_pembimbing" class="form-control styled-input">
                 <option value="">-- Pilih Pembimbing --</option>
                 @foreach ($pembimbings as $pemb)
                 <option value="{{ $pemb->id }}">{{ $pemb->name }}</option>
@@ -71,7 +71,7 @@
 
         <div class="mb-3">
             <label for="password" class="form-label fw-semibold text-dark">Password</label>
-            <input type="password" id="password" name="password" class="form-control styled-input" required>
+            <input type="password" id="password" name="password" class="form-control styled-input">
             @error('password') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 

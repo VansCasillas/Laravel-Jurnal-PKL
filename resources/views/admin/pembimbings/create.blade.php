@@ -9,19 +9,19 @@
 
         <div class="mb-3">
             <label for="name" class="form-label fw-semibold text-dark">Nama</label>
-            <input type="text" id="name" name="name" class="form-control styled-input" required>
+            <input type="text" id="name" name="name" class="form-control styled-input" value="{{ old('name') }}">
             @error('name') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         <div class="mb-3">
             <label for="email" class="form-label fw-semibold text-dark">Email</label>
-            <input type="email" id="email" name="email" class="form-control styled-input" required>
+            <input type="email" id="email" name="email" class="form-control styled-input" value="{{ old('email') }}">
             @error('email') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         <div class="mb-3">
             <label for="password" class="form-label fw-semibold text-dark">Password</label>
-            <input type="password" id="password" name="password" class="form-control styled-input" required>
+            <input type="password" id="password" name="password" class="form-control styled-input">
             @error('password') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 

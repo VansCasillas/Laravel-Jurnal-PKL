@@ -152,7 +152,7 @@
                                 </li>
                             </ul>
                             <div class="card-header">
-                                <h6 class="mb-0">Tempat PKL</h6>
+                                <h6 class="mb-0">Pembimbing PKL</h6>
                             </div>
                             <ul class="list-group">
                                 <li class="list-group-item border-0 d-flex align-items-center px-0 pt-0">
@@ -160,7 +160,16 @@
                                         <img src="../assets/img/kal-visuals-square.jpg" alt="kal" class="border-radius-lg shadow">
                                     </div>
                                     <div class="d-flex align-items-start flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm">{{ Auth::user()->siswa->dudi->nama_dudi ?? 'Belum diisi' }}</h6>
+                                        <h6 class="mb-0 text-sm">{{ Auth::user()->siswa->dudi->pimpinan ?? 'Belum diisi' }}</h6>
+                                        <p class="mb-0 text-xs">{{ Auth::user()->siswa->dudi->kontak ?? 'Belum diisi' }}</p>
+                                    </div>
+                                </li>
+                                <li class="list-group-item border-0 d-flex align-items-center px-0 pt-0">
+                                    <div class="avatar me-3">
+                                        <img src="../assets/img/kal-visuals-square.jpg" alt="kal" class="border-radius-lg shadow">
+                                    </div>
+                                    <div class="d-flex align-items-start flex-column justify-content-center">
+                                        <h6 class="mb-0 text-sm">{{ Auth::user()->siswa->dudi->pembimbing ?? 'Belum diisi' }}</h6>
                                         <p class="mb-0 text-xs">{{ Auth::user()->siswa->dudi->kontak ?? 'Belum diisi' }}</p>
                                     </div>
                                 </li>

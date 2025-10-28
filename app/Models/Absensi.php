@@ -9,6 +9,10 @@ class Absensi extends Model
     //
     protected $table = "absensis";
 
+    protected $casts = [
+        'tanggal_absen' => 'date',
+    ];
+
     protected $fillable = ([
         'id_siswa',
         'tanggal_absen',

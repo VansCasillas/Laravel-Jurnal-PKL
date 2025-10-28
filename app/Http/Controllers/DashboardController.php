@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Dudi;
 use App\Models\Jurusan;
+use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,7 @@ class DashboardController extends Controller
     public function index()
     {
         // Total Siswa
-        $totalSiswa = User::where('role', 'siswa')->count();
+        $totalSiswa = Siswa::count();
         // Total Pembimbing
         $totalPembimbing = User::where('role', 'pembimbing')->count();
         $jurusan = Jurusan::count();

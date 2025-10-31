@@ -95,22 +95,26 @@
         border-radius: 8px;
         overflow: hidden;
     }
+
     .calendar-header {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
         background-color: #f8f9fa;
         border-bottom: 1px solid #e0e0e0;
     }
+
     .day-header {
         padding: 10px;
         text-align: center;
         font-weight: 600;
         color: #495057;
     }
+
     .calendar-body {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
     }
+
     .calendar-day {
         min-height: 90px;
         padding: 6px;
@@ -120,9 +124,21 @@
         cursor: pointer;
         position: relative;
     }
-    .calendar-day:hover { background-color: #f1f1f1; }
-    .calendar-day.other-month { background-color: #f8f9fa; color: #adb5bd; }
-    .calendar-day.today { background-color: #0d6efd !important; color: #fff !important; }
+
+    .calendar-day:hover {
+        background-color: #f1f1f1;
+    }
+
+    .calendar-day.other-month {
+        background-color: #f8f9fa;
+        color: #adb5bd;
+    }
+
+    .calendar-day.today {
+        background-color: #0d6efd !important;
+        color: #fff !important;
+    }
+
     .badge {
         position: absolute;
         top: 4px;
@@ -135,78 +151,70 @@
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const absensiData = @json($absensi);
-    const calendarDays = document.getElementById('calendarDays');
-    const monthTitle = document.getElementById('monthTitle');
-    const prevMonthBtn = document.getElementById('prevMonth');
-    const nextMonthBtn = document.getElementById('nextMonth');
-    const statusCard = document.getElementById('statusCard');
-    const tanggalDisplay = document.getElementById('tanggalDisplay');
-    const selectedDateInput = document.getElementById('selectedDate');
+    document.addEventListener('DOMContentLoaded', function() {
+        const absensiData = @json($absensi);
+        const calendarDays = document.getElementById('calendarDays');
+        const monthTitle = document.getElementById('monthTitle');
+        const prevMonthBtn = document.getElementById('prevMonth');
+        const nextMonthBtn = document.getElementById('nextMonth');
+        const statusCard = document.getElementById('statusCard');
+        const tanggalDisplay = document.getElementById('tanggalDisplay');
+        const selectedDateInput = document.getElementById('selectedDate');
 
-    const radios = document.querySelectorAll('input[name="status"]');
-    const HadirBox = document.getElementById('HadirBox');
-    const keteranganBox = document.getElementById('keteranganBox');
+        const radios = document.querySelectorAll('input[name="status"]');
+        const HadirBox = document.getElementById('HadirBox');
+        const keteranganBox = document.getElementById('keteranganBox');
 
-    let currentMonth = new Date().getMonth() + 1;
-    let currentYear = new Date().getFullYear();
+        let currentMonth = new Date().getMonth() + 1;
+        let currentYear = new Date().getFullYear();
 
-    function renderCalendar(month, year) {
-        calendarDays.innerHTML = '';
-        monthTitle.textContent = new Date(year, month - 1).toLocaleString('id-ID', { month: 'long', year: 'numeric' });
-        const firstDay = new Date(year, month - 1, 1);
-        const lastDay = new Date(year, month, 0);
-        const startDay = firstDay.getDay();
-        const monthLength = lastDay.getDate();
-        const today = new Date();
-
-        for (let i = 0; i < startDay; i++) {
-            const day = document.createElement('div');
-            day.className = 'calendar-day other-month';
-            calendarDays.appendChild(day);
-        }
-
-        for (let i = 1; i <= monthLength; i++) {
-            const dateStr = `${year}-${String(month).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
-            const day = document.createElement('div');
-            day.className = 'calendar-day';
-            day.dataset.date = dateStr;
-            day.innerHTML = `<div class="day-number">${i}</div>`;
-
-            const absen = absensiData.find(a => a.tanggal_absen === dateStr);
-            if (absen) {
-                day.innerHTML += `<span class="badge" style="background-color:${absen.warna}">${absen.status}</span>`;
-            }
-
-            if (today.toISOString().split('T')[0] === dateStr) {
-                day.classList.add('today');
-            }
-
-            day.addEventListener('click', function() {
-                selectedDateInput.value = dateStr;
-                tanggalDisplay.textContent = dateStr;
-                updateForm(dateStr);
-                updateStatusCard(dateStr);
+        function renderCalendar(month, year) {
+            calendarDays.innerHTML = '';
+            monthTitle.textContent = new Date(year, month - 1).toLocaleString('id-ID', {
+                month: 'long',
+                year: 'numeric'
             });
+            const firstDay = new Date(year, month - 1, 1);
+            const lastDay = new Date(year, month, 0);
+            const startDay = firstDay.getDay();
+            const monthLength = lastDay.getDate();
+            const today = new Date();
 
-            calendarDays.appendChild(day);
+            for (let i = 0; i < startDay; i++) {
+                const day = document.createElement('div');
+                day.className = 'calendar-day other-month';
+                calendarDays.appendChild(day);
+            }
+
+            for (let i = 1; i <= monthLength; i++) {
+                const dateStr = `${year}-${String(month).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+                const day = document.createElement('div');
+                day.className = 'calendar-day';
+                day.dataset.date = dateStr;
+                day.innerHTML = `<div class="day-number">${i}</div>`;
+
+                const absen = absensiData.find(a => a.tanggal_absen === dateStr);
+                if (absen) {
+                    day.innerHTML += `<span class="badge" style="background-color:${absen.warna}">${absen.status}</span>`;
+                }
+
+                if (today.toISOString().split('T')[0] === dateStr) {
+                    day.classList.add('today');
+                }
+
+                day.addEventListener('click', function() {
+                    selectedDateInput.value = dateStr;
+                    tanggalDisplay.textContent = dateStr;
+                    updateForm(); // form dikosongkan
+                    updateStatusCard(dateStr); // hanya card yg menampilkan data
+                });
+
+                calendarDays.appendChild(day);
+            }
         }
-    }
 
-    function updateForm(date) {
-        const data = absensiData.find(a => a.tanggal_absen === date);
-        if (data) {
-            document.getElementById('Hadir').checked = data.status === 'Hadir';
-            document.getElementById('Izin').checked = data.status === 'Izin';
-            document.getElementById('Sakit').checked = data.status === 'Sakit';
-            document.getElementById('jam_mulai').value = data.jam_mulai ?? '';
-            document.getElementById('jam_selesai').value = data.jam_selesai ?? '';
-            document.getElementById('keterangan').value = data.keterangan ?? '';
-
-            HadirBox.style.display = data.status === 'Hadir' ? 'block' : 'none';
-            keteranganBox.style.display = ['Hadir', 'Izin', 'Sakit'].includes(data.status) ? 'block' : 'none';
-        } else {
+        function updateForm() {
+            // Form selalu kosong, tidak auto-terisi dari data lama
             radios.forEach(r => r.checked = false);
             document.getElementById('jam_mulai').value = '';
             document.getElementById('jam_selesai').value = '';
@@ -214,59 +222,64 @@ document.addEventListener('DOMContentLoaded', function() {
             HadirBox.style.display = 'none';
             keteranganBox.style.display = 'none';
         }
-    }
 
-    function updateStatusCard(date) {
-        const data = absensiData.find(a => a.tanggal_absen === date);
-        if (data) {
-            let jamInfo = '';
-            if (data.status === 'Hadir') {
-                jamInfo = `<p><strong>Jam:</strong> ${data.jam_mulai ?? '-'} - ${data.jam_selesai ?? '-'}</p>`;
-            }
-            let ketInfo = data.keterangan ? `<p><strong>Keterangan:</strong> ${data.keterangan}</p>` : '';
-            statusCard.innerHTML = `
-                <label>Status: <strong class="text-md">${data.status}</strong></label>
-                ${jamInfo}
-                ${ketInfo}
-            `;
-        } else {
-            statusCard.innerHTML = `<p class="text-muted mb-0">❌ Belum ada absensi untuk tanggal ini.</p>`;
-        }
-    }
-
-    radios.forEach(radio => {
-        radio.addEventListener('change', () => {
-            if (radio.id === 'Hadir') {
-                HadirBox.style.display = 'block';
-                keteranganBox.style.display = 'block';
-            } else if (radio.id === 'Izin' || radio.id === 'Sakit') {
-                HadirBox.style.display = 'none';
-                keteranganBox.style.display = 'block';
+        function updateStatusCard(date) {
+            const data = absensiData.find(a => a.tanggal_absen === date);
+            if (data) {
+                let jamInfo = '';
+                if (data.status === 'Hadir') {
+                    jamInfo = `<p><strong>Jam:</strong> ${data.jam_mulai ?? '-'} - ${data.jam_selesai ?? '-'}</p>`;
+                }
+                let ketInfo = `<p><strong>Keterangan:</strong> ${data.keterangan ? data.keterangan : '<span class="text-danger">Belum diisi</span>'}</p>`;
+                statusCard.innerHTML = `
+                    <p><strong>Status:</strong> ${data.status}</p>
+                    ${jamInfo}
+                    ${ketInfo}
+                `;
             } else {
-                HadirBox.style.display = 'none';
-                keteranganBox.style.display = 'none';
+                statusCard.innerHTML = `<p class="text-muted mb-0">❌ Belum ada absensi untuk tanggal ini.</p>`;
             }
+        }
+
+        radios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                if (radio.id === 'Hadir') {
+                    HadirBox.style.display = 'block';
+                    keteranganBox.style.display = 'block';
+                } else if (radio.id === 'Izin' || radio.id === 'Sakit') {
+                    HadirBox.style.display = 'none';
+                    keteranganBox.style.display = 'block';
+                } else {
+                    HadirBox.style.display = 'none';
+                    keteranganBox.style.display = 'none';
+                }
+            });
         });
-    });
 
-    prevMonthBtn.addEventListener('click', () => {
-        currentMonth--;
-        if (currentMonth < 1) { currentMonth = 12; currentYear--; }
+        prevMonthBtn.addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 1) {
+                currentMonth = 12;
+                currentYear--;
+            }
+            renderCalendar(currentMonth, currentYear);
+        });
+        nextMonthBtn.addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 12) {
+                currentMonth = 1;
+                currentYear++;
+            }
+            renderCalendar(currentMonth, currentYear);
+        });
+
         renderCalendar(currentMonth, currentYear);
-    });
-    nextMonthBtn.addEventListener('click', () => {
-        currentMonth++;
-        if (currentMonth > 12) { currentMonth = 1; currentYear++; }
-        renderCalendar(currentMonth, currentYear);
-    });
 
-    renderCalendar(currentMonth, currentYear);
-
-    const todayStr = new Date().toISOString().split('T')[0];
-    selectedDateInput.value = todayStr;
-    tanggalDisplay.textContent = todayStr;
-    updateForm(todayStr);
-    updateStatusCard(todayStr);
-});
+        const todayStr = new Date().toISOString().split('T')[0];
+        selectedDateInput.value = todayStr;
+        tanggalDisplay.textContent = todayStr;
+        updateForm();
+        updateStatusCard(todayStr);
+    });
 </script>
 @endsection

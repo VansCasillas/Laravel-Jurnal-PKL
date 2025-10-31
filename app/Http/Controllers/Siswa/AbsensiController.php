@@ -16,8 +16,9 @@ class AbsensiController extends Controller
     {
         $siswa = Auth::user()->siswa;
 
-        // Ambil semua absensi siswa yang login
+        // Ambil semua absensi milik siswa yang login
         $absensi = Absensi::where('id_siswa', $siswa->id)
+            ->select('tanggal_absen', 'status', 'jam_mulai', 'jam_selesai', 'keterangan')
             ->get()
             ->map(function ($item) {
                 // Tentukan warna badge sesuai status
@@ -27,9 +28,13 @@ class AbsensiController extends Controller
                     'Sakit' => '#dc3545',
                     default => '#6c757d',
                 };
+
                 return [
-                    'tanggal_absen' => $item->tanggal_absen->format('Y-m-d'), // pastikan format string
+                    'tanggal_absen' => $item->tanggal_absen->format('Y-m-d'),
                     'status' => $item->status,
+                    'jam_mulai' => $item->jam_mulai,
+                    'jam_selesai' => $item->jam_selesai,
+                    'keterangan' => $item->keterangan,
                     'warna' => $warna,
                 ];
             });
@@ -38,6 +43,7 @@ class AbsensiController extends Controller
             'absensi' => $absensi
         ]);
     }
+
 
 
     /**

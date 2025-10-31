@@ -22,9 +22,9 @@ class AbsensiController extends Controller
             ->map(function ($item) {
                 // Tentukan warna badge sesuai status
                 $warna = match ($item->status) {
-                    'hadir' => '#28a745',
-                    'izin' => '#007bff',
-                    'sakit' => '#dc3545',
+                    'Hadir' => '#28a745',
+                    'Izin' => '#007bff',
+                    'Sakit' => '#dc3545',
                     default => '#6c757d',
                 };
                 return [

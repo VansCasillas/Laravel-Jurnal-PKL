@@ -29,7 +29,7 @@ class DashboardController extends Controller
         } else if ($user->role === 'pembimbing') {
             return view('pembimbing.dashboard', compact('user'));
         } else if ($user->role === 'siswa') {
-            return view('siswa.dashboard', compact('user'));
+            return view('siswa.dashboard', compact('user','totalSiswa', 'totalPembimbing', 'jurusan','dudi'));
         } else {
             abort(403, 'Role pengguna tidak diketahui');
         }

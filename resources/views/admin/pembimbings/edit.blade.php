@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Edit Data Pembimbing')
+
 @section('content')
 <div class="container mt-4">
     <h2 class="mb-4">Tambah pembimbing</h2>

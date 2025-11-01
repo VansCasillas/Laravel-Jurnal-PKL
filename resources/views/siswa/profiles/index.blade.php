@@ -35,11 +35,11 @@
                                 <div class="col-md-8 d-flex align-items-center">
                                     <h6 class="mb-0">Profile Information</h6>
                                 </div>
-                                <div class="col-md-4 text-end">
+                                <!-- <div class="col-md-4 text-end">
                                     <a href="javascript:;">
                                         <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Profile"></i>
                                     </a>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <div class="card-body p-3">
@@ -87,11 +87,6 @@
                                 <div class="col-md-8 d-flex align-items-center">
                                     <h6 class="mb-0" style="visibility: hidden;">Profile Information</h6>
                                 </div>
-                                <div class="col-md-4 text-end">
-                                    <a href="javascript:;">
-                                        <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Profile"></i>
-                                    </a>
-                                </div>
                             </div>
                         </div>
                         <div class="card-body p-3">
@@ -138,7 +133,7 @@
                     <div class="card card-plain h-100">
                         <div class="card-body">
                             <div class="card-header">
-                                <h6 class="mb-0">Pembimbing</h6>
+                                <h6 class="mb-0">Guru Pembimbing</h6>
                             </div>
                             <ul class="list-group">
                                 <li class="list-group-item border-0 d-flex align-items-center px-0 pt-0">
@@ -211,20 +206,6 @@
                                 </p>
                                 <div class="d-flex align-items-center justify-content-between">
                                     <button type="button" class="btn btn-outline-primary btn-sm mb-0">View Project</button>
-                                    <div class="avatar-group mt-2">
-                                        <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Elena Morison">
-                                            <img alt="Image placeholder" src="../assets/img/team-1.jpg">
-                                        </a>
-                                        <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ryan Milly">
-                                            <img alt="Image placeholder" src="../assets/img/team-2.jpg">
-                                        </a>
-                                        <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Nick Daniel">
-                                            <img alt="Image placeholder" src="../assets/img/team-3.jpg">
-                                        </a>
-                                        <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Peterson">
-                                            <img alt="Image placeholder" src="../assets/img/team-4.jpg">
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
                         </div>

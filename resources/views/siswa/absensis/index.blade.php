@@ -6,7 +6,7 @@
 <div class="container-fluid py-4">
     <div class="row">
         <!-- Kalender -->
-        <div class="col-lg-8 col-12 mb-3">
+        <div class="col-lg-8 col-12 px-3 mb-3">
             <div class="card shadow-sm">
                 <div class="card-header bg-dark d-flex justify-content-between align-items-center">
                     <button class="btn btn-outline-light" id="prevMonth">
@@ -35,7 +35,7 @@
         </div>
 
         <!-- Form Absensi -->
-        <div class="col-lg-4 col-12">
+        <div class="col-lg-4 col-12 px-3 mb-3">
             <div class="card shadow-sm">
                 <div class="card-header bg-dark text-white">
                     Detail Absensi

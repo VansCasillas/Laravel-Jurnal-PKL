@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 // Auth routes (login / logout)
 Route::middleware('guest')->group(function () {
-    Route::get('/', function () {return view('auth.login');});
+    Route::get('/', function () {
+        return view('auth.login');
+    });
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
 });
@@ -46,6 +48,7 @@ Route::prefix('siswa')->name('siswa.')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('profile', ProfileController::class);
         Route::resource('kegiatan', KegiatanController::class);
+        Route::get('/kegiatan/bulan/{bulan}', [KegiatanController::class, 'filterBulan'])->name('kegiatan.bulan');
         Route::resource('absensi', AbsensiController::class);
     });
 });

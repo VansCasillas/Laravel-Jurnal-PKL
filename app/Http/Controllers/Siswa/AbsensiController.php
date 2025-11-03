@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class AbsensiController extends Controller
 {
+    public function absensi(Request $request)
+    {
+        $absensi = Absensi::with('siswa')->get();
+        return view('admin.absensis.absensi', compact('absensi'));
+    }
+
+
     /**
      * Display a listing of the resource.
      */

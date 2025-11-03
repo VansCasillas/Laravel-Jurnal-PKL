@@ -113,6 +113,22 @@
                         <span class="nav-link-text ms-1">Kelola Dunia Industri</span>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.kegiatan') }}"
+                        class="nav-link text-dark {{ request()->routeIs('admin.kegiatan*') ? 'active bg-gradient-dark text-white' : '' }}">
+                        <i class="material-symbols-rounded opacity-5">browse_activity</i>
+                        <span class="nav-link-text ms-1">Lihat Kegiatan Siswa</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.absensi') }}"
+                        class="nav-link text-dark {{ request()->routeIs('admin.absensi*') ? 'active bg-gradient-dark text-white' : '' }}">
+                        <i class="material-symbols-rounded opacity-5">calendar_check</i>
+                        <span class="nav-link-text ms-1">Lihat Absensi Siswa</span>
+                    </a>
+                </li>
                 @endif
 
                 <!-- Dashboard Siswa(only) -->

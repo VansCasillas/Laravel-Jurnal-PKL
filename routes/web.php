@@ -10,8 +10,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Siswa\AbsensiController;
 use App\Http\Controllers\Siswa\KegiatanController;
 use App\Http\Controllers\Siswa\ProfileController;
-use App\Models\Jurusan;
-use App\Models\Kegiatan;
 use Illuminate\Support\Facades\Route;
 
 // Auth routes (login / logout)
@@ -23,7 +21,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::middleware(['auth', 'role:admin'])->get('/admin/dashboard', [DashboardController::class, 'admin'])->name('admin.dashboard');
 Route::middleware(['auth', 'role:siswa'])->get('/siswa/dashboard', [DashboardController::class, 'siswa'])->name('siswa.dashboard');
@@ -38,6 +36,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('kelas', KelasController::class);
         Route::resource('jurusan', JurusanController::class);
         Route::resource('dudi', DudiController::class);
+
+        Route::get('/kegiatan',[KegiatanController::class,'kegiatan'])->name('kegiatan');
+        Route::get('/absensi',[AbsensiController::class,'absensi'])->name('absensi');
     });
 });
 

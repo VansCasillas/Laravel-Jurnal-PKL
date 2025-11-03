@@ -11,6 +11,13 @@ use Carbon\Carbon;
 
 class KegiatanController extends Controller
 {
+
+    public function kegiatan(Request $request)
+    {
+        $kegiatan = Kegiatan::with('siswa')->get();
+        return view('admin.kegiatans.kegiatan', compact('kegiatan'));
+    }
+
     /**
      * Display a listing of the resource.
      */

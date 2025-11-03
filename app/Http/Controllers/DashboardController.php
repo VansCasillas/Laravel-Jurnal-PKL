@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Absensi;
 use App\Models\Dudi;
 use App\Models\Jurusan;
+use App\Models\Kegiatan;
 use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -16,10 +18,11 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        // Total Siswa
+        // Total Siswa & pembimbing di Admin
         $totalSiswa = Siswa::count();
-        // Total Pembimbing
         $totalPembimbing = User::where('role', 'pembimbing')->count();
+
+
         $jurusan = Jurusan::count();
         $dudi = Dudi::count();
         $user = Auth::user();
@@ -29,7 +32,12 @@ class DashboardController extends Controller
         } else if ($user->role === 'pembimbing') {
             return view('pembimbing.dashboard', compact('user'));
         } else if ($user->role === 'siswa') {
-            return view('siswa.dashboard', compact('user','totalSiswa', 'totalPembimbing', 'jurusan','dudi'));
+            
+            // Total Absen & kegiatan
+        $totalKegiatan = Kegiatan::where('id_siswa',Auth::user()->siswa->id)->count();
+        $totalAbsen = Absensi::where('id_siswa',Auth::user()->siswa->id)->count();
+
+            return view('siswa.dashboard', compact('totalAbsen', 'totalKegiatan'));
         } else {
             abort(403, 'Role pengguna tidak diketahui');
         }

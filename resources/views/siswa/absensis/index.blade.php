@@ -174,18 +174,34 @@
                 month: 'long',
                 year: 'numeric'
             });
+
             const firstDay = new Date(year, month - 1, 1);
             const lastDay = new Date(year, month, 0);
             const startDay = firstDay.getDay();
             const monthLength = lastDay.getDate();
             const today = new Date();
 
-            for (let i = 0; i < startDay; i++) {
+            // --- Hari dari bulan sebelumnya ---
+            const prevLastDay = new Date(year, month - 1, 0);
+            const prevMonthDays = prevLastDay.getDate();
+            for (let i = startDay - 1; i >= 0; i--) {
+                const prevDate = prevMonthDays - i;
+                const prevMonth = month === 1 ? 12 : month - 1;
+                const prevYear = month === 1 ? year - 1 : year;
+                const dateStr = `${prevYear}-${String(prevMonth).padStart(2,'0')}-${String(prevDate).padStart(2,'0')}`;
+
                 const day = document.createElement('div');
                 day.className = 'calendar-day other-month';
+                day.innerHTML = `<div class="day-number">${prevDate}</div>`;
+                day.addEventListener('click', () => {
+                    currentMonth = prevMonth;
+                    currentYear = prevYear;
+                    renderCalendar(currentMonth, currentYear);
+                });
                 calendarDays.appendChild(day);
             }
 
+            // --- Hari bulan saat ini ---
             for (let i = 1; i <= monthLength; i++) {
                 const dateStr = `${year}-${String(month).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
                 const day = document.createElement('div');
@@ -205,16 +221,35 @@
                 day.addEventListener('click', function() {
                     selectedDateInput.value = dateStr;
                     tanggalDisplay.textContent = dateStr;
-                    updateForm(); // form dikosongkan
-                    updateStatusCard(dateStr); // hanya card yg menampilkan data
+                    updateForm();
+                    updateStatusCard(dateStr);
                 });
 
                 calendarDays.appendChild(day);
             }
+
+            // --- Hari dari bulan berikutnya ---
+            const totalCells = startDay + monthLength;
+            const nextDays = 7 - (totalCells % 7);
+            if (nextDays < 7) {
+                for (let i = 1; i <= nextDays; i++) {
+                    const nextMonth = month === 12 ? 1 : month + 1;
+                    const nextYear = month === 12 ? year + 1 : year;
+                    const dateStr = `${nextYear}-${String(nextMonth).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+                    const day = document.createElement('div');
+                    day.className = 'calendar-day other-month';
+                    day.innerHTML = `<div class="day-number">${i}</div>`;
+                    day.addEventListener('click', () => {
+                        currentMonth = nextMonth;
+                        currentYear = nextYear;
+                        renderCalendar(currentMonth, currentYear);
+                    });
+                    calendarDays.appendChild(day);
+                }
+            }
         }
 
         function updateForm() {
-            // Form selalu kosong, tidak auto-terisi dari data lama
             radios.forEach(r => r.checked = false);
             document.getElementById('jam_mulai').value = '';
             document.getElementById('jam_selesai').value = '';
@@ -232,10 +267,10 @@
                 }
                 let ketInfo = `<p><strong>Keterangan:</strong> ${data.keterangan ? data.keterangan : '<span class="text-danger">Belum diisi</span>'}</p>`;
                 statusCard.innerHTML = `
-                    <p><strong>Status:</strong> ${data.status}</p>
-                    ${jamInfo}
-                    ${ketInfo}
-                `;
+                <p><strong>Status:</strong> ${data.status}</p>
+                ${jamInfo}
+                ${ketInfo}
+            `;
             } else {
                 statusCard.innerHTML = `<p class="text-muted mb-0">❌ Belum ada absensi untuk tanggal ini.</p>`;
             }
@@ -264,6 +299,7 @@
             }
             renderCalendar(currentMonth, currentYear);
         });
+
         nextMonthBtn.addEventListener('click', () => {
             currentMonth++;
             if (currentMonth > 12) {

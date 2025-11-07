@@ -74,7 +74,7 @@
                             <i class="material-symbols-rounded text-primary me-1">schedule</i>
                             <span class="text-dark">
                                 {{ \Carbon\Carbon::parse($ktn->jam_mulai)->format('H:i') }} -
-                                {{ \Carbon\Carbon::parse($ktn->jam_selesai)->format('H:i') }}
+                                {{ \Carbon\Carbon::parse($ktn->jam_selesai)->format('H:i') }} WIB
                             </span>
                         </div>
 
@@ -114,10 +114,10 @@
                         </a>
 
                         {{-- Aksi --}}
-                        <div class="d-flex justify-content-between align-items-center mt-2">
+                        <div class="d-flex justify-content-end align-items-center mt-2">
                             <!-- <span class="badge bg-gradient-dark">
-                                    {{ $siswa->user->name ?? 'Siswa' }}
-                                </span> -->
+                                {{ $siswa->user->name ?? 'Siswa' }}
+                            </span> -->
 
                             <div class="d-flex gap-2">
                                 <a style="position: relative; top:7px;" href="{{ route('siswa.kegiatan.edit', $ktn->id) }}" class="btn btn-warning">

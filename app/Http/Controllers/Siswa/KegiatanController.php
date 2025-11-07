@@ -12,10 +12,15 @@ use Carbon\Carbon;
 class KegiatanController extends Controller
 {
 
-    public function kegiatan(Request $request)
+    public function kegiatanAdmin(Request $request)
     {
         $kegiatan = Kegiatan::with('siswa')->get();
         return view('admin.kegiatans.kegiatan', compact('kegiatan'));
+    }
+    public function kegiatanPembimbing(Request $request)
+    {
+        $kegiatan = Kegiatan::with('siswa')->get();
+        return view('pembimbing.kegiatans.kegiatan', compact('kegiatan'));
     }
 
     /**
@@ -56,7 +61,7 @@ class KegiatanController extends Controller
         return view('siswa.kegiatans.index', [
             'folders' => $folders,
             'selectedMonth' => null,
-            'kegiatanPerBulan' => null
+            'kegiatanPerBulan' => null,
         ]);
     }
 
@@ -107,6 +112,8 @@ class KegiatanController extends Controller
      */
     public function show(string $id)
     {
+        $user = auth()->user();
+        $siswa = $user->siswa;
         $kegiatan = Kegiatan::findOrFail($id);
 
         // Pastikan hanya pemilik kegiatan yang bisa lihat
@@ -114,7 +121,7 @@ class KegiatanController extends Controller
             abort(403);
         }
 
-        return view('siswa.kegiatans.show', compact('kegiatan'));
+        return view('siswa.kegiatans.show', compact('kegiatan','siswa'));
     }
 
     /**

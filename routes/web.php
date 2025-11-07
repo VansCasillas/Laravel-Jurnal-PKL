@@ -37,8 +37,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('jurusan', JurusanController::class);
         Route::resource('dudi', DudiController::class);
 
-        Route::get('/kegiatan',[KegiatanController::class,'kegiatan'])->name('kegiatan');
-        Route::get('/absensi',[AbsensiController::class,'absensi'])->name('absensi');
+        Route::get('/kegiatan',[KegiatanController::class,'kegiatanAdmin'])->name('kegiatan');
+        Route::get('/absensi',[AbsensiController::class,'absensiAdmin'])->name('absensi');
     });
 });
 
@@ -51,5 +51,15 @@ Route::prefix('siswa')->name('siswa.')->group(function () {
         Route::resource('kegiatan', KegiatanController::class);
         Route::get('/kegiatan/bulan/{bulan}', [KegiatanController::class, 'filterBulan'])->name('kegiatan.bulan');
         Route::resource('absensi', AbsensiController::class);
+    });
+});
+
+Route::prefix('pembimbing')->name('pembimbing.')->group(function () {
+    Route::middleware(['auth', 'role:pembimbing'])->group(function () {
+
+        Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
+
+        Route::get('/kegiatan',[KegiatanController::class,'kegiatanPembimbing'])->name('kegiatan');
+        Route::get('/absensi',[AbsensiController::class,'absensiPembimbing'])->name('absensi');
     });
 });

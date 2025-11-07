@@ -8,6 +8,7 @@ use App\Models\Jurusan;
 use App\Models\Kegiatan;
 use App\Models\Siswa;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,26 +19,33 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        // Total Siswa & pembimbing di Admin
-        $totalSiswa = Siswa::count();
-        $totalPembimbing = User::where('role', 'pembimbing')->count();
-
-
-        $jurusan = Jurusan::count();
-        $dudi = Dudi::count();
         $user = Auth::user();
 
         if ($user->role === 'admin') {
-            return view('admin.dashboard', compact('user','totalSiswa', 'totalPembimbing', 'jurusan','dudi'));
+            // Total Siswa & pembimbing di Admin
+            $totalSiswa = Siswa::count();
+            $totalPembimbing = User::where('role', 'pembimbing')->count();
+
+            $jurusan = Jurusan::count();
+            $dudi = Dudi::count();
+
+            return view('admin.dashboard', compact('user', 'totalSiswa', 'totalPembimbing', 'jurusan', 'dudi'));
         } else if ($user->role === 'pembimbing') {
             return view('pembimbing.dashboard', compact('user'));
         } else if ($user->role === 'siswa') {
-            
-            // Total Absen & kegiatan
-        $totalKegiatan = Kegiatan::where('id_siswa',Auth::user()->siswa->id)->count();
-        $totalAbsen = Absensi::where('id_siswa',Auth::user()->siswa->id)->count();
 
-            return view('siswa.dashboard', compact('totalAbsen', 'totalKegiatan'));
+            $siswa = Auth::user()->siswa;
+            $today = Carbon::today()->toDateString();
+
+            $absensiHariIni = Absensi::where('id_siswa', $siswa->id)
+                ->whereDate('tanggal_absen', $today)
+                ->first();
+
+            // Total Absen & kegiatan
+            $totalKegiatan = Kegiatan::where('id_siswa', Auth::user()->siswa->id)->count();
+            $totalAbsen = Absensi::where('id_siswa', Auth::user()->siswa->id)->count();
+
+            return view('siswa.dashboard', compact('totalAbsen', 'totalKegiatan','absensiHariIni'));
         } else {
             abort(403, 'Role pengguna tidak diketahui');
         }

@@ -9,10 +9,16 @@ use Illuminate\Support\Facades\Auth;
 
 class AbsensiController extends Controller
 {
-    public function absensi(Request $request)
+    public function absensiAdmin(Request $request)
     {
         $absensi = Absensi::with('siswa')->get();
         return view('admin.absensis.absensi', compact('absensi'));
+    }
+    
+    public function absensiPembimbing(Request $request)
+    {
+        $absensi = Absensi::with('siswa')->get();
+        return view('pembimbing.absensis.absensi', compact('absensi'));
     }
 
 
@@ -88,7 +94,7 @@ class AbsensiController extends Controller
                 'status' => $request->status,
                 'jam_mulai' => $request->status === 'Hadir' ? $request->jam_mulai : null,
                 'jam_selesai' => $request->status === 'Hadir' ? $request->jam_selesai : null,
-                'keterangan' => in_array($request->status, ['Izin', 'Sakit']) ? $request->keterangan : null,
+                'keterangan' => $request->filled('keterangan') ? $request->keterangan : null,
             ]);
         } else {
             Absensi::create([
@@ -97,7 +103,7 @@ class AbsensiController extends Controller
                 'status' => $request->status,
                 'jam_mulai' => $request->status === 'Hadir' ? $request->jam_mulai : null,
                 'jam_selesai' => $request->status === 'Hadir' ? $request->jam_selesai : null,
-                'keterangan' => in_array($request->status, ['Izin', 'Sakit']) ? $request->keterangan : null,
+                'keterangan' => $request->filled('keterangan') ? $request->keterangan : null,
             ]);
         }
 

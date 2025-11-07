@@ -135,7 +135,7 @@
     }
 
     .calendar-day.today {
-        background-color: #0d6efd !important;
+        background-color: #333 !important;
         color: #fff !important;
     }
 

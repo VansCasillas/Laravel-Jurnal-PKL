@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" name="csrf-token" content="{{ csrf_token() }}"/>
+    <meta charset="utf-8" name="csrf-token" content="{{ csrf_token() }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="/assets/img/favicon.png">
@@ -132,33 +132,50 @@
                 @endif
 
                 <!-- Dashboard Siswa(only) -->
+                @if (Auth::user() && Auth::user()->role === 'siswa')
                 <li class="nav-item">
-                    @if(auth()->user()->role === 'siswa')
                     <a href="{{ route('siswa.profile.index') }}"
                         class="nav-link text-dark {{ request()->routeIs('siswa.profile.*') ? 'active bg-gradient-dark text-white' : '' }}">
                         <i class="material-symbols-rounded opacity-5">account_circle</i>
                         <span class="nav-link-text ms-1">Profil Siswa</span>
                     </a>
-                    @endif
                 </li>
+
                 <li class="nav-item">
-                    @if(auth()->user()->role === 'siswa')
                     <a href="{{ route('siswa.kegiatan.index') }}"
                         class="nav-link text-dark {{ request()->routeIs('siswa.kegiatan.*') ? 'active bg-gradient-dark text-white' : '' }}">
                         <i class="material-symbols-rounded opacity-5">browse_activity</i>
                         <span class="nav-link-text ms-1">Kegiatan Siswa</span>
                     </a>
-                    @endif
                 </li>
+
                 <li class="nav-item">
-                    @if(auth()->user()->role === 'siswa')
                     <a href="{{ route('siswa.absensi.index') }}"
                         class="nav-link text-dark {{ request()->routeIs('siswa.absensi.*') ? 'active bg-gradient-dark text-white' : '' }}">
                         <i class="material-symbols-rounded opacity-5">calendar_check</i>
                         <span class="nav-link-text ms-1">Absensi Siswa</span>
                     </a>
-                    @endif
                 </li>
+                @endif
+
+                <!-- Dashboard Pembimbing(only) -->
+                @if (Auth::user() && Auth::user()->role === 'pembimbing')
+                <li class="nav-item">
+                    <a href="{{ route('pembimbing.kegiatan') }}"
+                        class="nav-link text-dark {{ request()->routeIs('pembimbing.kegiatan') ? 'active bg-gradient-dark text-white' : '' }}">
+                        <i class="material-symbols-rounded opacity-5">browse_activity</i>
+                        <span class="nav-link-text ms-1">Lihat kegiatan Siswa</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('pembimbing.absensi') }}"
+                        class="nav-link text-dark {{ request()->routeIs('pembimbing.absensi') ? 'active bg-gradient-dark text-white' : '' }}">
+                        <i class="material-symbols-rounded opacity-5">calendar_check</i>
+                        <span class="nav-link-text ms-1">Lihat Absensi Siswa</span>
+                    </a>
+                </li>
+                @endif
             </ul>
         </div>
         <!-- Logout -->

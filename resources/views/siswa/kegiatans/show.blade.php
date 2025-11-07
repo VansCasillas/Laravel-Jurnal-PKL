@@ -1,59 +1,133 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Kegiatan Siswa')
-
 @section('content')
-<div class="col-12 my-4 px-4">
-    <div class="card shadow-sm border-0 rounded-3">
-        <div class="card-header bg-gradient-dark text-white d-flex justify-content-between align-items-center">
-            <span>Detail Kegiatan</span>
-            <a href="{{ route('siswa.kegiatan.index') }}" class="btn btn-light btn-sm">Kembali</a>
-        </div>
 
-        <div class="card-body p-4">
-            {{-- Judul Kegiatan --}}
-            <h4 class="fw-bold mb-3">{{ $kegiatan->kegiatan }}</h4>
-
-            {{-- Tanggal & Waktu --}}
-            <div class="mb-3 d-flex gap-2 flex-wrap">
-                <span class="badge bg-primary">
-                    {{ \Carbon\Carbon::parse($kegiatan->tanggal)->translatedFormat('d F Y') }}
-                </span>
-                <span class="badge bg-success">
-                    {{ \Carbon\Carbon::parse($kegiatan->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($kegiatan->jam_selesai)->format('H:i') }}
-                </span>
-            </div>
-
-            {{-- Catatan Pembimbing --}}
-            <div class="mb-3 p-3 rounded-2 bg-light">
-                <strong>Catatan Pembimbing:</strong>
-                <p class="mb-0">{{ $kegiatan->catatan_pembimbing ?? 'Belum ada catatan' }}</p>
-            </div>
-
-            {{-- Dokumentasi --}}
-            @if($kegiatan->dokumentasi)
-            <div class="mb-4">
-                <strong>Dokumentasi:</strong>
-                <div class="mt-2">
-                    <img src="{{ asset('storage/' . $kegiatan->dokumentasi) }}" alt="Dokumentasi"
-                        class="img-fluid rounded shadow-sm" style="max-width:400px;">
+<div class="col-12 my-4">
+    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+        <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center">
+            <div class="card-body ps-3">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h4 class="mb-1 text-white">{{ \Illuminate\Support\Str::words($kegiatan->kegiatan, 10, '...') }}</h4>
+                        <p class="text-muted mb-2">
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-secondary">{{ $siswa->user->name }}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="small text-white px-4 mb-0">{{ $siswa->dudi->nama_dudi }}</p>
+                    </div>
                 </div>
             </div>
-            @endif
+        </div>
+    </div>
+</div>
+<!-- <div class="card mb-4 shadow-sm"> -->
 
-            {{-- Tombol Aksi --}}
-            <div class="d-flex gap-2 flex-wrap mt-4">
-                <a href="{{ route('siswa.kegiatan.edit', $kegiatan->id) }}" class="btn btn-warning">
-                    <i class="material-symbols-rounded me-1">edit</i> Edit
-                </a>
+</div>
 
-                <form action="{{ route('siswa.kegiatan.destroy', $kegiatan->id) }}" method="POST" class="m-0">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-danger" onclick="return confirm('Hapus kegiatan ini?')">
-                        <i class="material-symbols-rounded me-1">delete</i> Hapus
-                    </button>
-                </form>
+<!-- Tabs Navigation -->
+<ul class="nav nav-tabs mb-3 ps-3" id="customTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active text-dark" id="customers-tab" data-bs-toggle="tab" data-bs-target="#customers"
+            type="button" role="tab">Keterangan</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link text-dark" id="accounts-tab" data-bs-toggle="tab" data-bs-target="#accounts" type="button"
+            role="tab">Dokumentasi</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link text-dark" id="angela-tab" data-bs-toggle="tab" data-bs-target="#angela" type="button"
+            role="tab">Catatan Pembimbing</button>
+    </li>
+</ul>
+
+<!-- Tab Content -->
+<div class="tab-content ps-3" id="customTabsContent">
+    <div class="tab-pane fade show active" id="customers" role="tabpanel">
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h6 class="fw-bold mb-3">keterangan kegiatan</h6>
+
+                <div class="row mb-2">
+                    <div class="col-md-4"><strong>Tempat kegiatan:</strong></div>
+                    <div class="col-md-8">{{ $siswa->dudi->nama_dudi }}</div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-4"><strong>Guru pembing kegiatan:</strong></div>
+                    <div class="col-md-8">{{ $siswa->dudi->pembimbing }}</div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-4"><strong>Guru pembing kegiatan:</strong></div>
+                    <div class="col-md-8">{{ $siswa->pembimbing->name }}</div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-4"><strong>Keterangan:</strong></div>
+                    <div class="col-md-8">{{ $kegiatan->kegiatan }}</div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-4"><strong>Jam mulai kegiatan:</strong></div>
+                    <div class="col-md-8">{{ \Carbon\Carbon::parse($kegiatan->jam_mulai)->format('H:i') }} - WIB</div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-4"><strong>Jam selesai kegiatan:</strong></div>
+                    <div class="col-md-8">{{ \Carbon\Carbon::parse($kegiatan->jam_selesai)->format('H:i') }} - WIB</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="accounts" role="tabpanel">
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h6 class="fw-bold mb-3">Dokumentasi kegiatan :</h6>
+                {{-- Dokumentasi --}}
+                @if($kegiatan->dokumentasi)
+                <div class="mb-4">
+                    <div class="mt-2">
+                        <img src="{{ asset('storage/' . $kegiatan->dokumentasi) }}" alt="Dokumentasi"
+                            class="img-fluid rounded shadow-sm" style="max-width:400px;">
+                    </div>
+                </div>
+                @endif
+
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="angela" role="tabpanel">
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h6 class="fw-bold mb-3">Catatan Pembimbing :</h6>
+                {{-- Catatan Pembimbing --}}
+                @if ($kegiatan->catatan_pembimbing)
+                <div class="bg-light rounded-2 p-3 mb-3">
+                    <div class="d-flex align-items-start justify-content-between">
+                        <div>
+                            <p class="text-sm text-muted mb-2">
+                                <i class="material-symbols-rounded text-secondary me-1" style="font-size: 18px;">comment</i>
+                                <strong>Catatan Pembimbing:</strong>
+                            </p>
+                            <p class="text-sm text-dark mb-0">
+                                {{ $kegiatan->catatan_pembimbing }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                @else
+                <div class="bg-light rounded-2 p-3 mb-3 text-center">
+                    <p class="text-sm text-muted mb-1">Belum ada catatan pembimbing</p>
+                </div>
+                @endif
+
             </div>
         </div>
     </div>

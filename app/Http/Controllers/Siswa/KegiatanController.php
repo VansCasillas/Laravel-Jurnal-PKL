@@ -17,9 +17,19 @@ class KegiatanController extends Controller
         $kegiatan = Kegiatan::with('siswa')->get();
         return view('admin.kegiatans.kegiatan', compact('kegiatan'));
     }
+
     public function kegiatanPembimbing(Request $request)
     {
-        $kegiatan = Kegiatan::with('siswa')->get();
+        $user = auth()->user(); // ambil data user yang sedang login
+
+        if ($user->role === 'pembimbing') {
+            // Pembimbing hanya bisa lihat kegiatan siswa bimbingannya
+            $kegiatan = Kegiatan::with('siswa')
+                ->whereHas('siswa', function ($query) use ($user) {
+                    $query->where('id_pembimbing', $user->id); // sesuaikan kolom relasi di tabel siswa
+                })
+                ->get();
+        }
         return view('pembimbing.kegiatans.kegiatan', compact('kegiatan'));
     }
 
@@ -84,9 +94,9 @@ class KegiatanController extends Controller
         $request->validate([
             'tanggal' => 'required|date',
             'jam_mulai' => 'required',
-            'jam_selesai' => 'required',
-            'dokumentasi' => 'nullable|mimes:jpg,jpeg,png,webp|max:2048',
-            'kegiatan' => 'required|string',
+            'jam_selesai' => 'required|after:jam_mulai',
+            'dokumentasi' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'kegiatan' => 'required',
         ]);
 
         $data = [
@@ -121,7 +131,16 @@ class KegiatanController extends Controller
             abort(403);
         }
 
-        return view('siswa.kegiatans.show', compact('kegiatan','siswa'));
+        return view('siswa.kegiatans.show', compact('kegiatan', 'siswa'));
+    }
+
+    public function detail(string $id)
+    {
+        $user = auth()->user();
+        $siswa = $user->siswa;
+        $kegiatan = Kegiatan::findOrFail($id);
+
+        return view('pembimbing.kegiatans.detail', compact('kegiatan', 'siswa'));
     }
 
     /**
@@ -146,7 +165,7 @@ class KegiatanController extends Controller
             'jam_mulai' => 'required',
             'jam_selesai' => 'required',
             'kegiatan' => 'required|string',
-            'dokumentasi' => 'nullable|mimes:jpg,jpeg,png,webp|max:2048',
+            'dokumentasi' => 'nullable||mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         $data = $request->only(['tanggal', 'jam_mulai', 'jam_selesai', 'kegiatan']);

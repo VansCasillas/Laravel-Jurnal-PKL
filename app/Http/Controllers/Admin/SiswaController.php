@@ -16,7 +16,7 @@ class SiswaController extends Controller
     //list user
     public function index()
     {
-        $users = Siswa::with('user','pembimbing','kelas','jurusan','dudi')->get();
+        $users = Siswa::with('user', 'pembimbing', 'kelas', 'jurusan', 'dudi')->get();
 
         return view('admin.siswas.index', compact('users'));
     }
@@ -38,7 +38,7 @@ class SiswaController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users,email',
             'password' => 'required|string|min:6',
-            
+
             'nis' => 'required|unique:siswas,nis',
             'id_kelas' => 'nullable|exists:kelas,id',
             'id_jurusan' => 'nullable|exists:jurusans,id',
@@ -69,25 +69,25 @@ class SiswaController extends Controller
     }
 
 
-    public function edit(User $siswa)
+    public function edit(Siswa $siswa)
     {
         // tampil form edit user
-        $siswaData = $siswa->siswa;
         $kelas = Kelas::all();
         $jurusans = Jurusan::all();
         $dudis = Dudi::all();
         $pembimbings = User::where('role', 'pembimbing')->get();
-        return view('admin.siswas.edit', compact('siswa', 'siswaData', 'kelas', 'jurusans', 'dudis', 'pembimbings'));
+        return view('admin.siswas.edit', compact('siswa', 'kelas', 'jurusans', 'dudis', 'pembimbings'));
     }
 
-    public function update(Request $request, User $siswa)
+    public function update(Request $request, Siswa $siswa)
     {
+        $user = User::findOrFail($siswa->id_user);
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|unique:users,email',
+            'email' => 'required|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:6',
 
-            'nis' => 'required|unique:siswas,nis',
+            'nis' => 'required|unique:siswas,nis,' . $siswa->id,
             'id_kelas' => 'nullable|exists:kelas,id',
             'id_jurusan' => 'nullable|exists:jurusans,id',
             'id_dudi' => 'nullable|exists:dudis,id',
@@ -104,18 +104,16 @@ class SiswaController extends Controller
             $dataUser['password'] = Hash::make($request->password);
         }
 
-        $siswa->update($dataUser);
+        $user->update($dataUser);
 
         // Update tabel siswa
-        if ($siswa->siswa) {
-            $siswa->siswa->update([
-                'nis' => $request->nis,
-                'id_kelas' => $request->id_kelas,
-                'id_jurusan' => $request->id_jurusan,
-                'id_dudi' => $request->id_dudi,
-                'id_pembimbing' => $request->id_pembimbing,
-            ]);
-        }
+        $siswa->update([
+            'nis' => $request->nis,
+            'id_kelas' => $request->id_kelas,
+            'id_jurusan' => $request->id_jurusan,
+            'id_dudi' => $request->id_dudi,
+            'id_pembimbing' => $request->id_pembimbing,
+        ]);
 
         return redirect()->route('admin.siswa.index')->with('success', 'Data siswa berhasil diperbarui.');
     }

@@ -2,30 +2,6 @@
 
 @section('content')
 
-<div class="col-12 my-4">
-    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-        <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center">
-            <div class="card-body ps-3">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <h4 class="mb-1 text-white">{{ \Illuminate\Support\Str::words($kegiatan->kegiatan, 10, '...') }}</h4>
-                        <p class="text-muted mb-2">
-                        <div class="d-flex flex-wrap gap-2">
-                            <span class="badge bg-secondary">{{ $siswa->user->name }}</span>
-                        </div>
-                    </div>
-                    <div>
-                        <p class="small text-white px-4 mb-0">{{ $siswa->dudi->nama_dudi }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- <div class="card mb-4 shadow-sm"> -->
-
-</div>
-
 <!-- Tabs Navigation -->
 <ul class="nav nav-tabs mb-3 ps-3" id="customTabs" role="tablist">
     <li class="nav-item" role="presentation">
@@ -52,28 +28,17 @@
 
                 <div class="row mb-2">
                     <div class="col-md-4"><strong>Tempat kegiatan:</strong></div>
-                    <div class="col-md-8">{{ $siswa->dudi->nama_dudi }}</div>
+                    <div class="col-md-8">{{ $kegiatan->siswa->dudi->nama_dudi }}</div>
                 </div>
 
                 <div class="row mb-2">
                     <div class="col-md-4"><strong>Guru pembing kegiatan:</strong></div>
-                    <div class="col-md-8">{{ $siswa->dudi->pembimbing }}</div>
+                    <div class="col-md-8">{{ $kegiatan->siswa->dudi->pembimbing }}</div>
                 </div>
 
                 <div class="row mb-2">
                     <div class="col-md-4"><strong>Guru pembing kegiatan:</strong></div>
-                    <div class="col-md-8">{{ $siswa->pembimbing->name }}</div>
-                </div>
-
-                <div class="fw-bold mb-3"><strong>detail kegiatan :</strong></div>
-                <div class="bg-light rounded-2 p-3 mb-3">
-                    <div class="d-flex align-items-start justify-content-between">
-                        <div>
-                            <p class="text-sm text-dark mb-0">
-                                {{ $kegiatan->kegiatan }}
-                            </p>
-                        </div>
-                    </div>
+                    <div class="col-md-8">{{ $kegiatan->siswa->pembimbing->name }}</div>
                 </div>
 
                 <div class="row mb-2">
@@ -85,6 +50,24 @@
                     <div class="col-md-4"><strong>Jam selesai kegiatan:</strong></div>
                     <div class="col-md-8">{{ \Carbon\Carbon::parse($kegiatan->jam_selesai)->format('H:i') }} - WIB</div>
                 </div>
+
+                <div class="fw-bold mb-3"><strong>detail kegiatan :</strong></div>
+                {{-- Ca --}}
+                @if ($kegiatan->kegiatan)
+                <div class="bg-light rounded-2 p-3 mb-3">
+                    <div class="d-flex align-items-start justify-content-between">
+                        <div>
+                            <p class="text-sm text-dark mb-0">
+                                {{ $kegiatan->kegiatan }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                @else
+                <div class="bg-light rounded-2 p-3 mb-3 text-center">
+                    <p class="text-sm text-muted mb-1">Belum ada catatan pembimbing</p>
+                </div>
+                @endif
             </div>
         </div>
     </div>
@@ -133,7 +116,6 @@
                     <p class="text-sm text-muted mb-1">Belum ada catatan pembimbing</p>
                 </div>
                 @endif
-
             </div>
         </div>
     </div>

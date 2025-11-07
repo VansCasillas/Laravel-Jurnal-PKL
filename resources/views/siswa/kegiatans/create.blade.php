@@ -17,25 +17,25 @@
 
         <div class="mb-3">
             <label for="jam_mulai" class="form-label fw-semibold text-dark">Jam Mulai</label>
-            <input type="time" id="jam_mulai" name="jam_mulai" class="form-control styled-input" required>
+            <input type="time" id="jam_mulai" name="jam_mulai" class="form-control styled-input">
             @error('jam_mulai') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         <div class="mb-3">
             <label for="jam_selesai" class="form-label fw-semibold text-dark">Jam Selesai</label>
-            <input type="time" id="jam_selesai" name="jam_selesai" class="form-control styled-input" required>
+            <input type="time" id="jam_selesai" name="jam_selesai" class="form-control styled-input">
             @error('jam_selesai') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         <div class="mb-3">
             <label for="kegiatan" class="form-label fw-semibold text-dark">Kegiatan</label>
-            <input type="text" id="kegiatan" name="kegiatan" class="form-control styled-input" required>
+            <textarea name="kegiatan" id="kegiatan" class="form-control styled-input" rows="5"></textarea>
             @error('kegiatan') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         <div class="mb-3">
             <label for="dokumentasi" class="form-label fw-semibold text-dark">dokumentasi</label>
-            <input type="file" id="dokumentasi" name="dokumentasi" class="form-control styled-input" required>
+            <input type="file" id="dokumentasi" name="dokumentasi" class="form-control styled-input">
             @error('dokumentasi') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 

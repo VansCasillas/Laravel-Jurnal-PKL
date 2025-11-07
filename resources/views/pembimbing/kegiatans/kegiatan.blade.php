@@ -23,9 +23,7 @@
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jam_mulai</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jam_selesai</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kegiatan</th>
-                            @if (Auth::user() && Auth::user()->role === 'pembimbing')
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
-                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -37,13 +35,13 @@
                             <td class="text-center align-middle text-sm">{{ \Carbon\Carbon::parse($k->jam_mulai)->translatedFormat('H:i') }}</td>
                             <td class="text-center align-middle text-sm">{{ \Carbon\Carbon::parse($k->jam_selesai)->translatedFormat('H:i') }}</td>
                             <td class="text-center align-middle text-sm">{{ $k->kegiatan }}</td>
-                            @if (Auth::user() && Auth::user()->role === 'pembimbing')
-                            <td class="text-center align-middle">
-                                <div class="d-flex justify-content-center gap-2">
-                                    <a style="position: relative; top: 7px;" href="" class="btn btn-warning btn-sm">Tambah Komentar</a>
-                                </div>
+                            <td class="text-center d-flex align-middle gap-2">
+                                <a style="position: relative; top: 7px;" href="{{ route('pembimbing.detail', $k->id) }}" class="btn btn-info btn-sm">detail</a>
+                                <!-- Button trigger modal -->
+                                <button  style="position: relative; top: 7px;"  type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                    Tambah Komentar
+                                </button>
                             </td>
-                            @endif
                         </tr>
                         @endforeach
                     </tbody>

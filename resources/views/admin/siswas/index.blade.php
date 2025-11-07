@@ -36,7 +36,7 @@
                             <td class="text-center align-middle text-center text-sm">{{ $sw->created_at->format('d-m-Y H:i') }}</td>
                             <td class="text-center align-middle">
                                 <div class="d-flex justify-content-center gap-2">
-                                    <a style="position: relative; top: 7px;" href="{{ route('admin.siswa.edit', $sw->user->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <a style="position: relative; top: 7px;" href="{{ route('admin.siswa.edit', $sw->id) }}" class="btn btn-warning btn-sm">Edit</a>
                                     <form action="{{ route('admin.siswa.destroy', $sw->user->id) }}" method="post" onsubmit="return confirm('Yakin ingin menghapus user ini?')">
                                         @csrf
                                         @method('DELETE')

@@ -61,5 +61,8 @@ Route::prefix('pembimbing')->name('pembimbing.')->group(function () {
 
         Route::get('/kegiatan',[KegiatanController::class,'kegiatanPembimbing'])->name('kegiatan');
         Route::get('/absensi',[AbsensiController::class,'absensiPembimbing'])->name('absensi');
+
+        route::get('/kegiatan/detail/{id}',[KegiatanController::class,'detail'])->name('detail');
+        route::get('/kegiatan/komentar/{id}',[KegiatanController::class,'komentar'])->name('detail');
     });
 });

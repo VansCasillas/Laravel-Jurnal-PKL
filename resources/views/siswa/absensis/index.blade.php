@@ -280,7 +280,7 @@
             radio.addEventListener('change', () => {
                 if (radio.id === 'Hadir') {
                     HadirBox.style.display = 'block';
-                    keteranganBox.style.display = 'block';
+                    keteranganBox.style.display = 'none';
                 } else if (radio.id === 'Izin' || radio.id === 'Sakit') {
                     HadirBox.style.display = 'none';
                     keteranganBox.style.display = 'block';

@@ -13,21 +13,21 @@
         {{-- Nama --}}
         <div class="mb-3">
             <label for="name" class="form-label fw-semibold text-dark">Nama</label>
-            <input type="text" id="name" name="name" value="{{ old('$siswa->name') . $siswa->name }}" class="form-control styled-input" required>
+            <input type="text" id="name" name="name" value="{{ old('$siswa->name') . $siswa->user->name }}" class="form-control styled-input">
             @error('name') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         {{-- Email --}}
         <div class="mb-3">
             <label for="email" class="form-label fw-semibold text-dark">Email</label>
-            <input type="email" id="email" name="email" value="{{ old('$siswa->email') . $siswa->email }}" class="form-control styled-input" required>
+            <input type="email" id="email" name="email" value="{{ old('$siswa->email') . $siswa->user->email }}" class="form-control styled-input">
             @error('email') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
         {{-- NISN --}}
         <div class="mb-3">
             <label for="nisn" class="form-label fw-semibold text-dark">NIS</label>
-            <input type="text" id="nis" name="nis" value="{{ old('$siswa->siswa->nis') . $siswa->siswa->nis ?? '' }}" class="form-control styled-input">
+            <input type="text" id="nis" name="nis" value="{{ old('$siswa->nis') . $siswa->nis ?? '' }}" class="form-control styled-input">
             @error('nis') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
 
@@ -38,7 +38,7 @@
                 <option value="">-- Pilih Kelas --</option>
                 @foreach ($kelas as $kel)
                 <option value="{{ $kel->id }}"
-                    {{ $siswa->siswa->id_kelas == $kel->id ? 'selected' : '' }}>
+                    {{ $siswa->id_kelas == $kel->id ? 'selected' : '' }}>
                     {{ $kel->kelas }}
                 </option>
                 @endforeach
@@ -53,7 +53,7 @@
                 <option value="">-- Pilih Jurusan --</option>
                 @foreach ($jurusans as $jur)
                 <option value="{{ $jur->id }}"
-                    {{ $siswa->siswa->id_jurusan == $jur->id ? 'selected' : '' }}>
+                    {{ $siswa->id_jurusan == $jur->id ? 'selected' : '' }}>
                     {{ $jur->jurusan }}
                 </option>
                 @endforeach
@@ -68,7 +68,7 @@
                 <option value="">-- Pilih Tempat PKL --</option>
                 @foreach ($dudis as $dudi)
                 <option value="{{ $dudi->id }}"
-                    {{ $siswa->siswa->id_dudi == $dudi->id ? 'selected' : '' }}>
+                    {{ $siswa->id_dudi == $dudi->id ? 'selected' : '' }}>
                     {{ $dudi->nama_dudi }}
                 </option>
                 @endforeach
@@ -82,7 +82,7 @@
             <select id="pembimbing" name="id_pembimbing" class="form-control styled-input" required>
                 <option value="">-- Pilih Pembimbing --</option>
                 @foreach ($pembimbings as $pemb)
-                <option value="{{ $pemb->id }}"{{ $siswa->siswa->id_pembimbing == $pemb->id ? 'selected' : '' }}>{{ $pemb->name }}</option>
+                <option value="{{ $pemb->id }}"{{ $siswa->id_pembimbing == $pemb->id ? 'selected' : '' }}>{{ $pemb->name }}</option>
                 @endforeach
             </select>
             @error('id_pembimbing') <small class="text-danger">{{ $message }}</small> @enderror

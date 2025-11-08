@@ -92,14 +92,6 @@
                                     </p>
                                 </div>
                             </div>
-
-                            <div class="text-end mt-2">
-                                <a href="{{ route('siswa.kegiatan.show', $ktn->id) }}"
-                                    class="text-secondary text-sm">
-                                    <i class="material-symbols-rounded" style="font-size: 16px;">open_in_new</i>
-                                    Lihat Detail
-                                </a>
-                            </div>
                         </div>
                         @else
                         <div class="bg-light rounded-2 p-3 mb-3 text-center">
@@ -108,10 +100,13 @@
                         @endif
 
                         {{-- Tombol detail kegiatan --}}
-                        <a href="{{ route('siswa.kegiatan.show', $ktn->id) }}"
-                            class="btn btn-sm bg-gradient-light w-100 mb-2">
-                            Detail Kegiatan
-                        </a>
+                        <div class="text-end mt-2">
+                            <a class="btn btn-sm bg-gradient-light w-100 mb-2" href="{{ route('siswa.kegiatan.show', $ktn->id) }}"
+                                class="text-secondary text-sm">
+                                <i class="material-symbols-rounded" style="position: relative; font-size: 14px;" >open_in_new</i>
+                                Lihat Detail
+                            </a>
+                        </div>
 
                         {{-- Aksi --}}
                         <div class="d-flex justify-content-end align-items-center mt-2">

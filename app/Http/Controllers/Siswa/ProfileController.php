@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Siswa;
 use App\Http\Controllers\Controller;
 use App\Models\Dudi;
 use App\Models\Jurusan;
+use App\Models\Kegiatan;
 use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Models\User;
@@ -24,9 +25,11 @@ class ProfileController extends Controller
         $kelas = Kelas::all();
         $jurusan = Jurusan::all();
         $dudi = Dudi::all();
+        $kegiatans = Kegiatan::all();
+
         $pembimbing = User::where('role', 'pembimbing')->get();
 
-        return view('siswa.profiles.index', compact('profile', 'kelas', 'jurusan', 'dudi', 'pembimbing'));
+        return view('siswa.profiles.index', compact('profile', 'kelas', 'jurusan', 'dudi', 'pembimbing','kegiatans'));
     }
 
 

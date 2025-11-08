@@ -153,6 +153,21 @@ class KegiatanController extends Controller
         return view('siswa.kegiatans.edit', compact('kegiatan'));
     }
 
+    public function komentar(Request $request, string $id)
+    {
+        $kegiatan = Kegiatan::findOrFail($id);
+
+        if ($request->filled('catatan_pembimbing')) {
+            $request->catatan_pembimbing;
+        }
+
+        $data = $request->only(['catatan_pembimbing']);
+        
+        $kegiatan->update($data);
+
+        return redirect()->route('pembimbing.kegiatan')->with('success', 'Catatan berhasil ditambahkan.');
+    }
+
     /**
      * Update the specified resource in storage.
      */
@@ -165,7 +180,8 @@ class KegiatanController extends Controller
             'jam_mulai' => 'required',
             'jam_selesai' => 'required',
             'kegiatan' => 'required|string',
-            'dokumentasi' => 'nullable||mimes:jpg,jpeg,png,webp|max:2048',
+            'dokumentasi' => 'nullable|images|mimes:jpg,jpeg,png,webp|max:2048',
+            'catatan_pembimbing' => 'nullable',
         ]);
 
         $data = $request->only(['tanggal', 'jam_mulai', 'jam_selesai', 'kegiatan']);

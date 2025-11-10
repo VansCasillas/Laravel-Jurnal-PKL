@@ -180,7 +180,7 @@ class KegiatanController extends Controller
             'jam_mulai' => 'required',
             'jam_selesai' => 'required',
             'kegiatan' => 'required|string',
-            'dokumentasi' => 'nullable|images|mimes:jpg,jpeg,png,webp|max:2048',
+            'dokumentasi' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'catatan_pembimbing' => 'nullable',
         ]);
 

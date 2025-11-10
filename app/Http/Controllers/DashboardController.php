@@ -44,8 +44,9 @@ class DashboardController extends Controller
             // Total Absen & kegiatan
             $totalKegiatan = Kegiatan::where('id_siswa', Auth::user()->siswa->id)->count();
             $totalAbsen = Absensi::where('id_siswa', Auth::user()->siswa->id)->count();
+            $kegiatans = Kegiatan::where('id_siswa',Auth::user()->siswa->id)->take(6)->orderBy('id','desc')->get();
 
-            return view('siswa.dashboard', compact('totalAbsen', 'totalKegiatan','absensiHariIni'));
+            return view('siswa.dashboard', compact('totalAbsen', 'totalKegiatan','absensiHariIni','kegiatans'));
         } else {
             abort(403, 'Role pengguna tidak diketahui');
         }

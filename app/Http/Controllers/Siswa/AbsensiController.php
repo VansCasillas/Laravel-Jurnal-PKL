@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Siswa;
 
 use App\Http\Controllers\Controller;
 use App\Models\Absensi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +15,7 @@ class AbsensiController extends Controller
         $absensi = Absensi::with('siswa')->get();
         return view('admin.absensis.absensi', compact('absensi'));
     }
-    
+
     public function absensiPembimbing(Request $request)
     {
         $absensi = Absensi::with('siswa')->get();
@@ -29,24 +30,25 @@ class AbsensiController extends Controller
     {
         $siswa = Auth::user()->siswa;
 
-        // Ambil semua absensi milik siswa yang login
         $absensi = Absensi::where('id_siswa', $siswa->id)
             ->select('tanggal_absen', 'status', 'jam_mulai', 'jam_selesai', 'keterangan')
             ->get()
             ->map(function ($item) {
-                // Tentukan warna badge sesuai status
                 $warna = match ($item->status) {
                     'Hadir' => '#28a745',
                     'Izin' => '#007bff',
                     'Sakit' => '#dc3545',
+                    'Libur' => '#e5ff00ff',
+                    'Alpa' => '#6f42c1',
                     default => '#6c757d',
                 };
 
+
                 return [
-                    'tanggal_absen' => $item->tanggal_absen->format('Y-m-d'),
+                    'tanggal_absen' => Carbon::parse($item->tanggal_absen)->format('Y-m-d'),
                     'status' => $item->status,
-                    'jam_mulai' => $item->jam_mulai,
-                    'jam_selesai' => $item->jam_selesai,
+                    'jam_mulai' => $item->jam_mulai ? Carbon::parse($item->jam_mulai)->format('H:i') : null,
+                    'jam_selesai' => $item->jam_selesai ? Carbon::parse($item->jam_selesai)->format('H:i') : null,
                     'keterangan' => $item->keterangan,
                     'warna' => $warna,
                 ];
@@ -56,7 +58,6 @@ class AbsensiController extends Controller
             'absensi' => $absensi
         ]);
     }
-
 
 
     /**
@@ -74,41 +75,88 @@ class AbsensiController extends Controller
     {
         $request->validate([
             'tanggal_absen' => 'required|date',
-            'status' => 'required|in:Hadir,Izin,Sakit',
+            'status' => 'required|in:Hadir,Izin,Sakit,Libur',
             'jam_mulai' => 'nullable|date_format:H:i',
             'jam_selesai' => 'nullable|date_format:H:i',
-            'keterangan' => 'nullable|string',
+            'keterangan' => 'nullable|string|max:255',
         ]);
 
-        // Ambil user login (siswa)
         $siswa = Auth::user()->siswa;
+        $today = Carbon::today();
 
-        // Cek apakah sudah absen di tanggal itu
+        // Cek absen terakhir siswa
+        $lastAbsen = Absensi::where('id_siswa', $siswa->id)
+            ->orderBy('tanggal_absen', 'desc')
+            ->first();
+
+        // Tambahkan otomatis status "Alpa" untuk hari-hari di antara absen terakhir dan hari ini
+        if ($lastAbsen) {
+            $nextDate = Carbon::parse($lastAbsen->tanggal_absen)->addDay();
+
+            while ($nextDate->lt($today)) {
+                // Lewati Sabtu dan Minggu
+                if (!in_array($nextDate->dayOfWeek, [Carbon::SATURDAY, Carbon::SUNDAY])) {
+                    // Cek kalau belum ada absen di tanggal tsb
+                    $cek = Absensi::where('id_siswa', $siswa->id)
+                        ->whereDate('tanggal_absen', $nextDate)
+                        ->first();
+
+                    if (!$cek) {
+                        Absensi::create([
+                            'id_siswa' => $siswa->id,
+                            'tanggal_absen' => $nextDate->toDateString(),
+                            'status' => 'Alpa',
+                            'keterangan' => 'Tanpa keterangan',
+                        ]);
+                    }
+                }
+
+                $nextDate->addDay();
+            }
+        } else {
+            // Kalau belum pernah absen sama sekali, isi otomatis semua hari sebelumnya sebagai Alpa
+            $startDate = Carbon::parse($siswa->created_at)->startOfDay();
+            $loopDate = $startDate->copy();
+
+            while ($loopDate->lt($today)) {
+                if (!in_array($loopDate->dayOfWeek, [Carbon::SATURDAY, Carbon::SUNDAY])) {
+                    Absensi::create([
+                        'id_siswa' => $siswa->id,
+                        'tanggal_absen' => $loopDate->toDateString(),
+                        'status' => 'Alpa',
+                        'keterangan' => 'Tanpa keterangan',
+                    ]);
+                }
+                $loopDate->addDay();
+            }
+        }
+
+        // Cek apakah sudah absen di tanggal ini
         $absen = Absensi::where('id_siswa', $siswa->id)
             ->whereDate('tanggal_absen', $request->tanggal_absen)
             ->first();
 
-        // Jika sudah ada → update, kalau belum → buat baru
+        $data = [
+            'status' => $request->status,
+            'jam_mulai' => $request->status === 'Hadir' ? $request->jam_mulai : null,
+            'jam_selesai' => $request->status === 'Hadir' ? $request->jam_selesai : null,
+            'keterangan' => in_array($request->status, ['Izin', 'Sakit', 'Libur'])
+                ? ($request->keterangan ?: '-')
+                : null,
+        ];
+
         if ($absen) {
-            $absen->update([
-                'status' => $request->status,
-                'jam_mulai' => $request->status === 'Hadir' ? $request->jam_mulai : null,
-                'jam_selesai' => $request->status === 'Hadir' ? $request->jam_selesai : null,
-                'keterangan' => $request->filled('keterangan') ? $request->keterangan : null,
-            ]);
+            $absen->update($data);
         } else {
-            Absensi::create([
+            Absensi::create(array_merge($data, [
                 'id_siswa' => $siswa->id,
                 'tanggal_absen' => $request->tanggal_absen,
-                'status' => $request->status,
-                'jam_mulai' => $request->status === 'Hadir' ? $request->jam_mulai : null,
-                'jam_selesai' => $request->status === 'Hadir' ? $request->jam_selesai : null,
-                'keterangan' => $request->filled('keterangan') ? $request->keterangan : null,
-            ]);
+            ]));
         }
 
         return redirect()->back()->with('success', 'Absensi berhasil disimpan.');
     }
+
 
     /**
      * Display the specified resource.

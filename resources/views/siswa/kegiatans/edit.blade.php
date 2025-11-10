@@ -35,7 +35,8 @@
         </div>
 
         <div class="mb-3">
-            <label for="dokumentasi" class="form-label fw-semibold text-dark">dokumentasi</label>
+            <label for="dokumentasi" class="form-label fw-semibold text-dark">dokumentasi</label><br>
+            <img src="{{ asset('storage/' . $kegiatan->dokumentasi) }}" alt="" class="w-100 mb-3">
             <input type="file" id="dokumentasi" name="dokumentasi" class="form-control styled-input">
             @error('dokumentasi') <small class="text-danger">{{ $message }}</small> @enderror
         </div>

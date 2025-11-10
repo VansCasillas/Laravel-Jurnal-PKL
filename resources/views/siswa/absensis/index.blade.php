@@ -41,7 +41,7 @@
                     Detail Absensi
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('siswa.absensi.store') }}" method="POST">
+                    <form id="absensiForm" action="{{ route('siswa.absensi.store') }}" method="POST">
                         @csrf
                         <input type="hidden" name="tanggal_absen" id="selectedDate">
                         <p>Tanggal: <span id="tanggalDisplay" class="fw-bold text-primary">-</span></p>
@@ -57,6 +57,10 @@
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="radio" name="status" id="Sakit" value="Sakit">
                             <label class="form-check-label fw-bold" for="Sakit">Sakit</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="status" id="Libur" value="Libur">
+                            <label class="form-check-label fw-bold" for="Libur">Libur</label>
                         </div>
 
                         <div id="HadirBox" class="mt-3" style="display: none;">
@@ -260,28 +264,41 @@
 
         function updateStatusCard(date) {
             const data = absensiData.find(a => a.tanggal_absen === date);
+            const formElement = document.getElementById('absensiForm');
+
             if (data) {
+                // Jika sudah absen, sembunyikan form
+                formElement.style.display = 'none';
+
                 let jamInfo = '';
+                let ketInfo = '';
+
                 if (data.status === 'Hadir') {
-                    jamInfo = `<p><strong>Jam:</strong> ${data.jam_mulai ?? '-'} - ${data.jam_selesai ?? '-'}</p>`;
+                    jamInfo = `<p><strong>Jam:</strong> ${data.jam_mulai ? data.jam_mulai.slice(0,5) : '-'} - ${data.jam_selesai ? data.jam_selesai.slice(0,5) : '-'}</p>`;
+                } else {
+                    ketInfo = `<p><strong>Keterangan:</strong> ${data.keterangan ? data.keterangan : '<span class="text-danger">Belum diisi</span>'}</p>`;
                 }
-                let ketInfo = `<p><strong>Keterangan:</strong> ${data.keterangan ? data.keterangan : '<span class="text-danger">Belum diisi</span>'}</p>`;
+
                 statusCard.innerHTML = `
-                <p><strong>Status:</strong> ${data.status}</p>
-                ${jamInfo}
-                ${ketInfo}
-            `;
+            <p><strong>Status:</strong> ${data.status}</p>
+            ${jamInfo}
+            ${ketInfo}
+            <p class="text-success mt-2">✅ Kamu sudah absen hari ini.</p>
+        `;
             } else {
+                // Jika belum absen, tampilkan form lagi
+                formElement.style.display = 'block';
                 statusCard.innerHTML = `<p class="text-muted mb-0">❌ Belum ada absensi untuk tanggal ini.</p>`;
             }
         }
+
 
         radios.forEach(radio => {
             radio.addEventListener('change', () => {
                 if (radio.id === 'Hadir') {
                     HadirBox.style.display = 'block';
                     keteranganBox.style.display = 'none';
-                } else if (radio.id === 'Izin' || radio.id === 'Sakit') {
+                } else if (radio.id === 'Izin' || radio.id === 'Sakit' || radio.id === 'Libur') {
                     HadirBox.style.display = 'none';
                     keteranganBox.style.display = 'block';
                 } else {

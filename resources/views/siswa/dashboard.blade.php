@@ -28,7 +28,7 @@
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-2 ps-3">
-                        <p class="mb-0 text-sm">Total Semua <span><a  class="text-success font-weight-bolder" href="{{ route('siswa.absensi.index') }}">Absen</a></span></p>
+                        <p class="mb-0 text-sm">Total Semua <span><a class="text-success font-weight-bolder" href="{{ route('siswa.absensi.index') }}">Absen</a></span></p>
                     </div>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                     </div>
                     <hr class="dark horizontal my-0">
                     <div class="card-footer p-2 ps-3">
-                        <p class="mb-0 text-sm">Total Semua <span><a  class="text-success font-weight-bolder" href="{{ route('siswa.kegiatan.index') }}">Kegiatan</a></span></p>
+                        <p class="mb-0 text-sm">Total Semua <span><a class="text-success font-weight-bolder" href="{{ route('siswa.kegiatan.index') }}">Kegiatan</a></span></p>
                     </div>
                 </div>
             </div>
@@ -128,6 +128,36 @@
                     </div>
                     @endif
                 </div>
+
+            </div>
+
+        </div>
+        <div class="col-12 mt-6">
+            <div class="mb-3 ps-3">
+                <h6 class="mb-1">Kegiatan</h6>
+                <p class="text-sm">Beberapa laporan kegiatan PKL</p>
+            </div>
+            <div class="row gap-3">
+                @foreach ($kegiatans as $k)
+                <div class="card shadow-xl col-xl-3 col-md-6 mb-xl-0 mb-4">
+                    <div class="card card-blog card-plain">
+                        <div class="card-header p-0 m-2">
+                            <a class="d-block shadow-xl border-radius-xl">
+                                <img src="{{ asset('storage/' . $k->dokumentasi) }}" alt="Dokumentasi" class="img-fluid shadow border-radius-lg">
+                            </a>
+                        </div>
+                        <div class="card-body p-3">
+                            <p class="mb-0 text-sm">Project #{{ $k->id }}</p>
+                            <h5>
+                                {{ Str::limit($k->kegiatan, 40, '...') }}
+                            </h5>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <a href="{{ route('siswa.kegiatan.show', $k->id) }}" type="button" class="btn btn-outline-primary btn-sm mb-0"><i class="material-symbols-rounded" style="position: relative; font-size: 14px;">open_in_new</i> View Project</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
             </div>
         </div>
     </div>

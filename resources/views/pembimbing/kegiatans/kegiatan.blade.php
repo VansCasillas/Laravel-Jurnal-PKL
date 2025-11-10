@@ -34,7 +34,7 @@
                             <td class="text-center align-middle text-sm">{{ \Carbon\Carbon::parse($k->tanggal)->translatedFormat('d F Y') }}</td>
                             <td class="text-center align-middle text-sm">{{ \Carbon\Carbon::parse($k->jam_mulai)->translatedFormat('H:i') }}</td>
                             <td class="text-center align-middle text-sm">{{ \Carbon\Carbon::parse($k->jam_selesai)->translatedFormat('H:i') }}</td>
-                            <td class="text-center align-middle text-sm">{{ $k->kegiatan }}</td>
+                            <td class="text-center align-middle text-sm">{{ Str::limit($k->kegiatan, 50, '...') }}</td>
                             <td class="text-center d-flex align-middle gap-2">
                                 <a style="position: relative; top: 7px;" href="{{ route('pembimbing.detail', $k->id) }}" class="btn btn-info">detail</a>
                                 <!-- Button trigger modal -->

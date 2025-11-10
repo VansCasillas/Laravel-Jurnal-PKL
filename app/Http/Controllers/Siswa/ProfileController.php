@@ -25,11 +25,10 @@ class ProfileController extends Controller
         $kelas = Kelas::all();
         $jurusan = Jurusan::all();
         $dudi = Dudi::all();
-        $kegiatans = Kegiatan::all();
 
         $pembimbing = User::where('role', 'pembimbing')->get();
 
-        return view('siswa.profiles.index', compact('profile', 'kelas', 'jurusan', 'dudi', 'pembimbing','kegiatans'));
+        return view('siswa.profiles.index', compact('profile', 'kelas', 'jurusan', 'dudi', 'pembimbing'));
     }
 
 

@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('siswas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_user')->constrained('users')->cascadeOnDelete();
+            $table->string('foto_profil')->nullable();
             $table->string('nis')->unique()->nullable();
             $table->foreignId('id_kelas')->nullable()->constrained('kelas')->nullOnDelete();
             $table->foreignId('id_jurusan')->nullable()->constrained('jurusans')->nullOnDelete();

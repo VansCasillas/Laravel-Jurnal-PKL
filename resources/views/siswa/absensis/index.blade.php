@@ -64,10 +64,7 @@
                         </div>
 
                         <div id="HadirBox" class="mt-3" style="display: none;">
-                            <label for="jam_mulai" class="form-label">Jam Mulai Pelajaran:</label>
-                            <input type="time" name="jam_mulai" id="jam_mulai" class="form-control mb-2 border px-2">
-                            <label for="jam_selesai" class="form-label">Jam Selesai Pelajaran:</label>
-                            <input type="time" name="jam_selesai" id="jam_selesai" class="form-control border px-2">
+                            <p class="text-muted fst-italic">Jam mulai akan otomatis tercatat sesuai waktu saat kamu absen hadir.</p>
                         </div>
 
                         <div id="keteranganBox" class="mt-3" style="display: none;">
@@ -141,6 +138,10 @@
     .calendar-day.today {
         background-color: #333 !important;
         color: #fff !important;
+    }
+
+    .selected-day {
+        outline: 2px solid #007bff;
     }
 
     .badge {
@@ -255,8 +256,6 @@
 
         function updateForm() {
             radios.forEach(r => r.checked = false);
-            document.getElementById('jam_mulai').value = '';
-            document.getElementById('jam_selesai').value = '';
             document.getElementById('keterangan').value = '';
             HadirBox.style.display = 'none';
             keteranganBox.style.display = 'none';
@@ -274,17 +273,30 @@
                 let ketInfo = '';
 
                 if (data.status === 'Hadir') {
-                    jamInfo = `<p><strong>Jam:</strong> ${data.jam_mulai ? data.jam_mulai.slice(0,5) : '-'} - ${data.jam_selesai ? data.jam_selesai.slice(0,5) : '-'}</p>`;
+                    jamInfo = `<p><strong>Jam:</strong> ${data.jam_mulai ? data.jam_mulai.slice(0,5) : '-'} - ${data.jam_selesai ? data.jam_selesai.slice(0,5) : 'Kamu belum absen pulang'}</p>`;
                 } else {
                     ketInfo = `<p><strong>Keterangan:</strong> ${data.keterangan ? data.keterangan : '<span class="text-danger">Belum diisi</span>'}</p>`;
                 }
 
+                let pulangBtn = '';
+                if (data.status === 'Hadir' && !data.jam_selesai) {
+                    const pulangUrl = "{{ route('siswa.absensi.pulang', ':id') }}".replace(':id', data.id);
+                    pulangBtn = `
+                    <form action="${pulangUrl}" method="POST" class="mt-2">
+                        @csrf
+                        <button type="submit" class="btn btn-sm btn-danger w-100">Absen Pulang</button>
+                    </form>
+                `;
+                }
+
                 statusCard.innerHTML = `
-            <p><strong>Status:</strong> ${data.status}</p>
-            ${jamInfo}
-            ${ketInfo}
-            <p class="text-success mt-2">✅ Kamu sudah absen hari ini.</p>
-        `;
+                    <p><strong>Status:</strong> ${data.status}</p>
+                    ${jamInfo}
+                    ${ketInfo}
+                    ${pulangBtn}
+                    <p class="text-success mt-2">✅ Kamu sudah absen hari ini.</p>
+                `;
+
             } else {
                 // Jika belum absen, tampilkan form lagi
                 formElement.style.display = 'block';
@@ -333,6 +345,10 @@
         tanggalDisplay.textContent = todayStr;
         updateForm();
         updateStatusCard(todayStr);
+        if (today.toISOString().split('T')[0] === dateStr) {
+            day.classList.add('today', 'selected-day');
+        }
+
     });
 </script>
 @endsection

@@ -11,6 +11,7 @@ use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -84,6 +85,7 @@ class ProfileController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
+            'foto_profil' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'kelamin' => 'nullable|string',
             'tempat' => 'nullable|string',
             'tanggal_lahir' => 'nullable|date',
@@ -96,12 +98,25 @@ class ProfileController extends Controller
             'id_dudi' => 'required|integer',
         ]);
 
-        // Update user name
+        $path = $siswa->foto_profil; // simpan path lama dulu
+
+        if ($request->hasFile('foto_profil')) {
+            // hapus foto lama
+            if ($path && Storage::disk('public')->exists($path)) {
+                Storage::disk('public')->delete($path);
+            }
+
+            // upload baru
+            $path = $request->file('foto_profil')->store('foto_profil', 'public');
+        }
+
+        // update nama di tabel users
         $user->update(['name' => $request->name]);
 
-        // Update siswa data
+        // update data siswa
         $siswa->update([
             'nama' => $request->name,
+            'foto_profil' => $path, // ✅ gunakan path hasil upload
             'kelamin' => $request->kelamin,
             'tempat' => $request->tempat,
             'tanggal_lahir' => $request->tanggal_lahir,

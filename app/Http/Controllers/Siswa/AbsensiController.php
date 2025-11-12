@@ -31,7 +31,7 @@ class AbsensiController extends Controller
         $siswa = Auth::user()->siswa;
 
         $absensi = Absensi::where('id_siswa', $siswa->id)
-            ->select('tanggal_absen', 'status', 'jam_mulai', 'jam_selesai', 'keterangan')
+            ->select('id','tanggal_absen', 'status', 'jam_mulai', 'jam_selesai', 'keterangan')
             ->get()
             ->map(function ($item) {
                 $warna = match ($item->status) {
@@ -45,6 +45,7 @@ class AbsensiController extends Controller
 
 
                 return [
+                    'id' => $item->id,
                     'tanggal_absen' => Carbon::parse($item->tanggal_absen)->format('Y-m-d'),
                     'status' => $item->status,
                     'jam_mulai' => $item->jam_mulai ? Carbon::parse($item->jam_mulai)->format('H:i') : null,
@@ -74,15 +75,17 @@ class AbsensiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'tanggal_absen' => 'required|date',
             'status' => 'required|in:Hadir,Izin,Sakit,Libur',
-            'jam_mulai' => 'nullable|date_format:H:i',
-            'jam_selesai' => 'nullable|date_format:H:i',
-            'keterangan' => 'nullable|string|max:255',
+            'keterangan' => 'required_if:status,Sakit,Izin,Libur',
         ]);
 
         $siswa = Auth::user()->siswa;
         $today = Carbon::today();
+
+        // Cek apakah sudah absen di tanggal ini
+        if (Absensi::where('id_siswa', $siswa->id)->where('tanggal_absen', $today)->exists()) {
+            return back()->with('error', 'Siswa sudah absen hari ini.');
+        }
 
         // Cek absen terakhir siswa
         $lastAbsen = Absensi::where('id_siswa', $siswa->id)
@@ -96,65 +99,44 @@ class AbsensiController extends Controller
             while ($nextDate->lt($today)) {
                 // Lewati Sabtu dan Minggu
                 if (!in_array($nextDate->dayOfWeek, [Carbon::SATURDAY, Carbon::SUNDAY])) {
-                    // Cek kalau belum ada absen di tanggal tsb
-                    $cek = Absensi::where('id_siswa', $siswa->id)
-                        ->whereDate('tanggal_absen', $nextDate)
-                        ->first();
-
-                    if (!$cek) {
-                        Absensi::create([
-                            'id_siswa' => $siswa->id,
-                            'tanggal_absen' => $nextDate->toDateString(),
-                            'status' => 'Alpa',
-                            'keterangan' => 'Tanpa keterangan',
-                        ]);
-                    }
-                }
-
-                $nextDate->addDay();
-            }
-        } else {
-            // Kalau belum pernah absen sama sekali, isi otomatis semua hari sebelumnya sebagai Alpa
-            $startDate = Carbon::parse($siswa->created_at)->startOfDay();
-            $loopDate = $startDate->copy();
-
-            while ($loopDate->lt($today)) {
-                if (!in_array($loopDate->dayOfWeek, [Carbon::SATURDAY, Carbon::SUNDAY])) {
                     Absensi::create([
                         'id_siswa' => $siswa->id,
-                        'tanggal_absen' => $loopDate->toDateString(),
+                        'tanggal_absen' => $nextDate->toDateString(),
                         'status' => 'Alpa',
                         'keterangan' => 'Tanpa keterangan',
                     ]);
                 }
-                $loopDate->addDay();
+
+                $nextDate->addDay();
             }
         }
 
-        // Cek apakah sudah absen di tanggal ini
-        $absen = Absensi::where('id_siswa', $siswa->id)
-            ->whereDate('tanggal_absen', $request->tanggal_absen)
-            ->first();
-
-        $data = [
+        Absensi::create([
+            'id_siswa' => $siswa->id,
+            'tanggal_absen'=> $today,
+            'jam_mulai' => $request->status == 'Hadir' ? now()->format('H:i:s') : null,
             'status' => $request->status,
-            'jam_mulai' => $request->status === 'Hadir' ? $request->jam_mulai : null,
-            'jam_selesai' => $request->status === 'Hadir' ? $request->jam_selesai : null,
-            'keterangan' => in_array($request->status, ['Izin', 'Sakit', 'Libur'])
-                ? ($request->keterangan ?: '-')
-                : null,
-        ];
-
-        if ($absen) {
-            $absen->update($data);
-        } else {
-            Absensi::create(array_merge($data, [
-                'id_siswa' => $siswa->id,
-                'tanggal_absen' => $request->tanggal_absen,
-            ]));
-        }
+            'keterangan' => $request->status == 'Hadir' ? null : $request->keterangan,
+        ]);
 
         return redirect()->back()->with('success', 'Absensi berhasil disimpan.');
+    }
+
+    public function absenPulang($id)
+    {
+        $absensi = Absensi::findOrFail($id);
+
+        if ($absensi->status !== 'Hadir') {
+            return back()->with('error', 'Absen Pulang Hanya Untuk Siswa yg Hadir');
+        }
+        if ($absensi->jam_selesai !== null) {
+            return back()->with('error', 'Udah Absen Sebelumnya');
+        }
+        $absensi->update([
+            'jam_selesai' => now()->format('H:i:s'),
+        ]);
+
+        return back()->with('success', 'Absen Pulag Berhasil');
     }
 
 

@@ -65,6 +65,7 @@
                     </div>
                     <span class="badge bg-light text-dark">{{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}</span>
                 </div>
+
                 <div class="card-body p-4">
                     @if($absensiHariIni)
                     <div class="row g-3">
@@ -93,11 +94,29 @@
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <span class="text-sm text-muted">Waktu</span>
                                 <span class="fw-bold">
-                                    {{ \Carbon\Carbon::parse($absensiHariIni->jam_mulai)->translatedFormat('H:i') }} -
+                                    {{ \Carbon\Carbon::parse($absensiHariIni->jam_mulai)->translatedFormat('H:i') }}
+                                    -
+                                    @if($absensiHariIni->jam_selesai)
                                     {{ \Carbon\Carbon::parse($absensiHariIni->jam_selesai)->translatedFormat('H:i') }}
+                                    @else
+                                    <span class="text-muted">Belum pulang</span>
+                                    @endif
                                 </span>
                             </div>
                         </div>
+
+                        <!-- Tombol Absen Pulang jika belum -->
+                        @if(!$absensiHariIni->jam_selesai)
+                        <div class="col-12 mt-2">
+                            <form action="{{ route('siswa.absensi.pulang', $absensiHariIni->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-danger w-100">
+                                    <i class="material-symbols-rounded me-2">logout</i>
+                                    Absen Pulang
+                                </button>
+                            </form>
+                        </div>
+                        @endif
                         @endif
 
                         <!-- Keterangan -->
@@ -114,7 +133,7 @@
                         @endif
                     </div>
                     @else
-                    <!-- State ketika belum absen -->
+                    <!-- Belum ada absensi -->
                     <div class="text-center py-4">
                         <div class="icon icon-lg text-muted mb-3">
                             <i class="material-symbols-rounded opacity-50" style="font-size: 64px">schedule</i>
@@ -128,10 +147,11 @@
                     </div>
                     @endif
                 </div>
-
             </div>
-
         </div>
+
+
+        <!--Daftar kegiatan -->
         <div class="col-12 mt-6">
             <div class="mb-3 ps-3">
                 <h6 class="mb-1">Kegiatan</h6>

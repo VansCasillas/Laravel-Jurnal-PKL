@@ -8,20 +8,19 @@
         <span class="mask  bg-gradient-dark  opacity-6"></span>
     </div>
     <div class="card card-body mx-2 mx-md-2 mt-n6">
-        <div class="row gx-3 mb-2">
+        <div class="row gx-3 mb-2 px-3">
             <div class="col-auto">
-                <!-- <div class="avatar avatar-xl position-relative">
-                    <img src="../assets/img/bruce-mars.jpg" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
-                </div> -->
+                <div class="avatar avatar-xl position-relative">
+                    <img src="{{ asset('storage/' . $profile->foto_profil) }}" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+                </div>
             </div>
-            <div class="col-auto my-4">
+            <div class="col-auto my-2">
                 <div class="h-100">
                     <h5 class="mb-1">
-                        {{ Auth::user()->name }}
+                        {{ $profile->user->name }}
                     </h5>
                     <p class="mb-0 font-weight-normal text-sm">
-                        <!-- {{ Auth::user()->siswa->kelas->kelas ?? 'Belum ada kelas' }} / -->
-                        {{ Auth::user()->siswa->kelas->kelas ?? 'Belum ada kelas' }} - {{ Auth::user()->siswa->jurusan->jurusan ?? 'Belum ada jurusan' }}
+                        {{ $profile->kelas->kelas ?? 'Belum ada kelas' }} - {{ $profile->jurusan->jurusan ?? 'Belum ada jurusan' }}
                     </p>
                 </div>
             </div>
@@ -48,31 +47,31 @@
                                     <div class="form-group">
                                         <label>Nama Lengkap</label>
                                         <div class="form-control-plaintext border-bottom pb-2 mb-2">
-                                            <strong>{{ Auth::user()->name }}</strong>
+                                            <strong>{{ $profile->user->name }}</strong>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Email</label>
                                         <div class="form-control-plaintext border-bottom pb-2 mb-2">
-                                            <strong>{{ Auth::user()->email }}</strong>
+                                            <strong>{{ $profile->user->email }}</strong>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Kelas</label>
                                         <div class="form-control-plaintext border-bottom pb-2 mb-2">
-                                            <strong>{{ Auth::user()->siswa->kelas->kelas }}</strong>
+                                            <strong>{{ $profile->kelas->kelas }}</strong>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Jurusan</label>
                                         <div class="form-control-plaintext border-bottom pb-2 mb-2">
-                                            <strong>{{ Auth::user()->siswa->jurusan->jurusan }}</strong>
+                                            <strong>{{ $profile->jurusan->jurusan }}</strong>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>NIS</label>
                                         <div class="form-control-plaintext border-bottom pb-2 mb-2">
-                                            <strong>{{ Auth::user()->siswa->nis }}</strong>
+                                            <strong>{{ $profile->nis }}</strong>
                                         </div>
                                     </div>
                                 </div>
@@ -94,15 +93,15 @@
                                 <div class="form-group">
                                     <label>Kelamin</label>
                                     <div class="form-control-plaintext border-bottom pb-2 mb-2">
-                                        <strong>{{ Auth::user()->siswa->kelamin ?? 'Belum diisi' }}</strong>
+                                        <strong>{{ $profile->kelamin ?? 'Belum diisi' }}</strong>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Tempat, tanggal lahir</label>
                                     <div class="form-control-plaintext border-bottom pb-2 mb-2">
                                         <strong>
-                                            {{ Auth::user()->siswa->tempat ?? 'Belum diisi' }},
-                                            {{ \Carbon\Carbon::parse(Auth::user()->siswa->tanggal_lahir)->format('d-m-Y') }}
+                                            {{ $profile->tempat ?? 'Belum diisi' }},
+                                            {{ $profile->tanggal_lahir ? \Carbon\Carbon::parse($profile->tanggal_lahir)->format('d-F-Y') : 'Belum diisi' }}
                                         </strong>
                                     </div>
                                 </div>
@@ -110,19 +109,19 @@
                                 <div class="form-group">
                                     <label>No Telepon</label>
                                     <div class="form-control-plaintext border-bottom pb-2 mb-2">
-                                        <strong>{{ Auth::user()->siswa->no_telpon ?? 'Belum diisi' }}</strong>
+                                        <strong>{{ $profile->no_telpon ?? 'Belum diisi' }}</strong>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Golongan darah</label>
                                     <div class="form-control-plaintext border-bottom pb-2 mb-2">
-                                        <strong>{{ Auth::user()->siswa->gol_dar ?? 'Belum diisi' }}</strong>
+                                        <strong>{{ $profile->gol_dar ?? 'Belum diisi' }}</strong>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Alamat</label>
                                     <div class="form-control-plaintext border-bottom pb-2 mb-2">
-                                        <strong>{{ Auth::user()->siswa->alamat ?? 'Belum diisi' }}</strong>
+                                        <strong>{{ $profile->alamat ?? 'Belum diisi' }}</strong>
                                     </div>
                                 </div>
                             </ul>
@@ -141,8 +140,8 @@
                                         <img src="../assets/img/kal-visuals-square.jpg" alt="kal" class="border-radius-lg shadow">
                                     </div>
                                     <div class="d-flex align-items-start flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm">{{ Auth::user()->siswa->pembimbing->name ?? 'Belum diisi' }}</h6>
-                                        <p class="mb-0 text-xs">{{ Auth::user()->siswa->pembimbing->email ?? 'Belum diisi' }}</p>
+                                        <h6 class="mb-0 text-sm">{{ $profile->pembimbing->name ?? 'Belum diisi' }}</h6>
+                                        <p class="mb-0 text-xs">{{ $profile->pembimbing->email ?? 'Belum diisi' }}</p>
                                     </div>
                                 </li>
                             </ul>
@@ -155,8 +154,8 @@
                                         <img src="../assets/img/kal-visuals-square.jpg" alt="kal" class="border-radius-lg shadow">
                                     </div>
                                     <div class="d-flex align-items-start flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm">{{ Auth::user()->siswa->dudi->pimpinan ?? 'Belum diisi' }}</h6>
-                                        <p class="mb-0 text-xs">{{ Auth::user()->siswa->dudi->kontak ?? 'Belum diisi' }}</p>
+                                        <h6 class="mb-0 text-sm">{{ $profile->dudi->pimpinan ?? 'Belum diisi' }}</h6>
+                                        <p class="mb-0 text-xs">{{ $profile->dudi->kontak ?? 'Belum diisi' }}</p>
                                     </div>
                                 </li>
                                 <li class="list-group-item border-0 d-flex align-items-center px-0 pt-0">
@@ -164,8 +163,8 @@
                                         <img src="../assets/img/kal-visuals-square.jpg" alt="kal" class="border-radius-lg shadow">
                                     </div>
                                     <div class="d-flex align-items-start flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm">{{ Auth::user()->siswa->dudi->pembimbing ?? 'Belum diisi' }}</h6>
-                                        <p class="mb-0 text-xs">{{ Auth::user()->siswa->dudi->kontak ?? 'Belum diisi' }}</p>
+                                        <h6 class="mb-0 text-sm">{{ $profile->dudi->pembimbing ?? 'Belum diisi' }}</h6>
+                                        <p class="mb-0 text-xs">{{ $profile->dudi->kontak ?? 'Belum diisi' }}</p>
                                     </div>
                                 </li>
                             </ul>
@@ -183,11 +182,11 @@
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true"> -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <form action="{{ route('siswa.profile.update', $profile->id) }}" method="POST">
+                <form action="{{ route('siswa.profile.update', $profile->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
@@ -196,45 +195,53 @@
                     </div>
 
                     <div class="modal-body">
+                        <div class="profile-pic-wrapper">
+                            <img id="previewImage"
+                                src="{{ asset('storage/' . $profile->foto_profil) }}"
+                                alt="Foto Profil"
+                                class="profile-pic">
+                            <button type="button" class="edit-btn" onclick="document.getElementById('fotoInput').click()">Edit</button>
+                            <input type="file" id="fotoInput" name="foto_profil" class="hidden-input" accept="image/*" onchange="previewImage(event)">
+                        </div>
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label">Nama Lengkap</label>
-                                <input type="text" name="name" value="{{ Auth::user()->name }}" class="form-control styled-input" required>
+                                <input type="text" name="name" value="{{ $profile->user->name }}" class="form-control styled-input" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Jenis Kelamin</label>
                                 <select name="kelamin" class="form-control styled-input">
                                     <option value="">-- Pilih Jenis kelamin --</option>
-                                    <option value="Laki-laki" {{ Auth::user()->siswa->kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                                    <option value="Perempuan" {{ Auth::user()->siswa->kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                                    <option value="Laki-laki" {{ $profile->kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                                    <option value="Perempuan" {{ $profile->kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Tempat Lahir</label>
-                                <input type="text" name="tempat" value="{{ Auth::user()->siswa->tempat }}" class="form-control styled-input" placeholder="Belum diisi">
+                                <input type="text" name="tempat" value="{{ $profile->tempat }}" class="form-control styled-input" placeholder="Belum diisi">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Tanggal Lahir</label>
-                                <input type="date" name="tanggal_lahir" value="{{ Auth::user()->siswa->tanggal_lahir }}" class="form-control styled-input">
+                                <input type="date" name="tanggal_lahir" value="{{ $profile->tanggal_lahir }}" class="form-control styled-input">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Golongan Darah</label>
-                                <input type="text" name="gol_dar" value="{{ Auth::user()->siswa->gol_dar }}" class="form-control styled-input" placeholder="Belum diisi">
+                                <input type="text" name="gol_dar" value="{{ $profile->gol_dar }}" class="form-control styled-input" placeholder="Belum diisi">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">No Telepon</label>
-                                <input type="text" name="no_telpon" value="{{ Auth::user()->siswa->no_telpon }}" class="form-control styled-input" placeholder="Belum diisi">
+                                <input type="text" name="no_telpon" value="{{ $profile->no_telpon }}" class="form-control styled-input" placeholder="Belum diisi">
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label">Alamat</label>
-                                <textarea name="alamat" class="form-control styled-input" rows="2" placeholder="Belum diisi">{{ Auth::user()->siswa->alamat }}</textarea>
+                                <textarea name="alamat" class="form-control styled-input" rows="2" placeholder="Belum diisi">{{ $profile->alamat }}</textarea>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Kelas</label>
                                 <select name="id_kelas" class="form-control styled-input">
                                     <option value="">-- Pilih Kelas --</option>
                                     @foreach ($kelas as $k)
-                                    <option value="{{ $k->id }}" {{ Auth::user()->siswa->id_kelas == $k->id ? 'selected' : '' }}>{{ $k->kelas }}</option>
+                                    <option value="{{ $k->id }}" {{ $profile->id_kelas == $k->id ? 'selected' : '' }}>{{ $k->kelas }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -243,7 +250,7 @@
                                 <select name="id_jurusan" class="form-control styled-input">
                                     <option value="">-- Pilih Jurusan --</option>
                                     @foreach ($jurusan as $j)
-                                    <option value="{{ $j->id }}" {{ Auth::user()->siswa->id_jurusan == $j->id ? 'selected' : '' }}>{{ $j->jurusan }}</option>
+                                    <option value="{{ $j->id }}" {{ $profile->id_jurusan == $j->id ? 'selected' : '' }}>{{ $j->jurusan }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -252,7 +259,7 @@
                                 <select name="id_pembimbing" class="form-control styled-input">
                                     <option value="">-- Pilih Nama Pembimbing --</option>
                                     @foreach ($pembimbing as $p)
-                                    <option value="{{ $p->id }}" {{ Auth::user()->siswa->id_pembimbing == $p->id ? 'selected' : '' }}>{{ $p->name }}</option>
+                                    <option value="{{ $p->id }}" {{ $profile->id_pembimbing == $p->id ? 'selected' : '' }}>{{ $p->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -261,7 +268,7 @@
                                 <select name="id_dudi" class="form-control styled-input">
                                     <option value="">-- Pilih Tempat PKL --</option>
                                     @foreach ($dudi as $d)
-                                    <option value="{{ $d->id }}" {{ Auth::user()->siswa->id_dudi == $d->id ? 'selected' : '' }}>{{ $d->nama_dudi }}</option>
+                                    <option value="{{ $d->id }}" {{ $profile->id_dudi == $d->id ? 'selected' : '' }}>{{ $d->nama_dudi }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -294,6 +301,44 @@
 
     label {
         margin-bottom: 6px;
+    }
+
+    .profile-pic-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1rem;
+        position: relative;
+    }
+
+    .profile-pic {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #ddd;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .edit-btn {
+        position: absolute;
+        bottom: 5px;
+        right: 150px;
+        background-color: #0d6efd;
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .edit-btn:hover {
+        background-color: #0b5ed7;
+    }
+
+    .hidden-input {
+        display: none;
     }
 </style>
 @endsection

@@ -4,6 +4,105 @@
 
 @section('content')
 
+<div class="container-fluid py-2">
+    <div class="row mb-3">
+        <div class="col-12">
+            <h3 class="h4 font-weight-bolder">Dashboard</h3>
+        </div>
+    </div>
 
+    <div class="row g-3">
+        <!-- Total Absen -->
+        <div class="col-12 col-xl-4">
+            <div class="mb-3">
+                <div class="card h-100">
+                    <div class="card-header p-2 ps-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="text-sm mb-0 text-capitalize">Total Absen</p>
+                                <h4 class="mb-0"></h4>
+                            </div>
+                            <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark text-center border-radius-lg">
+                                <i class="material-symbols-rounded opacity-10">calendar_month</i>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="dark horizontal my-0">
+                    <div class="card-footer p-2 ps-3">
+                        <p class="mb-0 text-sm">Total Semua <span><a class="text-success font-weight-bolder" href="{{ route('siswa.absensi.index') }}">Absen</a></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Kegiatan -->
+            <div>
+                <div class="card h-100">
+                    <div class="card-header p-2 ps-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="text-sm mb-0 text-capitalize">Total Kegiatan</p>
+                                <h4 class="mb-0"></h4>
+                            </div>
+                            <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark text-center border-radius-lg">
+                                <i class="material-symbols-rounded opacity-10">browse_activity</i>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="dark horizontal my-0">
+                    <div class="card-footer p-2 ps-3">
+                        <p class="mb-0 text-sm">Total Semua <span><a class="text-success font-weight-bolder" href="{{ route('siswa.kegiatan.index') }}">Kegiatan</a></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- daftar Dudi siswa yg di bimbing -->
+        <div class="col-12 col-xl-4">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="mb-3">Daftar dudi siswa yg dibimbing</h6>
+                    <ul class="list-group gap-2">
+                        @foreach ($dudiSiswa as $dudi)
+                        <li class="list-group-item border-0 d-flex align-items-center px-0 pt-0">
+                            <!-- <div class="avatar me-3">
+                                <img src="{{ $dudi->foto_profil && file_exists(storage_path('app/public/' . $dudi->foto_profil)) 
+                                ? asset('storage/' . $dudi->foto_profil) 
+                                : asset('assets/img/kal-visuals-square.jpg') }}" alt="kal" style="object-fit: cover;" class="border-radius-lg shadow">
+                            </div> -->
+                            <div class="d-flex align-items-start flex-column justify-content-center">
+                                <h6 class="mb-0 text-sm">{{ $dudi->nama_dudi ?? 'Belum diisi' }}</h6>
+                            </div>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- daftar siswa yg di bimbing -->
+        <div class="col-12 col-xl-4">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="mb-3">Daftar siswa yg dibimbing</h6>
+                    <ul class="list-group gap-2">
+                        @foreach ($siswaDibimbing as $bimbing)
+                        <li class="list-group-item border-0 d-flex align-items-center px-0 pt-0">
+                            <div class="avatar me-3">
+                                <img src="{{ $bimbing->foto_profil && file_exists(storage_path('app/public/' . $bimbing->foto_profil)) 
+                                ? asset('storage/' . $bimbing->foto_profil) 
+                                : asset('assets/img/kal-visuals-square.jpg') }}" alt="kal" style="object-fit: cover;" class="border-radius-lg shadow">
+                            </div>
+                            <div class="d-flex align-items-start flex-column justify-content-center">
+                                <h6 class="mb-0 text-sm">{{ $bimbing->user->name ?? 'Belum diisi' }}</h6>
+                                <p class="mb-0 text-xs">{{ $bimbing->kelas->kelas ?? 'Belum ada kelas' }} - {{ $bimbing->jurusan->jurusan ?? 'Belum ada jurusan' }}</p>
+                            </div>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection

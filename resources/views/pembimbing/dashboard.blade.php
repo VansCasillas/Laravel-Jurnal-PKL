@@ -56,29 +56,6 @@
             </div>
         </div>
 
-        <!-- daftar Dudi siswa yg di bimbing -->
-        <div class="col-12 col-xl-4">
-            <div class="card">
-                <div class="card-body">
-                    <h6 class="mb-3">Daftar dudi siswa yg dibimbing</h6>
-                    <ul class="list-group gap-2">
-                        @foreach ($dudiSiswa as $dudi)
-                        <li class="list-group-item border-0 d-flex align-items-center px-0 pt-0">
-                            <!-- <div class="avatar me-3">
-                                <img src="{{ $dudi->foto_profil && file_exists(storage_path('app/public/' . $dudi->foto_profil)) 
-                                ? asset('storage/' . $dudi->foto_profil) 
-                                : asset('assets/img/kal-visuals-square.jpg') }}" alt="kal" style="object-fit: cover;" class="border-radius-lg shadow">
-                            </div> -->
-                            <div class="d-flex align-items-start flex-column justify-content-center">
-                                <h6 class="mb-0 text-sm">{{ $dudi->nama_dudi ?? 'Belum diisi' }}</h6>
-                            </div>
-                        </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </div>
-
         <!-- daftar siswa yg di bimbing -->
         <div class="col-12 col-xl-4">
             <div class="card">
@@ -95,6 +72,30 @@
                             <div class="d-flex align-items-start flex-column justify-content-center">
                                 <h6 class="mb-0 text-sm">{{ $bimbing->user->name ?? 'Belum diisi' }}</h6>
                                 <p class="mb-0 text-xs">{{ $bimbing->kelas->kelas ?? 'Belum ada kelas' }} - {{ $bimbing->jurusan->jurusan ?? 'Belum ada jurusan' }}</p>
+                            </div>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- daftar Dudi siswa yg di bimbing -->
+        <div class="col-12 col-xl-4">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="mb-3">Daftar tempat dudi siswa</h6>
+                    <ul class="list-group gap-2">
+                        @foreach ($dudiSiswa as $dudi)
+                        <li class="list-group-item border-0 d-flex align-items-center px-0 pt-0">
+                            <!-- <div class="avatar me-3">
+                                <img src="{{ $dudi->foto_profil && file_exists(storage_path('app/public/' . $dudi->foto_profil)) 
+                                ? asset('storage/' . $dudi->foto_profil) 
+                                : asset('assets/img/kal-visuals-square.jpg') }}" alt="kal" style="object-fit: cover;" class="border-radius-lg shadow">
+                            </div> -->
+                            <div class="d-flex align-items-start flex-column justify-content-center">
+                                <h6 class="mb-0 text-sm">{{ $dudi->nama_dudi ?? 'Belum diisi' }}</h6>
+                                <p class="mb-0 text-xs">{{ $dudi->alamat ?? 'Belum ada kelas' }}</p>
                             </div>
                         </li>
                         @endforeach

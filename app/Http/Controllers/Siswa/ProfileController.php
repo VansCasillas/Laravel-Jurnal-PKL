@@ -11,6 +11,7 @@ use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
@@ -57,7 +58,7 @@ class ProfileController extends Controller
         //
     }
 
-    /**
+    /**         
      * Show the form for editing the specified resource.
      */
     public function edit($id)
@@ -78,13 +79,14 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $user = Auth::user();
         $siswa = $user->siswa;
 
         $request->validate([
             'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
             'foto_profil' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'kelamin' => 'nullable|string',
             'tempat' => 'nullable|string',
@@ -92,10 +94,6 @@ class ProfileController extends Controller
             'gol_dar' => 'nullable|string',
             'alamat' => 'nullable|string',
             'no_telpon' => 'nullable|string',
-            'id_kelas' => 'required|integer',
-            'id_jurusan' => 'required|integer',
-            'id_pembimbing' => 'required|integer',
-            'id_dudi' => 'required|integer',
         ]);
 
         $path = $siswa->foto_profil; // simpan path lama dulu
@@ -110,8 +108,16 @@ class ProfileController extends Controller
             $path = $request->file('foto_profil')->store('foto_profil', 'public');
         }
 
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
         // update nama di tabel users
-        $user->update(['name' => $request->name]);
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $user->password,
+        ]);
 
         // update data siswa
         $siswa->update([
@@ -123,10 +129,6 @@ class ProfileController extends Controller
             'gol_dar' => $request->gol_dar,
             'alamat' => $request->alamat,
             'no_telpon' => $request->no_telpon,
-            'id_kelas' => $request->id_kelas,
-            'id_jurusan' => $request->id_jurusan,
-            'id_pembimbing' => $request->id_pembimbing,
-            'id_dudi' => $request->id_dudi,
         ]);
 
         return back()->with('success', 'Profil berhasil diperbarui!');

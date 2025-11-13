@@ -233,44 +233,17 @@
                                 <input type="text" name="no_telpon" value="{{ $profile->no_telpon }}" class="form-control styled-input" placeholder="Belum diisi">
                             </div>
                             <div class="col-md-12">
+                                <label class="form-label">Email</label>
+                                <input name="email" type="email" class="form-control styled-input" rows="2" placeholder="Belum diisi" value="{{ $profile->user->email }}">
+                                @error('email') <small class="text-danger">{{ $message }}</small> @enderror
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">Password</label>
+                                <input name="password" type="password" class="form-control styled-input" rows="2" placeholder="">
+                            </div>
+                            <div class="col-md-12">
                                 <label class="form-label">Alamat</label>
                                 <textarea name="alamat" class="form-control styled-input" rows="2" placeholder="Belum diisi">{{ $profile->alamat }}</textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Kelas</label>
-                                <select name="id_kelas" class="form-control styled-input">
-                                    <option value="">-- Pilih Kelas --</option>
-                                    @foreach ($kelas as $k)
-                                    <option value="{{ $k->id }}" {{ $profile->id_kelas == $k->id ? 'selected' : '' }}>{{ $k->kelas }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Jurusan</label>
-                                <select name="id_jurusan" class="form-control styled-input">
-                                    <option value="">-- Pilih Jurusan --</option>
-                                    @foreach ($jurusan as $j)
-                                    <option value="{{ $j->id }}" {{ $profile->id_jurusan == $j->id ? 'selected' : '' }}>{{ $j->jurusan }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Pembimbing</label>
-                                <select name="id_pembimbing" class="form-control styled-input">
-                                    <option value="">-- Pilih Nama Pembimbing --</option>
-                                    @foreach ($pembimbing as $p)
-                                    <option value="{{ $p->id }}" {{ $profile->id_pembimbing == $p->id ? 'selected' : '' }}>{{ $p->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">DUDI</label>
-                                <select name="id_dudi" class="form-control styled-input">
-                                    <option value="">-- Pilih Tempat PKL --</option>
-                                    @foreach ($dudi as $d)
-                                    <option value="{{ $d->id }}" {{ $profile->id_dudi == $d->id ? 'selected' : '' }}>{{ $d->nama_dudi }}</option>
-                                    @endforeach
-                                </select>
                             </div>
                         </div>
                     </div>

@@ -38,43 +38,43 @@
                             <td class="text-center d-flex align-middle gap-2">
                                 <a style="position: relative; top: 7px;" href="{{ route('pembimbing.detail', $k->id) }}" class="btn btn-info">detail</a>
                                 <!-- Button trigger modal -->
-                                <button style="position: relative; top: 7px;" href="{{ route('pembimbing.komentar', $k->id) }}" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                <button style="position: relative; top: 7px;" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{ $k->id }}">
                                     Tambah Komentar
                                 </button>
                             </td>
                         </tr>
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop{{ $k->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <form action="{{ route('pembimbing.komentar', $k->id) }}" method="POST">
+                                            @csrf
+
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editProfileLabel">Tambahkan Catatan</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <div class="row g-3">
+                                                    <label class="form-label">Catatan</label>
+                                                    <textarea type="text" name="catatan_pembimbing" class="form-control styled-input" required rows="5"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         @endforeach
                     </tbody>
                 </table>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true"> -->
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <form action="{{ route('pembimbing.komentar', $k->id) }}" method="POST">
-                    @csrf
-
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editProfileLabel">Tambahkan Catatan</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-
-                    <div class="modal-body">
-                        <div class="row g-3">
-                                <label class="form-label">Catatan</label>
-                                <textarea type="text" name="catatan_pembimbing" class="form-control styled-input" required rows="5"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

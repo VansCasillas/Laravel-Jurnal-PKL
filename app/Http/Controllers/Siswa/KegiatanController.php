@@ -18,21 +18,6 @@ class KegiatanController extends Controller
         return view('admin.kegiatans.kegiatan', compact('kegiatan'));
     }
 
-    public function kegiatanPembimbing(Request $request)
-    {
-        $user = auth()->user(); // ambil data user yang sedang login
-
-        if ($user->role === 'pembimbing') {
-            // Pembimbing hanya bisa lihat kegiatan siswa bimbingannya
-            $kegiatan = Kegiatan::with('siswa')
-                ->whereHas('siswa', function ($query) use ($user) {
-                    $query->where('id_pembimbing', $user->id); // sesuaikan kolom relasi di tabel siswa
-                })
-                ->get();
-        }
-        return view('pembimbing.kegiatans.kegiatan', compact('kegiatan'));
-    }
-
     /**
      * Display a listing of the resource.
      */
@@ -134,13 +119,11 @@ class KegiatanController extends Controller
         return view('siswa.kegiatans.show', compact('kegiatan', 'siswa'));
     }
 
-    public function detail(string $id)
+    public function detail(string $id, $id_kegiatan)
     {
-        $user = auth()->user();
-        $siswa = $user->siswa;
-        $kegiatan = Kegiatan::findOrFail($id);
+        $kegiatan = Kegiatan::findOrFail($id_kegiatan);
 
-        return view('pembimbing.kegiatans.detail', compact('kegiatan', 'siswa'));
+        return view('pembimbing.siswas.detail', compact('kegiatan', 'id'));
     }
 
     /**
@@ -165,7 +148,7 @@ class KegiatanController extends Controller
         
         $kegiatan->update($data);
 
-        return redirect()->route('pembimbing.kegiatan')->with('success', 'Catatan berhasil ditambahkan.');
+        return redirect()->back()->with('success', 'Catatan berhasil ditambahkan.');
     }
 
     /**

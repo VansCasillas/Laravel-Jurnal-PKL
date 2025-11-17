@@ -120,7 +120,7 @@
         </div>
     </div>
     <div class="mt-3">
-        <a href="{{ route('pembimbing.kegiatan') }}" class="btn btn-info" >Kembali</a>
+        <a href="{{ route('pembimbing.siswa.kegiatan', $id) }}" class="btn btn-info" >Kembali</a>
     </div>
 </div>
 @endsection

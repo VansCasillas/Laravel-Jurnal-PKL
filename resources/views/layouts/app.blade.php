@@ -129,6 +129,14 @@
                         <span class="nav-link-text ms-1">Lihat Absensi Siswa</span>
                     </a>
                 </li>
+                
+                <li class="nav-item">
+                    <a href="{{ route('admin.absensi') }}"
+                        class="nav-link text-dark {{ request()->routeIs('admin.absensi*') ? 'active bg-gradient-dark text-white' : '' }}">
+                        <i class="material-symbols-rounded opacity-5">calendar_check</i>
+                        <span class="nav-link-text ms-1">Penilaian Siswa</span>
+                    </a>
+                </li>
                 @endif
 
                 <!-- Dashboard Siswa(only) -->
@@ -161,18 +169,10 @@
                 <!-- Dashboard Pembimbing(only) -->
                 @if (Auth::user() && Auth::user()->role === 'pembimbing')
                 <li class="nav-item">
-                    <a href="{{ route('pembimbing.kegiatan') }}"
-                        class="nav-link text-dark {{ request()->routeIs('pembimbing.kegiatan') ? 'active bg-gradient-dark text-white' : '' }}">
-                        <i class="material-symbols-rounded opacity-5">browse_activity</i>
-                        <span class="nav-link-text ms-1">Lihat kegiatan Siswa</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a href="{{ route('pembimbing.absensi') }}"
-                        class="nav-link text-dark {{ request()->routeIs('pembimbing.absensi') ? 'active bg-gradient-dark text-white' : '' }}">
-                        <i class="material-symbols-rounded opacity-5">calendar_check</i>
-                        <span class="nav-link-text ms-1">Lihat Absensi Siswa</span>
+                    <a href="{{ route('pembimbing.siswa.index') }}"
+                        class="nav-link text-dark {{ request()->routeIs('pembimbing.siswa.*') ? 'active bg-gradient-dark text-white' : '' }}">
+                        <i class="material-symbols-rounded opacity-5">group</i>
+                        <span class="nav-link-text ms-1">Kelola Siswa</span>
                     </a>
                 </li>
                 @endif

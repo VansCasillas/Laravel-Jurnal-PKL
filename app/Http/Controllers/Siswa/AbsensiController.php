@@ -16,13 +16,6 @@ class AbsensiController extends Controller
         return view('admin.absensis.absensi', compact('absensi'));
     }
 
-    public function absensiPembimbing(Request $request)
-    {
-        $absensi = Absensi::with('siswa')->get();
-        return view('pembimbing.absensis.absensi', compact('absensi'));
-    }
-
-
     /**
      * Display a listing of the resource.
      */

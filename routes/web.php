@@ -59,11 +59,10 @@ Route::prefix('pembimbing')->name('pembimbing.')->group(function () {
     Route::middleware(['auth', 'role:pembimbing'])->group(function () {
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-        Route::get('/kegiatan', [KegiatanController::class, 'kegiatanPembimbing'])->name('kegiatan');
-        Route::get('/absensi', [AbsensiController::class, 'absensiPembimbing'])->name('absensi');
-
-        route::get('/kegiatan/detail/{id}', [KegiatanController::class, 'detail'])->name('detail');
-        route::post('/kegiatan/komentar/{id}', [KegiatanController::class, 'komentar'])->name('komentar');
+        Route::get('/siswa', [PembimbingController::class, 'siswaP'])->name('siswa.index');
+        Route::get('/siswa/absen/{id}', [PembimbingController::class, 'siswaAbsenP'])->name('siswa.absen');
+        Route::get('/siswa/kegiatan/{id}', [PembimbingController::class, 'siswaKegiatanP'])->name('siswa.kegiatan');
+        route::post('siswa/kegiatan/komentar/{id}', [KegiatanController::class, 'komentar'])->name('siswa.kegiatan.komentar');
+        route::get('siswa/kegiatan/{id}/detail/{id_kegiatan}', [KegiatanController::class, 'detail'])->name('siswa.kegiatan.detail');
     });
 });

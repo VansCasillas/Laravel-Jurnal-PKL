@@ -32,10 +32,12 @@ class DashboardController extends Controller
             return view('admin.dashboard', compact('user', 'totalSiswa', 'totalPembimbing', 'jurusan', 'dudi'));
         } else if ($user->role === 'pembimbing') {
 
+            $totalSiswaP = Siswa::where('id_pembimbing', Auth::user()->id)->count();
+            
             $siswaDibimbing = Siswa::where('id_pembimbing', Auth::user()->id)->get();
             $dudiSiswa = $siswaDibimbing->pluck('dudi')->unique('id');
 
-            return view('pembimbing.dashboard', compact('user','siswaDibimbing','dudiSiswa'));
+            return view('pembimbing.dashboard', compact('user','siswaDibimbing','dudiSiswa','totalSiswaP'));
         } else if ($user->role === 'siswa') {
 
             $siswa = Auth::user()->siswa;

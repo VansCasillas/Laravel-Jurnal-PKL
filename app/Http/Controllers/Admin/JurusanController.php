@@ -26,7 +26,7 @@ class JurusanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'jurusan' => 'required|string|max:255',
+            'jurusan' => 'required|string|unique:jurusans,jurusan,'
         ]);
 
         Jurusan::create([
@@ -44,7 +44,7 @@ class JurusanController extends Controller
     public function update(Request $request, Jurusan $jurusan)
     {
         $request->validate([
-            'jurusan' => 'required|string|max:255',
+            'jurusan' => 'required|string|unique:jurusans,jurusan,' . $jurusan->id,
         ]);
 
         $data = [

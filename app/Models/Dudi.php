@@ -20,5 +20,9 @@ class Dudi extends Model
 
     public function siswa() {
         return $this->hasMany(Siswa::class, 'id_users');
-    } 
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class, 'pembimbing');
+    }
 }

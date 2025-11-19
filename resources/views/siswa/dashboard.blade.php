@@ -57,7 +57,7 @@
 
         <!-- Absensi Hari Ini -->
         <div class="col-xl-6 col-sm-6">
-            <div class="card h-100 shadow-sm">
+            <div class="card h-100">
                 <div class="card-header bg-gradient-dark text-white d-flex justify-content-between align-items-center py-3">
                     <div class="d-flex align-items-center">
                         <i class="material-symbols-rounded me-2">calendar_check</i>
@@ -162,8 +162,11 @@
                 <div class="card shadow-xl col-xl-3 col-md-6 mb-xl-0 mb-4">
                     <div class="card card-blog card-plain">
                         <div class="card-header p-0 m-2">
-                            <a class="d-block shadow-xl border-radius-xl">
-                                <img src="{{ asset('storage/' . $k->dokumentasi) }}" alt="Dokumentasi" class="img-fluid shadow border-radius-lg">
+                            <a class="d-block shadow-xl border-radius-xl align-content-center">
+                                <img src="{{ asset('storage/' . $k->dokumentasi) }}"
+                                    alt="Dokumentasi"
+                                    style="width:100%; height:200px; object-fit:cover;"
+                                    class="img-fluid shadow border-radius-lg">
                             </a>
                         </div>
                         <div class="card-body p-3">

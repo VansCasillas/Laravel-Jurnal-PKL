@@ -21,7 +21,16 @@ class AbsensiController extends Controller
      */
     public function index()
     {
-        $siswa = Auth::user()->siswa;
+        $user = auth()->user();
+        $siswa = $user->siswa;
+
+        if(!$siswa){
+            $absensi = collect();
+
+            return view("siswa.absensis.index", [
+            'absensi' => $absensi
+        ]);
+        }
 
         $absensi = Absensi::where('id_siswa', $siswa->id)
             ->select('id','tanggal_absen', 'status', 'jam_mulai', 'jam_selesai', 'keterangan')

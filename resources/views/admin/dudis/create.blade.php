@@ -31,7 +31,12 @@
         </div>
         <div class="mb-3">
             <label for="pembimbing" class="form-label fw-semibold text-dark">Pembimbing</label>
-            <input type="text" id="pembimbing" name="pembimbing" class="form-control styled-input" value="{{ old('pembimbing') }}">
+            <select type="text" id="pembimbing" name="pembimbing" class="form-control styled-input">
+                <option value="">--Pilih Pembimbing Dudi</option>
+                @foreach ($pembimbings as $p )
+                    <option value="{{ $p->id }}">{{ $p->name }}</option>
+                @endforeach
+            </select>
             @error('pembimbing') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
         <div class="mb-3">

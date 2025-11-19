@@ -23,6 +23,8 @@ class RedirectIfAuthenticated
                 return redirect()->route('admin.dashboard');
             } elseif ($user->role === 'pembimbing') {
                 return redirect()->route('pembimbing.dashboard');
+            } elseif ($user->role === 'pembimbingDudi') {
+                return redirect()->route('pembimbingDudi.dashboard');
             } elseif ($user->role === 'siswa') {
                 return redirect()->route('siswa.dashboard');
             }

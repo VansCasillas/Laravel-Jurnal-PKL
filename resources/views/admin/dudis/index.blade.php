@@ -38,7 +38,7 @@
                             <td class="text-center align-middle text-sm">{{ $dudi->jenis_usaha }}</td>
                             <td class="text-center align-middle text-sm">{{ $dudi->alamat }}</td>
                             <td class="text-center align-middle text-sm">{{ $dudi->pimpinan }}</td>
-                            <td class="text-center align-middle text-sm">{{ $dudi->pembimbing }}</td>
+                            <td class="text-center align-middle text-sm">{{ $dudi->user->name }}</td>
                             <td class="text-center align-middle text-sm">{{ $dudi->kontak }}</td>
                             <td class="text-center align-middle">
                                 <div class="d-flex justify-content-center gap-2">

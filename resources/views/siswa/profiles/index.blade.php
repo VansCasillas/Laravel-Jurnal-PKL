@@ -11,16 +11,18 @@
         <div class="row gx-3 mb-2 px-3">
             <div class="col-auto">
                 <div class="avatar avatar-xl position-relative">
-                    <img src="{{ asset('storage/' . $profile->foto_profil) }}" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+                    <img src="{{ optional($profile)->foto_profil && file_exists(storage_path('app/public/' . $profile->foto_profil)) 
+                                ? asset('storage/' . $profile->foto_profil) 
+                                : asset('assets/img/kal-visuals-square.jpg') }}" alt="kal" style="object-fit: cover;" class="border-radius-lg shadow">
                 </div>
             </div>
             <div class="col-auto my-2">
                 <div class="h-100">
                     <h5 class="mb-1">
-                        {{ $profile->user->name }}
+                        {{ optional(optional($profile)->user)->name ?? 'belum diisi' }}
                     </h5>
                     <p class="mb-0 font-weight-normal text-sm">
-                        {{ $profile->kelas->kelas ?? 'Belum ada kelas' }} - {{ $profile->jurusan->jurusan ?? 'Belum ada jurusan' }}
+                        {{ optional(optional($profile)->kelas)->kelas ?? 'Belum ada kelas' }} - {{ optional(optional($profile)->jurusan)->jurusan ?? 'Belum ada jurusan' }}
                     </p>
                 </div>
             </div>
@@ -47,31 +49,31 @@
                                     <div class="form-group">
                                         <label>Nama Lengkap</label>
                                         <div class="form-control-plaintext border-bottom pb-2 mb-2">
-                                            <strong>{{ $profile->user->name }}</strong>
+                                            <strong>{{ optional(optional($profile)->user)->name ?? 'belum diisi' }}</strong>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Email</label>
                                         <div class="form-control-plaintext border-bottom pb-2 mb-2">
-                                            <strong>{{ $profile->user->email }}</strong>
+                                            <strong>{{ optional(optional($profile)->user)->email ?? 'belum diisi' }}</strong>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Kelas</label>
                                         <div class="form-control-plaintext border-bottom pb-2 mb-2">
-                                            <strong>{{ $profile->kelas->kelas }}</strong>
+                                            <strong>{{ $profile->kelas->kelas ?? 'belum kelas' }}</strong>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Jurusan</label>
                                         <div class="form-control-plaintext border-bottom pb-2 mb-2">
-                                            <strong>{{ $profile->jurusan->jurusan }}</strong>
+                                            <strong>{{ $profile->jurusan->jurusan ?? 'belum ada jurusan' }}</strong>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>NIS</label>
                                         <div class="form-control-plaintext border-bottom pb-2 mb-2">
-                                            <strong>{{ $profile->nis }}</strong>
+                                            <strong>{{ optional($profile)->nis ?? 'belum diisi' }}</strong>
                                         </div>
                                     </div>
                                 </div>
@@ -93,15 +95,15 @@
                                 <div class="form-group">
                                     <label>Kelamin</label>
                                     <div class="form-control-plaintext border-bottom pb-2 mb-2">
-                                        <strong>{{ $profile->kelamin ?? 'Belum diisi' }}</strong>
+                                        <strong>{{ optional($profile)->kelamin ?? 'Belum diisi' }}</strong>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Tempat, tanggal lahir</label>
                                     <div class="form-control-plaintext border-bottom pb-2 mb-2">
                                         <strong>
-                                            {{ $profile->tempat ?? 'Belum diisi' }},
-                                            {{ $profile->tanggal_lahir ? \Carbon\Carbon::parse($profile->tanggal_lahir)->format('d-F-Y') : 'Belum diisi' }}
+                                            {{ optional($profile)->tempat ?? '--' }},
+                                            {{ optional($profile)->tanggal_lahir ? \Carbon\Carbon::parse(optional($profile)->tanggal_lahir)->format('d-F-Y') : '--' }}
                                         </strong>
                                     </div>
                                 </div>
@@ -109,19 +111,19 @@
                                 <div class="form-group">
                                     <label>No Telepon</label>
                                     <div class="form-control-plaintext border-bottom pb-2 mb-2">
-                                        <strong>{{ $profile->no_telpon ?? 'Belum diisi' }}</strong>
+                                        <strong>{{ optional($profile)->no_telpon ?? 'Belum diisi' }}</strong>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Golongan darah</label>
                                     <div class="form-control-plaintext border-bottom pb-2 mb-2">
-                                        <strong>{{ $profile->gol_dar ?? 'Belum diisi' }}</strong>
+                                        <strong>{{ optional($profile)->gol_dar ?? 'Belum diisi' }}</strong>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Alamat</label>
                                     <div class="form-control-plaintext border-bottom pb-2 mb-2">
-                                        <strong>{{ $profile->alamat ?? 'Belum diisi' }}</strong>
+                                        <strong>{{ optional($profile)->alamat ?? 'Belum diisi' }}</strong>
                                     </div>
                                 </div>
                             </ul>
@@ -186,7 +188,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <form action="{{ route('siswa.profile.update', $profile->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('siswa.profile.update', optional($profile)->id ?? 0) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
@@ -197,7 +199,9 @@
                     <div class="modal-body">
                         <div class="profile-pic-wrapper">
                             <img id="previewImage"
-                                src="{{ asset('storage/' . $profile->foto_profil) }}"
+                                src="{{ optional($profile)->foto_profil && file_exists(storage_path('app/public/' . $profile->foto_profil)) 
+                                ? asset('storage/' . $profile->foto_profil) 
+                                : asset('assets/img/kal-visuals-square.jpg') }}"
                                 alt="Foto Profil"
                                 class="profile-pic">
                             <button type="button" class="edit-btn" onclick="document.getElementById('fotoInput').click()">Edit</button>
@@ -206,35 +210,35 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label">Nama Lengkap</label>
-                                <input type="text" name="name" value="{{ $profile->user->name }}" class="form-control styled-input" required>
+                                <input type="text" name="name" value="{{ optional(optional($profile)->user)->name }}" class="form-control styled-input" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Jenis Kelamin</label>
                                 <select name="kelamin" class="form-control styled-input">
                                     <option value="">-- Pilih Jenis kelamin --</option>
-                                    <option value="Laki-laki" {{ $profile->kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                                    <option value="Perempuan" {{ $profile->kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                                    <option value="Laki-laki" {{ optional($profile)->kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                                    <option value="Perempuan" {{ optional($profile)->kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Tempat Lahir</label>
-                                <input type="text" name="tempat" value="{{ $profile->tempat }}" class="form-control styled-input" placeholder="Belum diisi">
+                                <input type="text" name="tempat" value="{{ optional($profile)->tempat }}" class="form-control styled-input" placeholder="Belum diisi">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Tanggal Lahir</label>
-                                <input type="date" name="tanggal_lahir" value="{{ $profile->tanggal_lahir }}" class="form-control styled-input">
+                                <input type="date" name="tanggal_lahir" value="{{ optional($profile)->tanggal_lahir }}" class="form-control styled-input">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Golongan Darah</label>
-                                <input type="text" name="gol_dar" value="{{ $profile->gol_dar }}" class="form-control styled-input" placeholder="Belum diisi">
+                                <input type="text" name="gol_dar" value="{{ optional($profile)->gol_dar }}" class="form-control styled-input" placeholder="Belum diisi">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">No Telepon</label>
-                                <input type="text" name="no_telpon" value="{{ $profile->no_telpon }}" class="form-control styled-input" placeholder="Belum diisi">
+                                <input type="text" name="no_telpon" value="{{ optional($profile)->no_telpon }}" class="form-control styled-input" placeholder="Belum diisi">
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label">Email</label>
-                                <input name="email" type="email" class="form-control styled-input" rows="2" placeholder="Belum diisi" value="{{ $profile->user->email }}">
+                                <input name="email" type="email" class="form-control styled-input" rows="2" placeholder="Belum diisi" value="{{ optional(optional($profile)->user)->email }}">
                                 @error('email') <small class="text-danger">{{ $message }}</small> @enderror
                             </div>
                             <div class="col-md-12">
@@ -243,7 +247,7 @@
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label">Alamat</label>
-                                <textarea name="alamat" class="form-control styled-input" rows="2" placeholder="Belum diisi">{{ $profile->alamat }}</textarea>
+                                <textarea name="alamat" class="form-control styled-input" rows="2" placeholder="Belum diisi">{{ optional($profile)->alamat }}</textarea>
                             </div>
                         </div>
                     </div>

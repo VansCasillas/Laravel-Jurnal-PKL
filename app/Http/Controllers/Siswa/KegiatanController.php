@@ -145,7 +145,7 @@ class KegiatanController extends Controller
         }
 
         $data = $request->only(['catatan_pembimbing']);
-        
+
         $kegiatan->update($data);
 
         return redirect()->back()->with('success', 'Catatan berhasil ditambahkan.');

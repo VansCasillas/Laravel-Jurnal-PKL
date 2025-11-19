@@ -4,9 +4,11 @@ use App\Http\Controllers\Admin\DudiController;
 use App\Http\Controllers\Admin\JurusanController;
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\PembimbingController;
+use App\Http\Controllers\Admin\PenilaianController as AdminPenilaianController;
 use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\Siswa\AbsensiController;
 use App\Http\Controllers\Siswa\KegiatanController;
 use App\Http\Controllers\Siswa\ProfileController;
@@ -33,9 +35,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('siswa', SiswaController::class);
         Route::resource('pembimbing', PembimbingController::class);
-        Route::resource('kelas', KelasController::class);
+        Route::resource('kelas', KelasController::class)->parameters(['kelas' => 'kelas']);
         Route::resource('jurusan', JurusanController::class);
         Route::resource('dudi', DudiController::class);
+        Route::resource('penilaian', AdminPenilaianController::class);
 
         Route::get('/kegiatan', [KegiatanController::class, 'kegiatanAdmin'])->name('kegiatan');
         Route::get('/absensi', [AbsensiController::class, 'absensiAdmin'])->name('absensi');
@@ -55,6 +58,7 @@ Route::prefix('siswa')->name('siswa.')->group(function () {
     });
 });
 
+//Crud user (pembimbing only)
 Route::prefix('pembimbing')->name('pembimbing.')->group(function () {
     Route::middleware(['auth', 'role:pembimbing'])->group(function () {
 
@@ -64,5 +68,16 @@ Route::prefix('pembimbing')->name('pembimbing.')->group(function () {
         Route::get('/siswa/kegiatan/{id}', [PembimbingController::class, 'siswaKegiatanP'])->name('siswa.kegiatan');
         route::post('siswa/kegiatan/komentar/{id}', [KegiatanController::class, 'komentar'])->name('siswa.kegiatan.komentar');
         route::get('siswa/kegiatan/{id}/detail/{id_kegiatan}', [KegiatanController::class, 'detail'])->name('siswa.kegiatan.detail');
+    });
+});
+
+//Crud user (pembimbing Dudi only)
+Route::prefix('pembimbingDudi')->name('pembimbingDudi.')->group(function () {
+    Route::middleware(['auth', 'role:pembimbingDudi'])->group(function () {
+
+        Route::get('/dashboard', [DashboardController::class, 'pembimbingdudi'])->name('dashboard');
+        Route::get('/penilaian', [PenilaianController::class, 'index'])->name('penilaian.index');
+        Route::get('/penilaian/form/', [PenilaianController::class, 'form'])->name('penilaian.form');
+        Route::post('/penilaian/save/', [PenilaianController::class, 'save'])->name('penilaian.save');
     });
 });

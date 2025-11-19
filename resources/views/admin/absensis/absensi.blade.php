@@ -19,6 +19,8 @@
                         <tr>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">no</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Siswa</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jurusan</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Dudi</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jam_mulai</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jam_selesai</th>
@@ -31,6 +33,8 @@
                         <tr>
                             <td class="text-center align-middle text-sm">{{ $loop->iteration }}</td>
                             <td class="text-center align-middle text-sm">{{ $a->siswa->user->name }}</td>
+                            <td class="text-center align-middle text-sm">{{ $a->siswa->jurusan->jurusan }}</td>
+                            <td class="text-center align-middle text-sm">{{ $a->siswa->dudi->nama_dudi }}</td>
                             <td class="text-center align-middle text-sm">{{ \Carbon\Carbon::parse($a->tanggal_absen)->translatedFormat('d F Y') }}</td>
                             <td class="text-center align-middle text-sm">{{ $a->jam_mulai ? \Carbon\Carbon::parse($a->jam_mulai)->translatedFormat('H:i') : '--//--' }}</td>
                             <td class="text-center align-middle text-sm">{{ $a->jam_selesai ? \Carbon\Carbon::parse($a->jam_selesai)->translatedFormat('H:i') : '--//--' }}</td>

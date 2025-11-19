@@ -33,29 +33,42 @@ class DashboardController extends Controller
         } else if ($user->role === 'pembimbing') {
 
             $totalSiswaP = Siswa::where('id_pembimbing', Auth::user()->id)->count();
-            
+
             $siswaDibimbing = Siswa::where('id_pembimbing', Auth::user()->id)->get();
             $dudiSiswa = $siswaDibimbing->pluck('dudi')->unique('id');
 
-            return view('pembimbing.dashboard', compact('user','siswaDibimbing','dudiSiswa','totalSiswaP'));
+            return view('pembimbing.dashboard', compact('user', 'siswaDibimbing', 'dudiSiswa', 'totalSiswaP'));
         } else if ($user->role === 'siswa') {
 
             $siswa = Auth::user()->siswa;
             $today = Carbon::today()->toDateString();
 
+            if (!$siswa) {
+
+                $absensiHariIni = null;
+                $totalKegiatan = null;
+                $totalAbsen = null;
+                $kegiatans = collect();
+
+                return view('siswa.dashboard', compact('totalAbsen', 'totalKegiatan', 'absensiHariIni', 'kegiatans'));
+            }
+
             $absensiHariIni = Absensi::where('id_siswa', $siswa->id)
                 ->whereDate('tanggal_absen', $today)
                 ->first();
-
             // Total Absen & kegiatan
             $totalKegiatan = Kegiatan::where('id_siswa', Auth::user()->siswa->id)->count();
             $totalAbsen = Absensi::where('id_siswa', Auth::user()->siswa->id)->count();
-            $kegiatans = Kegiatan::where('id_siswa',Auth::user()->siswa->id)->take(6)->orderBy('id','desc')->get();
+            $kegiatans = Kegiatan::where('id_siswa', Auth::user()->siswa->id)->take(6)->orderBy('id', 'desc')->get();
 
-            return view('siswa.dashboard', compact('totalAbsen', 'totalKegiatan','absensiHariIni','kegiatans'));
+            return view('siswa.dashboard', compact('totalAbsen', 'totalKegiatan', 'absensiHariIni', 'kegiatans'));
         } else {
             abort(403, 'Role pengguna tidak diketahui');
         }
+    }
+
+    public function pembimbingDudi() {
+        return view('pembimbingDudi.dashboard');
     }
 
     /**

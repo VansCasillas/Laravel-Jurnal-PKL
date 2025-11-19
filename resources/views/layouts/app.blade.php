@@ -51,6 +51,12 @@
                         <i class="material-symbols-rounded opacity-5">dashboard</i>
                         <span class="nav-link-text ms-1">Dashboard</span>
                     </a>
+                    @elseif(auth()->user()->role === 'pembimbingDudi')
+                    <a class="nav-link text-dark {{ request()->routeIs('pembimbingDudi.dashboard') ? 'active bg-gradient-dark text-white' : '' }}"
+                        href="{{ route('pembimbingDudi.dashboard') }}">
+                        <i class="material-symbols-rounded opacity-5">dashboard</i>
+                        <span class="nav-link-text ms-1">Dashboard</span>
+                    </a>
                     @elseif(auth()->user()->role === 'siswa')
                     <a class="nav-link text-dark {{ request()->routeIs('siswa.dashboard') ? 'active bg-gradient-dark text-white' : '' }}"
                         href="{{ route('siswa.dashboard') }}">
@@ -129,12 +135,12 @@
                         <span class="nav-link-text ms-1">Lihat Absensi Siswa</span>
                     </a>
                 </li>
-                
+
                 <li class="nav-item">
-                    <a href="{{ route('admin.absensi') }}"
-                        class="nav-link text-dark {{ request()->routeIs('admin.absensi*') ? 'active bg-gradient-dark text-white' : '' }}">
-                        <i class="material-symbols-rounded opacity-5">calendar_check</i>
-                        <span class="nav-link-text ms-1">Penilaian Siswa</span>
+                    <a href="{{ route('admin.penilaian.index') }}"
+                        class="nav-link text-dark {{ request()->routeIs('admin.penilaian.*') ? 'active bg-gradient-dark text-white' : '' }}">
+                        <i class="material-symbols-rounded opacity-5">grading</i>
+                        <span class="nav-link-text ms-1">Kelola Penilaian</span>
                     </a>
                 </li>
                 @endif
@@ -173,6 +179,17 @@
                         class="nav-link text-dark {{ request()->routeIs('pembimbing.siswa.*') ? 'active bg-gradient-dark text-white' : '' }}">
                         <i class="material-symbols-rounded opacity-5">group</i>
                         <span class="nav-link-text ms-1">Kelola Siswa</span>
+                    </a>
+                </li>
+                @endif
+
+                <!-- Dashboard PembimbingDudi(only) -->
+                @if (Auth::user() && Auth::user()->role === 'pembimbingDudi')
+                <li class="nav-item">
+                    <a href="{{ route('pembimbingDudi.penilaian.index') }}"
+                        class="nav-link text-dark {{ request()->routeIs('pembimbingDudi.penilaian.*') ? 'active bg-gradient-dark text-white' : '' }}">
+                        <i class="material-symbols-rounded opacity-5">grading</i>
+                        <span class="nav-link-text ms-1">Kelola Penilaian</span>
                     </a>
                 </li>
                 @endif

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dudi;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DudiController extends Controller
@@ -22,7 +23,8 @@ class DudiController extends Controller
      */
     public function create()
     {
-        return view('admin.dudis.create');
+        $pembimbings = User::where('role', 'pembimbingDudi')->get();
+        return view('admin.dudis.create', compact('pembimbings'));
     }
 
     /**
@@ -31,11 +33,11 @@ class DudiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_dudi' => 'required|string|max:255',
+            'nama_dudi' => 'required|string|unique:dudis,nama_dudi',
             'jenis_usaha' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
             'pimpinan' => 'required|string|max:255',
-            'pembimbing' => 'required|string|max:255',
+            'pembimbing' => 'required|exists:users,id',
             'kontak' => 'required|string|max:255',
         ]);
 
@@ -64,7 +66,8 @@ class DudiController extends Controller
      */
     public function edit(Dudi $dudi)
     {
-        return view('admin.dudis.edit', compact('dudi'));
+        $pembimbings = User::where('role', 'pembimbingDudi')->get();
+        return view('admin.dudis.edit', compact('dudi', 'pembimbings'));
     }
 
     /**
@@ -74,11 +77,11 @@ class DudiController extends Controller
     {
         //
         $request->validate([
-            'nama_dudi' => 'required|string|max:255',
+            'nama_dudi' => 'required|string|unique:dudis,nama_dudi,' . $dudi->id,
             'jenis_usaha' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
             'pimpinan' => 'required|string|max:255',
-            'pembimbing' => 'required|string|max:255',
+            'pembimbing' => 'required|exists:users,id',
             'kontak' => 'required|string|max:255',
         ]);
 

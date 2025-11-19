@@ -63,8 +63,11 @@ class ProfileController extends Controller
      */
     public function edit($id)
     {
+        $user = Auth::user();
+        $siswa = $user->siswa;
+
         // ambil siswa + relasi yg dibutuhkan
-        $profile = Siswa::with(['user', 'kelas', 'jurusan', 'dudi', 'pembimbing'])->findOrFail($id);
+        $profile = null;
 
         // ambil data dropdown
         $kelas = Kelas::all();

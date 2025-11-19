@@ -25,7 +25,7 @@ class KelasController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kelas' => 'required|string|max:255',
+            'kelas' => 'required|string|unique:kelas,kelas',
         ]);
 
         Kelas::create([
@@ -35,20 +35,19 @@ class KelasController extends Controller
         return redirect()->route('admin.kelas.index')->with('status', 'Data kelas berhasil ditambahkan.');
     }
 
-    public function edit($id)
+    public function edit(Kelas $kelas)
     {
-        $kelas = Kelas::find($id);
         return view('admin.kelas.edit', compact('kelas'));
     }
-    public function update(Request $request,$id)
+    public function update(Request $request, Kelas $kelas)
     {
         $request->validate([
-            'kelas' => 'required|string|max:255',
+            'kelas' => 'required|string|unique:kelas,kelas,' . $kelas->id,
         ]);
 
-        $kelas = Kelas::find($id);
-
-        $kelas->update($request->kelas);
+        $kelas->update([
+            'kelas' => $request->kelas
+        ]);
 
         return redirect()->route('admin.kelas.index')->with('status', 'Data kelas berhasil diperbarui.');
     }

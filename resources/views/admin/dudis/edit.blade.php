@@ -32,7 +32,12 @@
         </div>
         <div class="mb-3">
             <label for="pembimbing" class="form-label fw-semibold text-dark">Pembimbing</label>
-            <input type="text" id="pembimbing" name="pembimbing" value="{{ old('$dudi->pembimbing') . $dudi->pembimbing }}" class="form-control styled-input">
+            <select type="text" id="pembimbing" name="pembimbing" class="form-control styled-input">
+                <option value="">--Pilih Pembimbing Dudi</option>
+                @foreach ($pembimbings as $p )
+                <option value="{{ $p->id }}" {{ $dudi->pembimbing == $p->id ? 'selected' : '' }}>{{ $p->name }}</option>
+                @endforeach
+            </select>
             @error('pembimbing') <small class="text-danger">{{ $message }}</small> @enderror
         </div>
         <div class="mb-3">
@@ -43,7 +48,7 @@
 
         <div class="mt-4">
             <button type="submit" class="btn btn-dark px-4">Simpan</button>
-            <a href="{{ route('admin.siswa.index') }}" class="btn btn-outline-secondary px-4 ms-2">Kembali</a>
+            <a href="{{ route('admin.dudi.index') }}" class="btn btn-outline-secondary px-4 ms-2">Kembali</a>
         </div>
     </form>
 </div>
@@ -59,7 +64,7 @@
 
     .styled-input:focus {
         border-color: #000;
-        box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
         outline: none;
     }
 

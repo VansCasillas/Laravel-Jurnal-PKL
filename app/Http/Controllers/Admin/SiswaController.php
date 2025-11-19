@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Dudi;
 use App\Models\Jurusan;
+use App\Models\Kegiatan;
 use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class SiswaController extends Controller
 {
@@ -117,9 +119,21 @@ class SiswaController extends Controller
 
         return redirect()->route('admin.siswa.index')->with('success', 'Data siswa berhasil diperbarui.');
     }
-    public function destroy($id)
+    public function destroy(Siswa $siswa)
     {
-        $user = User::find($id);
+        $user = User::find($siswa->id_users);
+
+        $kegiatans = Kegiatan::where('id_siswa', $siswa->id)->get();
+        foreach ($kegiatans as $keg) {
+            if($keg->dokumentasi) {
+                Storage::disk('public')->delete($keg->dokumentasi);
+            }
+        }
+
+        if($siswa->foto_profil) {
+            Storage::disk('public')->delete($siswa->foto_profil);
+        }
+
         if ($user) {
             $user->delete();
             return redirect()->route('admin.siswa.index')->with('success', 'Data siswa berhasil dihapus.');
